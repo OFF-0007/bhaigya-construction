@@ -424,7 +424,7 @@ button {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: url('hero_bg.png');
+  background-image: url('/hero_bg.png');
   background-size: cover;
   background-position: center;
   animation: kenBurns 18s ease-in-out infinite alternate;
