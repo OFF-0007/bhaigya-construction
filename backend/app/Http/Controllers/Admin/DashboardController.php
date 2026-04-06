@@ -12,6 +12,7 @@ class DashboardController extends Controller
         return Inertia::render('Admin/Dashboard', [
             'stats' => [
                 'users' => \App\Models\User::count(),
+                'packages' => \App\Models\ServicePackage::count(),
             ]
         ]);
     }

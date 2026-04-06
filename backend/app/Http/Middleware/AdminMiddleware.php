@@ -19,6 +19,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return response()->json(['message' => 'Forbidden: You do not have administrator access.'], 403);
+        abort(403, 'Forbidden: You do not have administrator access.');
     }
 }

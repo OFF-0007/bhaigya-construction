@@ -31,11 +31,13 @@ import {
     Brightness7 as LightModeIcon,
     SettingsBrightness as SystemModeIcon,
     ChevronLeft as ChevronLeftIcon,
-    KeyboardArrowDown as KeyboardArrowDownIcon
+    KeyboardArrowDown as KeyboardArrowDownIcon,
+    ListAlt as ListAltIcon,
+    Category as CategoryIcon
 } from '@mui/icons-material';
 import { Link, usePage, router } from '@inertiajs/react';
 import { route } from 'ziggy-js';
-import { Ziggy } from '@/ziggy';
+import { Ziggy } from '../ziggy';
 import { useColorMode } from '@/Contexts/ThemeContext';
 
 const drawerWidth = 260;
@@ -69,9 +71,14 @@ export default function AdminLayout({ children }) {
 
     const menuItems = [
         { text: 'Dashboard', icon: <DashboardIcon />, href: routeHelper('admin.dashboard') },
+        { text: 'Service Packages', icon: <ListAltIcon />, href: routeHelper('admin.service-packages.index') },
         // Future placeholders
         { text: 'Projects', icon: <ConstructionIcon />, href: '#' },
         { text: 'Users', icon: <LogoutIcon />, href: '#' },
+    ];
+
+    const masterItems = [
+        { text: 'Service Categories', icon: <CategoryIcon />, href: routeHelper('admin.service-categories.index') },
     ];
 
     const ThemeIcon = () => {
@@ -108,6 +115,63 @@ export default function AdminLayout({ children }) {
                         let active = false;
                         try {
                             active = usePage().url === (item.href.startsWith('http') ? new URL(item.href).pathname : item.href);
+                        } catch (e) {
+                            active = false;
+                        }
+
+                        return (
+                            <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
+                                <ListItemButton
+                                    component={Link}
+                                    href={item.href}
+                                    selected={active}
+                                    onClick={() => isMobile && setMobileOpen(false)}
+                                    sx={{
+                                        borderRadius: 2.5,
+                                        py: 1.2,
+                                        px: 2,
+                                        transition: 'all 0.2s',
+                                        '&.Mui-selected': {
+                                            backgroundColor: theme.palette.primary.main,
+                                            color: 'white',
+                                            '& .MuiListItemIcon-root': {
+                                                color: 'white',
+                                            },
+                                            '&:hover': {
+                                                backgroundColor: theme.palette.primary.dark,
+                                            }
+                                        },
+                                        '&:hover': {
+                                            backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                                        }
+                                    }}
+                                >
+                                    <ListItemIcon sx={{ minWidth: 38, color: active ? 'inherit' : 'text.secondary' }}>
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    <ListItemText 
+                                        primary={item.text} 
+                                        primaryTypographyProps={{ 
+                                            fontSize: '0.925rem',
+                                            fontWeight: active ? 700 : 500 
+                                        }} 
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            </Box>
+
+            <Box sx={{ px: 2, py: 0 }}>
+                <Typography variant="overline" sx={{ px: 1.5, fontWeight: 700, color: 'text.secondary', opacity: 0.6 }}>
+                    Master
+                </Typography>
+                <List sx={{ mt: 1 }}>
+                    {masterItems.map((item) => {
+                        let active = false;
+                        try {
+                            active = usePage().url.startsWith(item.href.startsWith('http') ? new URL(item.href).pathname : item.href);
                         } catch (e) {
                             active = false;
                         }
@@ -201,7 +265,14 @@ export default function AdminLayout({ children }) {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" sx={{ fontWeight: 700, display: { xs: 'none', sm: 'block' } }}>
-                            {menuItems.find(i => usePage().url === new URL(i.href).pathname)?.text || 'Dashboard'}
+                            {[...menuItems, ...masterItems].find(i => {
+                                try {
+                                    const url = i.href.startsWith('http') ? new URL(i.href).pathname : i.href;
+                                    return usePage().url === url;
+                                } catch (e) {
+                                    return false;
+                                }
+                            })?.text || 'Dashboard'}
                         </Typography>
                     </Box>
                     
