@@ -27,7 +27,8 @@ import {
     TrendingUp as TrendingUpIcon,
     MoreVert as MoreVertIcon,
     CheckCircle as CheckCircleIcon,
-    Schedule as ScheduleIcon
+    Schedule as ScheduleIcon,
+    ListAlt as ListAltIcon
 } from '@mui/icons-material';
 
 export default function Dashboard({ stats }) {
@@ -42,18 +43,18 @@ export default function Dashboard({ stats }) {
             color: '#6366f1' 
         },
         { 
+            title: 'Total Packages', 
+            value: stats.packages, 
+            trend: '+8%',
+            icon: <ListAltIcon />, 
+            color: '#f59e0b' 
+        },
+        { 
             title: 'Active Projects', 
             value: '24', 
             trend: '+5%',
             icon: <ConstructionIcon />, 
             color: '#10b981' 
-        },
-        { 
-            title: 'Revenue', 
-            value: '$12.5k', 
-            trend: '+18%',
-            icon: <TrendingUpIcon />, 
-            color: '#f59e0b' 
         },
     ];
 
