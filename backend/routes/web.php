@@ -31,5 +31,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Master Routes
         Route::resource('service-categories', \App\Http\Controllers\Admin\ServiceCategoryController::class)->names('service-categories');
         Route::resource('service-packages', \App\Http\Controllers\Admin\ServicePackageController::class)->names('service-packages');
+        Route::resource('amenities', \App\Http\Controllers\Admin\AmenityController::class)->names('amenities');
+        Route::resource('districts', \App\Http\Controllers\Admin\DistrictController::class)->names('districts');
+        Route::resource('image-types', \App\Http\Controllers\Admin\ImageTypeController::class)->names('image-types');
+
+        // Projects Routes
+        Route::resource('projects', \App\Http\Controllers\Admin\ProjectController::class)->names('projects');
+        Route::patch('projects/{project}/toggle-active', [\App\Http\Controllers\Admin\ProjectController::class, 'toggleActive'])->name('projects.toggle-active');
     });
 });

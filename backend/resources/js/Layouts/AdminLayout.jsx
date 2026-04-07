@@ -72,13 +72,15 @@ export default function AdminLayout({ children }) {
     const menuItems = [
         { text: 'Dashboard', icon: <DashboardIcon />, href: routeHelper('admin.dashboard') },
         { text: 'Service Packages', icon: <ListAltIcon />, href: routeHelper('admin.service-packages.index') },
-        // Future placeholders
-        { text: 'Projects', icon: <ConstructionIcon />, href: '#' },
+        { text: 'Projects', icon: <ConstructionIcon />, href: routeHelper('admin.projects.index') },
         { text: 'Users', icon: <LogoutIcon />, href: '#' },
     ];
 
     const masterItems = [
         { text: 'Service Categories', icon: <CategoryIcon />, href: routeHelper('admin.service-categories.index') },
+        { text: 'Amenities', icon: <ListAltIcon />, href: routeHelper('admin.amenities.index') },
+        { text: 'Districts', icon: <CategoryIcon />, href: routeHelper('admin.districts.index') },
+        { text: 'Image Types', icon: <CategoryIcon />, href: routeHelper('admin.image-types.index') },
     ];
 
     const ThemeIcon = () => {
