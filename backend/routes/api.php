@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ProjectProgressController;
 use App\Http\Controllers\Api\ProjectTypeController;
 use App\Http\Controllers\Api\ProjectVideoController;
+use App\Http\Controllers\Api\ServiceCategoryController;
+use App\Http\Controllers\Api\ServicePackageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +30,14 @@ Route::prefix('v1')->group(function () {
     Route::get('/image-types', [ImageTypeController::class, 'index']);
 
     Route::get('/amenities', [AmenityController::class, 'index']);
+
+    // Services
+    Route::get('/service-categories', [ServiceCategoryController::class, 'index']);
+    Route::get('/service-categories/{serviceCategory}', [ServiceCategoryController::class, 'show']);
+
+    Route::get('/service-packages', [ServicePackageController::class, 'index']);
+    Route::get('/service-packages/slug/{slug}', [ServicePackageController::class, 'showBySlug']);
+    Route::get('/service-packages/{servicePackage}', [ServicePackageController::class, 'show']);
 
     // Projects — public listing (only is_active=true returned by default)
     Route::get('/projects', [ProjectController::class, 'index']);
@@ -61,6 +71,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('amenities', AmenityController::class);
         Route::apiResource('image-types', ImageTypeController::class);
         Route::apiResource('districts', DistrictController::class);
+        Route::apiResource('service-categories', ServiceCategoryController::class);
+        Route::apiResource('service-packages', ServicePackageController::class);
 
         // Nested project resources
         Route::apiResource('project-progress', ProjectProgressController::class);

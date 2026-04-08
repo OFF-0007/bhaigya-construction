@@ -1,4 +1,135 @@
-export default function Services() {
+import { api } from '@/lib/api';
+import { ServicePackage } from '@/types/api';
+
+const FALLBACK_SERVICES: ServicePackage[] = [
+  {
+    id: 1,
+    title: "Standard Excellence",
+    slug: "standard-excellence",
+    description: "Solid construction with quality materials — perfect for value-conscious homeowners who refuse to compromise on standards.",
+    benefits: [
+      "Standard Electrical & Plumbing Systems",
+      "Premium Paint Finishes",
+      "Tiles up to ₹50 / sq.ft",
+      "Partial False Ceiling (Living Room)",
+      "Quality Sanitary Fixtures",
+      "Structural Warranty"
+    ],
+    is_active: true,
+    popularity: "none",
+    price: "0",
+    is_featured: false,
+    category: {
+      id: 1,
+      category_name: "A CLASS",
+      is_active: true,
+      type: "package",
+      createdAt: ""
+    },
+    createdAt: ""
+  },
+  {
+    id: 2,
+    title: "Premium Finishes",
+    slug: "premium-finishes",
+    description: "Elevated interiors with luxury finishes — a harmonious blend of comfort, aesthetics, and sophistication.",
+    benefits: [
+      "Premium Electrical & Plumbing",
+      "Luxury Paint (Asian Paints / Berger)",
+      "Tiles up to ₹65 / sq.ft",
+      "Full False Ceiling (Drawing & Master)",
+      "Premium Sanitary & CP Fittings",
+      "Modular Kitchen Provision"
+    ],
+    is_active: true,
+    popularity: "popular",
+    price: "0",
+    is_featured: true,
+    category: {
+      id: 2,
+      category_name: "LUXURY CLASS",
+      is_active: true,
+      type: "package",
+      createdAt: ""
+    },
+    createdAt: ""
+  },
+  {
+    id: 3,
+    title: "Bespoke High-End",
+    slug: "bespoke-high-end",
+    description: "A completely bespoke experience — globally sourced materials, end-to-end interior styling, and uncompromising attention to every detail.",
+    benefits: [
+      "Bespoke High-End Finishes",
+      "Global Material Sourcing",
+      "End-to-End Interior Styling",
+      "Smart Home Integration",
+      "Dedicated Project Manager",
+      "Lifetime Structural Support"
+    ],
+    is_active: true,
+    popularity: "none",
+    price: "0",
+    is_featured: false,
+    category: {
+      id: 3,
+      category_name: "ULTRA LUXURY",
+      is_active: true,
+      type: "package",
+      createdAt: ""
+    },
+    createdAt: ""
+  },
+  {
+    id: 4,
+    title: "Core Civil Work",
+    slug: "core-civil-work",
+    description: "Structural excellence without compromise — robust civil engineering forming the backbone of every great build.",
+    benefits: [
+      "Foundation & Structural Work",
+      "RCC Framework & Slab",
+      "Brick & Block Masonry",
+      "Waterproofing Treatment",
+      "Plastering & Pointing",
+      "BIS Certified Materials"
+    ],
+    is_active: true,
+    popularity: "none",
+    price: "0",
+    is_featured: false,
+    category: {
+      id: 4,
+      category_name: "B CLASS",
+      is_active: true,
+      type: "package",
+      createdAt: ""
+    },
+    createdAt: ""
+  }
+];
+
+const getIcon = (categoryName: string) => {
+  const cat = categoryName.toUpperCase();
+  if (cat.includes('A CLASS')) return '🏠';
+  if (cat.includes('LUXURY CLASS')) return '🏛️';
+  if (cat.includes('ULTRA LUXURY')) return '💎';
+  if (cat.includes('B CLASS')) return '🏗️';
+  return '🏗️';
+};
+
+export default async function Services() {
+  let services: ServicePackage[] = FALLBACK_SERVICES;
+
+  try {
+    const response = await api.getServicePackages();
+    if (response && response.data) {
+      services = response.data.filter(s => s.is_active);
+    }
+  } catch (error) {
+    console.error('Failed to fetch services:', error);
+    // Fallback to static data
+  }
+
   return (
     <section id="services" className="services section dark-section" aria-labelledby="services-heading">
       <div className="container">
@@ -9,70 +140,32 @@ export default function Services() {
         <p className="section-sub centered reveal-up">Four distinct construction tiers — each engineered for a different vision of excellence.</p>
 
         <div className="services-grid">
-          <div className="service-card reveal-up" id="service-a-class">
-            <div className="service-tier">A CLASS</div>
-            <div className="service-icon">🏠</div>
-            <h3 className="service-name">Standard Excellence</h3>
-            <p className="service-desc">Solid construction with quality materials — perfect for value-conscious homeowners who refuse to compromise on standards.</p>
-            <ul className="service-features">
-              <li><span className="feat-check">✦</span> Standard Electrical &amp; Plumbing Systems</li>
-              <li><span className="feat-check">✦</span> Premium Paint Finishes</li>
-              <li><span className="feat-check">✦</span> Tiles up to ₹50 / sq.ft</li>
-              <li><span className="feat-check">✦</span> Partial False Ceiling (Living Room)</li>
-              <li><span className="feat-check">✦</span> Quality Sanitary Fixtures</li>
-              <li><span className="feat-check">✦</span> Structural Warranty</li>
-            </ul>
-            <a href="#contact" className="service-cta">Get Quote →</a>
-          </div>
-
-          <div className="service-card featured reveal-up" id="service-luxury">
-            <div className="service-badge-top">Most Popular</div>
-            <div className="service-tier">LUXURY CLASS</div>
-            <div className="service-icon">🏛️</div>
-            <h3 className="service-name">Premium Finishes</h3>
-            <p className="service-desc">Elevated interiors with luxury finishes — a harmonious blend of comfort, aesthetics, and sophistication.</p>
-            <ul className="service-features">
-              <li><span className="feat-check">✦</span> Premium Electrical &amp; Plumbing</li>
-              <li><span className="feat-check">✦</span> Luxury Paint (Asian Paints / Berger)</li>
-              <li><span className="feat-check">✦</span> Tiles up to ₹65 / sq.ft</li>
-              <li><span className="feat-check">✦</span> Full False Ceiling (Drawing &amp; Master)</li>
-              <li><span className="feat-check">✦</span> Premium Sanitary &amp; CP Fittings</li>
-              <li><span className="feat-check">✦</span> Modular Kitchen Provision</li>
-            </ul>
-            <a href="#contact" className="service-cta gold-cta">Get Quote →</a>
-          </div>
-
-          <div className="service-card reveal-up" id="service-ultra-luxury">
-            <div className="service-tier">ULTRA LUXURY</div>
-            <div className="service-icon">💎</div>
-            <h3 className="service-name">Bespoke High-End</h3>
-            <p className="service-desc">A completely bespoke experience — globally sourced materials, end-to-end interior styling, and uncompromising attention to every detail.</p>
-            <ul className="service-features">
-              <li><span className="feat-check">✦</span> Bespoke High-End Finishes</li>
-              <li><span className="feat-check">✦</span> Global Material Sourcing</li>
-              <li><span className="feat-check">✦</span> End-to-End Interior Styling</li>
-              <li><span className="feat-check">✦</span> Smart Home Integration</li>
-              <li><span className="feat-check">✦</span> Dedicated Project Manager</li>
-              <li><span className="feat-check">✦</span> Lifetime Structural Support</li>
-            </ul>
-            <a href="#contact" className="service-cta">Get Quote →</a>
-          </div>
-
-          <div className="service-card reveal-up" id="service-b-class">
-            <div className="service-tier">B CLASS</div>
-            <div className="service-icon">🏗️</div>
-            <h3 className="service-name">Core Civil Work</h3>
-            <p className="service-desc">Structural excellence without compromise — robust civil engineering forming the backbone of every great build.</p>
-            <ul className="service-features">
-              <li><span className="feat-check">✦</span> Foundation &amp; Structural Work</li>
-              <li><span className="feat-check">✦</span> RCC Framework &amp; Slab</li>
-              <li><span className="feat-check">✦</span> Brick &amp; Block Masonry</li>
-              <li><span className="feat-check">✦</span> Waterproofing Treatment</li>
-              <li><span className="feat-check">✦</span> Plastering &amp; Pointing</li>
-              <li><span className="feat-check">✦</span> BIS Certified Materials</li>
-            </ul>
-            <a href="#contact" className="service-cta">Get Quote →</a>
-          </div>
+          {services.map((service) => {
+            const isPopular = service.popularity === 'popular';
+            return (
+              <div 
+                key={service.id} 
+                className={`service-card reveal-up ${isPopular ? 'featured' : ''}`} 
+                id={`service-${service.slug}`}
+              >
+                {isPopular && <div className="service-badge-top">Most Popular</div>}
+                <div className="service-tier">{service.category.category_name}</div>
+                <div className="service-icon">{getIcon(service.category.category_name)}</div>
+                <h3 className="service-name">{service.title}</h3>
+                <p className="service-desc">{service.description}</p>
+                <ul className="service-features">
+                  {service.benefits.map((benefit, idx) => (
+                    <li key={idx}>
+                      <span className="feat-check">✦</span> {benefit}
+                    </li>
+                  ))}
+                </ul>
+                <a href="#contact" className={`service-cta ${isPopular ? 'gold-cta' : ''}`}>
+                  Get Quote →
+                </a>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
