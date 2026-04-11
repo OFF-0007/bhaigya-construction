@@ -1,4 +1,4 @@
-import { ApiResponse, ServicePackage } from '@/types/api';
+import { ApiResponse, ServicePackage, Project } from '@/types/api';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000/api/v1';
 
@@ -36,6 +36,12 @@ export const api = {
   getServicePackages: () => 
     fetcher<ApiResponse<ServicePackage[]>>('/service-packages', {
       next: { revalidate: 3600 } // Cache for 1 hour by default (adjust as needed)
+    }),
+
+  // Projects
+  getProjects: () => 
+    fetcher<ApiResponse<Project[]>>('/projects', {
+      next: { revalidate: 3600 } // Cache for 1 hour
     }),
 
   // Add other API calls here as they are developed
