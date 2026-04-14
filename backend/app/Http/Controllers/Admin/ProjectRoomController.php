@@ -53,7 +53,7 @@ class ProjectRoomController extends Controller
     {
         $request->validate([
             'room_type_id' => 'nullable|exists:room_types,id',
-            'details'      => 'nullable|array',
+            'details'      => 'nullable|string|array', // Can be JSON string or array
             'description'  => 'nullable|string',
         ]);
 
@@ -69,6 +69,7 @@ class ProjectRoomController extends Controller
                 'description'  => $request->description ?? $room->description,
             ]);
 
+            // 1. Delete requested images
             if ($request->filled('deleted_image_ids')) {
                 $ids = $request->deleted_image_ids;
                 if (is_string($ids)) {
@@ -81,12 +82,29 @@ class ProjectRoomController extends Controller
                 });
             }
 
-            if ($request->hasFile('images')) {
-                $imagesData = $request->images_data ?? [];
-                if (is_string($imagesData)) {
-                    $imagesData = json_decode($imagesData, true);
+            // 2. Update existing image metadata
+            if ($request->filled('existing_images_data')) {
+                $existingData = $request->existing_images_data;
+                if (is_string($existingData)) {
+                    $existingData = json_decode($existingData, true);
                 }
-                $this->storeRoomImages($room, $request->file('images'), (array) $imagesData);
+                foreach ((array)$existingData as $imgData) {
+                    if (isset($imgData['id'])) {
+                        ProjectRoomImage::where('id', $imgData['id'])->update([
+                            'image_name' => $imgData['image_name'] ?? null,
+                            'image_details' => $imgData['image_details'] ?? null,
+                        ]);
+                    }
+                }
+            }
+
+            // 3. Handle new images
+            if ($request->hasFile('images')) {
+                $imagesMeta = $request->new_images_meta ?? [];
+                if (is_string($imagesMeta)) {
+                    $imagesMeta = json_decode($imagesMeta, true);
+                }
+                $this->storeRoomImages($room, $request->file('images'), (array) $imagesMeta);
             }
         });
 

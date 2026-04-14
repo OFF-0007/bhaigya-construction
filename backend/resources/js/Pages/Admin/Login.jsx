@@ -45,7 +45,7 @@ export default function Login() {
                         display: 'flex', 
                         flexDirection: 'column', 
                         alignItems: 'center',
-                        borderRadius: 2
+                        borderRadius: 0.75
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>

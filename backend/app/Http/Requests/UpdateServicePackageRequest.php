@@ -17,6 +17,7 @@ class UpdateServicePackageRequest extends FormRequest
             'category_id' => 'required|exists:service_categories,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|max:2048',
             'benefits' => 'nullable|array',
             'is_active' => 'required|boolean',
             'popularity' => 'required|in:standard,popular,premium',

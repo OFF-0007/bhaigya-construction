@@ -102,13 +102,13 @@ export default function Index({ categories }) {
                     variant="contained"
                     startIcon={<AddIcon />}
                     onClick={() => handleOpen()}
-                    sx={{ borderRadius: 3, px: 3, py: 1 }}
+                    sx={{ borderRadius: 1, px: 3, py: 1 }}
                 >
                     Add Category
                 </Button>
             </Box>
 
-            <Card sx={{ borderRadius: 4 }}>
+            <Card sx={{ borderRadius: 1.5 }}>
                 <TableContainer>
                     <Table>
                         <TableHead>
@@ -133,7 +133,7 @@ export default function Index({ categories }) {
                                                 category.type === 'package' ? 'primary' :
                                                 category.type === 'project' ? 'secondary' : 'default'
                                             }
-                                            sx={{ fontWeight: 700, borderRadius: 1.5 }}
+                                            sx={{ fontWeight: 700, borderRadius: 0.5 }}
                                         />
                                     </TableCell>
                                     <TableCell>
@@ -142,7 +142,7 @@ export default function Index({ categories }) {
                                             size="small"
                                             color={category.is_active ? 'success' : 'error'}
                                             variant="outlined"
-                                            sx={{ fontWeight: 700, borderRadius: 1.5 }}
+                                            sx={{ fontWeight: 700, borderRadius: 0.5 }}
                                         />
                                     </TableCell>
                                     <TableCell align="right">
@@ -171,7 +171,7 @@ export default function Index({ categories }) {
                 </TableContainer>
             </Card>
 
-            <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth PaperProps={{ sx: { borderRadius: 3 } }}>
+            <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth PaperProps={{ sx: { borderRadius: 1 } }}>
                 <form onSubmit={handleSubmit}>
                     <DialogTitle sx={{ fontWeight: 700 }}>
                         {editMode ? 'Edit Category' : 'Add New Category'}
@@ -219,7 +219,7 @@ export default function Index({ categories }) {
                             type="submit"
                             variant="contained"
                             disabled={processing}
-                            sx={{ fontWeight: 700, borderRadius: 2 }}
+                            sx={{ fontWeight: 700, borderRadius: 0.75 }}
                         >
                             {editMode ? 'Update' : 'Save'}
                         </Button>

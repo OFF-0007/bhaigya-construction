@@ -14,6 +14,8 @@ class ServicePackageResource extends JsonResource
             'title'         => $this->title,
             'slug'          => $this->slug,
             'description'   => $this->description,
+            'image'         => $this->image,
+            'image_url'     => $this->image ? asset('storage/' . $this->image) : null,
             'benefits'      => $this->benefits,
             'is_active'     => $this->is_active,
             'popularity'    => $this->popularity,

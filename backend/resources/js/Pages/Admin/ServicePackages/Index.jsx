@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, Link } from '@inertiajs/react';
 import {
     Box,
     Typography,
@@ -26,14 +26,17 @@ import {
     Tooltip,
     Grid,
     InputAdornment,
-    Divider
+    Divider,
+    Avatar
 } from '@mui/material';
 import {
     Add as AddIcon,
     Edit as EditIcon,
     Delete as DeleteIcon,
     RemoveCircleOutline as RemoveIcon,
-    Star as StarIcon
+    Star as StarIcon,
+    Image as ImageIcon,
+    Visibility as ViewIcon
 } from '@mui/icons-material';
 
 export default function Index({ packages, categories }) {
@@ -41,10 +44,11 @@ export default function Index({ packages, categories }) {
     const [editMode, setEditMode] = useState(false);
     const [currentId, setCurrentId] = useState(null);
 
-    const { data, setData, post, put, delete: destroy, processing, errors, reset, clearErrors } = useForm({
+    const { data, setData, post, put, delete: destroy, processing, errors, reset, clearErrors, transform } = useForm({
         category_id: '',
         title: '',
         description: '',
+        image: null,
         benefits: [''],
         is_active: true,
         popularity: 'standard',
@@ -60,6 +64,7 @@ export default function Index({ packages, categories }) {
                 category_id: pkg.category_id,
                 title: pkg.title,
                 description: pkg.description || '',
+                image: null,
                 benefits: pkg.benefits && pkg.benefits.length > 0 ? pkg.benefits : [''],
                 is_active: pkg.is_active,
                 popularity: pkg.popularity,
@@ -81,22 +86,24 @@ export default function Index({ packages, categories }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Filter out empty benefits
-        const filteredBenefits = data.benefits.filter(b => b.trim() !== '');
         
-        const submitData = {
-            ...data,
-            benefits: filteredBenefits
-        };
-
         if (editMode) {
-            put(route('admin.service-packages.update', currentId), {
-                data: submitData,
+            transform((data) => ({
+                ...data,
+                _method: 'PUT',
+                benefits: data.benefits.filter(b => b.trim() !== ''),
+            }));
+            post(route('admin.service-packages.update', currentId), {
+                forceFormData: true,
                 onSuccess: () => handleClose()
             });
         } else {
+            transform((data) => ({
+                ...data,
+                benefits: data.benefits.filter(b => b.trim() !== ''),
+            }));
             post(route('admin.service-packages.store'), {
-                data: submitData,
+                forceFormData: true,
                 onSuccess: () => handleClose()
             });
         }
@@ -140,17 +147,18 @@ export default function Index({ packages, categories }) {
                     variant="contained"
                     startIcon={<AddIcon />}
                     onClick={() => handleOpen()}
-                    sx={{ borderRadius: 3, px: 3, py: 1 }}
+                    sx={{ borderRadius: 1, px: 3, py: 1 }}
                 >
                     Add Package
                 </Button>
             </Box>
 
-            <Card sx={{ borderRadius: 4 }}>
+            <Card sx={{ borderRadius: 1.5 }}>
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <TableCell sx={{ fontWeight: 700 }}>Image</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Title</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Category</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Price</TableCell>
@@ -163,6 +171,15 @@ export default function Index({ packages, categories }) {
                         <TableBody>
                             {packages.map((pkg) => (
                                 <TableRow key={pkg.id} hover>
+                                    <TableCell>
+                                        <Avatar 
+                                            src={pkg.image ? `/storage/${pkg.image}` : null} 
+                                            variant="rounded"
+                                            sx={{ bgcolor: 'primary.light' }}
+                                        >
+                                            <ImageIcon />
+                                        </Avatar>
+                                    </TableCell>
                                     <TableCell sx={{ fontWeight: 600 }}>{pkg.title}</TableCell>
                                     <TableCell>{pkg.category?.category_name}</TableCell>
                                     <TableCell>{pkg.price ? `₹${pkg.price}` : 'N/A'}</TableCell>
@@ -174,7 +191,7 @@ export default function Index({ packages, categories }) {
                                                 pkg.popularity === 'premium' ? 'secondary' :
                                                 pkg.popularity === 'popular' ? 'primary' : 'default'
                                             }
-                                            sx={{ fontWeight: 700, borderRadius: 1.5 }}
+                                            sx={{ fontWeight: 700, borderRadius: 0.5 }}
                                         />
                                     </TableCell>
                                     <TableCell>
@@ -186,10 +203,15 @@ export default function Index({ packages, categories }) {
                                             size="small"
                                             color={pkg.is_active ? 'success' : 'error'}
                                             variant="outlined"
-                                            sx={{ fontWeight: 700, borderRadius: 1.5 }}
+                                            sx={{ fontWeight: 700, borderRadius: 0.5 }}
                                         />
                                     </TableCell>
                                     <TableCell align="right">
+                                        <Tooltip title="View Details">
+                                            <IconButton component={Link} href={route('admin.service-packages.show', pkg.id)} color="info" size="small">
+                                                <ViewIcon fontSize="small" />
+                                            </IconButton>
+                                        </Tooltip>
                                         <Tooltip title="Edit">
                                             <IconButton onClick={() => handleOpen(pkg)} color="primary" size="small">
                                                 <EditIcon fontSize="small" />
@@ -222,7 +244,7 @@ export default function Index({ packages, categories }) {
                 fullWidth 
                 PaperProps={{ 
                     sx: { 
-                        borderRadius: 4,
+                        borderRadius: 1.5,
                         backgroundImage: 'none',
                         boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)'
                     } 
@@ -284,6 +306,19 @@ export default function Index({ packages, categories }) {
                                 helperText={errors.description}
                             />
 
+                            <Box>
+                                <Typography variant="caption" color="text.secondary" gutterBottom sx={{ display: 'block', mb: 1, fontWeight: 600 }}>
+                                    Package Image {editMode && '(Leave blank to keep current)'}
+                                </Typography>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={e => setData('image', e.target.files[0])}
+                                    style={{ width: '100%' }}
+                                />
+                                {errors.image && <Typography color="error" variant="caption" sx={{ mt: 0.5, display: 'block' }}>{errors.image}</Typography>}
+                            </Box>
+
                             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
                                 <TextField
                                     label="Price"
@@ -328,7 +363,7 @@ export default function Index({ packages, categories }) {
                                         startIcon={<AddIcon />} 
                                         onClick={addBenefit}
                                         variant="outlined"
-                                        sx={{ borderRadius: 2 }}
+                                        sx={{ borderRadius: 0.75 }}
                                     >
                                         Add Benefit
                                     </Button>
@@ -345,7 +380,7 @@ export default function Index({ packages, categories }) {
                                                 onChange={e => handleBenefitChange(index, e.target.value)}
                                                 sx={{ 
                                                     '& .MuiOutlinedInput-root': {
-                                                        borderRadius: 2
+                                                        borderRadius: 0.75
                                                     }
                                                 }}
                                             />
@@ -356,7 +391,7 @@ export default function Index({ packages, categories }) {
                                                 sx={{ 
                                                     border: '1px solid', 
                                                     borderColor: 'error.light',
-                                                    borderRadius: 2,
+                                                    borderRadius: 0.75,
                                                     p: 0.5
                                                 }}
                                             >
@@ -376,7 +411,7 @@ export default function Index({ packages, categories }) {
                                 justifyContent: 'space-between',
                                 bgcolor: 'action.hover',
                                 p: 2,
-                                borderRadius: 3,
+                                borderRadius: 1,
                                 gap: 2
                             }}>
                                 <FormControlLabel
@@ -416,7 +451,7 @@ export default function Index({ packages, categories }) {
                             disabled={processing}
                             sx={{ 
                                 fontWeight: 700, 
-                                borderRadius: 3,
+                                borderRadius: 1,
                                 px: 4,
                                 py: 1.2,
                                 boxShadow: '0 8px 16px -4px rgba(99, 102, 241, 0.3)'

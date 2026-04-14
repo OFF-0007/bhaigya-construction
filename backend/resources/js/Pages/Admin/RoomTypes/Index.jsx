@@ -128,13 +128,13 @@ export default function Index({ roomTypes }) {
                     variant="contained"
                     startIcon={<AddIcon />}
                     onClick={() => handleOpen()}
-                    sx={{ borderRadius: 3, px: 3, py: 1 }}
+                    sx={{ borderRadius: 1, px: 3, py: 1 }}
                 >
                     Add Room Type
                 </Button>
             </Box>
 
-            <Card sx={{ borderRadius: 4 }}>
+            <Card sx={{ borderRadius: 1.5 }}>
                 <TableContainer>
                     <Table>
                         <TableHead>
@@ -245,7 +245,7 @@ export default function Index({ roomTypes }) {
                 onClose={handleClose}
                 maxWidth="xs"
                 fullWidth
-                PaperProps={{ sx: { borderRadius: 3 } }}
+                PaperProps={{ sx: { borderRadius: 1 } }}
             >
                 <form onSubmit={handleSubmit}>
                     <DialogTitle sx={{ fontWeight: 700 }}>
@@ -329,7 +329,7 @@ export default function Index({ roomTypes }) {
                             type="submit"
                             variant="contained"
                             disabled={processing}
-                            sx={{ fontWeight: 700, borderRadius: 2 }}
+                            sx={{ fontWeight: 700, borderRadius: 0.75 }}
                         >
                             {editMode ? "Update" : "Save"}
                         </Button>

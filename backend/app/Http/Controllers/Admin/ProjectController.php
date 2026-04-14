@@ -20,7 +20,7 @@ class ProjectController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Project::with(['projectType', 'district', 'primaryImage'])
+        $query = Project::with(['projectType', 'district', 'primaryImage', 'servicePackage'])
             ->withTrashed(false);
 
         if ($request->filled('status')) {
@@ -28,6 +28,12 @@ class ProjectController extends Controller
         }
         if ($request->filled('project_type_id')) {
             $query->where('project_type_id', $request->project_type_id);
+        }
+        if ($request->filled('service_package_id')) {
+            $query->where('service_package_id', $request->service_package_id);
+        }
+        if ($request->filled('service_category_id')) {
+            $query->where('service_category_id', $request->service_category_id);
         }
         if ($request->filled('is_active')) {
             $query->where('is_active', $request->boolean('is_active'));
@@ -41,7 +47,8 @@ class ProjectController extends Controller
         return Inertia::render('Admin/Projects/Index', [
             'projects'     => $projects,
             'projectTypes' => ProjectType::where('status', 'active')->get(),
-            'filters'      => $request->only(['status', 'project_type_id', 'is_active', 'search']),
+            'servicePackages' => ServicePackage::where('is_active', true)->get(),
+            'filters'      => $request->only(['status', 'project_type_id', 'service_package_id', 'service_category_id', 'is_active', 'search']),
         ]);
     }
 
@@ -208,9 +215,9 @@ class ProjectController extends Controller
     {
         return $request->validate([
             'project_name'          => 'required|string|max:255',
-            'project_type_id'       => 'required|exists:project_types,id',
+            'project_type_id'       => 'nullable|exists:project_types,id',
             'service_category_id'   => 'nullable|exists:service_categories,id',
-            'service_package_id'    => 'nullable|exists:service_packages,id',
+            'service_package_id'    => 'required|exists:service_packages,id',
             'description'           => 'required|string',
             'project_location'      => 'required|string|max:255',
             'district_id'           => 'required|exists:districts,id',

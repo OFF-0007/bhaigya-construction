@@ -45,7 +45,7 @@ function SectionHeader({ icon, title, subtitle }) {
                 bgcolor: 'primary.main',
                 width: 44,
                 height: 44,
-                borderRadius: 2,
+                borderRadius: 0.75,
                 boxShadow: '0 4px 12px 0 rgba(99, 102, 241, 0.2)',
             }}>
                 {React.cloneElement(icon, { sx: { fontSize: 22 } })}
@@ -234,7 +234,7 @@ export default function ProjectForm({
     return (
         <form onSubmit={onSubmit} encType="multipart/form-data">
             {/* Main Tabs Navigation */}
-            <Paper elevation={0} sx={{ borderRadius: 2, mb: 4, bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider', overflow: 'hidden' }}>
+            <Paper elevation={0} sx={{ borderRadius: 0.75, mb: 4, bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider', overflow: 'hidden' }}>
                 <Tabs
                     value={tab}
                     onChange={(_, v) => setTab(v)}
@@ -278,10 +278,18 @@ export default function ProjectForm({
                             <Grid item xs={12} md={4}>
                                 <FormLabel required>Project Category / Type</FormLabel>
                                 <TextField select fullWidth
-                                    value={data.project_type_id} onChange={e => setData('project_type_id', e.target.value)}
-                                    error={!!errors.project_type_id} helperText={errors.project_type_id}>
-                                    <MenuItem value="">Select Project Type</MenuItem>
-                                    {projectTypes.map(t => <MenuItem key={t.id} value={t.id}>{t.name}</MenuItem>)}
+                                    value={data.service_package_id} onChange={e => {
+                                        const pkgId = e.target.value;
+                                        const pkg = servicePackages.find(p => p.id === pkgId);
+                                        setData(prev => ({
+                                            ...prev,
+                                            service_package_id: pkgId,
+                                            service_category_id: pkg ? pkg.category_id : prev.service_category_id
+                                        }));
+                                    }}
+                                    error={!!errors.service_package_id} helperText={errors.service_package_id}>
+                                    <MenuItem value="">Select Service Package</MenuItem>
+                                    {servicePackages.map(p => <MenuItem key={p.id} value={p.id}>{p.title}</MenuItem>)}
                                 </TextField>
                             </Grid>
                             <Grid item xs={12}>
@@ -291,22 +299,22 @@ export default function ProjectForm({
                                     value={data.description} onChange={e => setData('description', e.target.value)}
                                     error={!!errors.description} helperText={errors.description} />
                             </Grid>
-                            <Grid item xs={12} md={6}>
+                            <Grid item xs={12} md={4}>
+                                <FormLabel>Building Style / Structure</FormLabel>
+                                <TextField select fullWidth
+                                    value={data.project_type_id ?? ''} onChange={e => setData('project_type_id', e.target.value)}
+                                    error={!!errors.project_type_id} helperText={errors.project_type_id}>
+                                    <MenuItem value="">Select Style (Optional)</MenuItem>
+                                    {projectTypes.map(t => <MenuItem key={t.id} value={t.id}>{t.name}</MenuItem>)}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} md={4}>
                                 <FormLabel>Service Category</FormLabel>
                                 <TextField select fullWidth
                                     value={data.service_category_id ?? ''} onChange={e => setData('service_category_id', e.target.value)}
                                     error={!!errors.service_category_id} helperText={errors.service_category_id}>
                                     <MenuItem value="">Standard Project</MenuItem>
                                     {serviceCategories.map(c => <MenuItem key={c.id} value={c.id}>{c.category_name}</MenuItem>)}
-                                </TextField>
-                            </Grid>
-                            <Grid item xs={12} md={6}>
-                                <FormLabel>Assigned Service Package</FormLabel>
-                                <TextField select fullWidth
-                                    value={data.service_package_id ?? ''} onChange={e => setData('service_package_id', e.target.value)}
-                                    error={!!errors.service_package_id} helperText={errors.service_package_id}>
-                                    <MenuItem value="">Custom / No Package</MenuItem>
-                                    {servicePackages.map(p => <MenuItem key={p.id} value={p.id}>{p.title}</MenuItem>)}
                                 </TextField>
                             </Grid>
                             <Grid item xs={12} md={4}>
@@ -443,7 +451,7 @@ export default function ProjectForm({
                                 <Grid item xs={12} sm={6} md={3} key={flag.name}>
                                     <Paper variant="outlined" sx={{
                                         p: 2,
-                                        borderRadius: 2,
+                                        borderRadius: 0.75,
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'space-between',
@@ -477,7 +485,7 @@ export default function ProjectForm({
                                     {existingImages.filter(img => !deletedImageIds.includes(img.id)).map(img => (
                                         <Grid item xs={12} sm={6} md={4} lg={3} key={img.id}>
                                             <Paper elevation={0} sx={{
-                                                borderRadius: 2,
+                                                borderRadius: 0.75,
                                                 overflow: 'hidden',
                                                 border: '2px solid',
                                                 borderColor: primaryImageId === img.id ? 'primary.main' : 'divider',
@@ -543,7 +551,7 @@ export default function ProjectForm({
                         {/* Upload Interface */}
                         <Box sx={{
                             p: 6,
-                            borderRadius: 2,
+                            borderRadius: 0.75,
                             border: '3px dashed',
                             borderColor: 'divider',
                             bgcolor: 'action.hover',
@@ -565,7 +573,7 @@ export default function ProjectForm({
                                 variant="contained"
                                 startIcon={<UploadIcon />}
                                 onClick={() => imageInputRef.current.click()}
-                                sx={{ borderRadius: 2, px: 4, py: 1.5, fontWeight: 800 }}
+                                sx={{ borderRadius: 0.75, px: 4, py: 1.5, fontWeight: 800 }}
                             >
                                 Browse Files
                             </Button>
@@ -577,7 +585,7 @@ export default function ProjectForm({
                                 <Typography variant="subtitle2" sx={{ fontWeight: 900, mb: 3 }}>PENDING UPLOAD ({imagePreviews.length})</Typography>
                                 <Stack spacing={2.5}>
                                     {imagePreviews.map((prev, i) => (
-                                        <Paper key={i} variant="outlined" sx={{ p: 2.5, borderRadius: 2, bgcolor: 'background.paper' }}>
+                                        <Paper key={i} variant="outlined" sx={{ p: 2.5, borderRadius: 0.75, bgcolor: 'background.paper' }}>
                                             <Grid container spacing={3} alignItems="center">
                                                 <Grid item xs={12} sm={2} md={1.5}>
                                                     <Box component="img" src={prev.url} sx={{ width: '100%', height: 90, objectFit: 'cover', borderRadius: 1, display: 'block' }} />
@@ -625,8 +633,8 @@ export default function ProjectForm({
                                 <Grid container spacing={2}>
                                     {existingDocuments.filter(d => !deletedDocIds.includes(d.id)).map(doc => (
                                         <Grid item xs={12} md={6} key={doc.id}>
-                                            <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-                                                <Avatar sx={{ bgcolor: 'primary.50', color: 'primary.main', borderRadius: 1.5 }}>
+                                            <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 0.75, display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                <Avatar sx={{ bgcolor: 'primary.50', color: 'primary.main', borderRadius: 0.5 }}>
                                                     <DocIcon />
                                                 </Avatar>
                                                 <Box sx={{ flexGrow: 1, minWidth: 0 }}>
@@ -650,8 +658,8 @@ export default function ProjectForm({
                             </Box>
                         )}
 
-                        <Box sx={{ textAlign: 'center', p: 4, borderRadius: 2, bgcolor: 'action.hover', border: '1px solid', borderColor: 'divider' }}>
-                            <Button variant="outlined" startIcon={<AddIcon />} onClick={() => docInputRef.current.click()} sx={{ borderRadius: 2, fontWeight: 800, px: 4 }}>
+                        <Box sx={{ textAlign: 'center', p: 4, borderRadius: 0.75, bgcolor: 'action.hover', border: '1px solid', borderColor: 'divider' }}>
+                            <Button variant="outlined" startIcon={<AddIcon />} onClick={() => docInputRef.current.click()} sx={{ borderRadius: 0.75, fontWeight: 800, px: 4 }}>
                                 Attach New Documents
                             </Button>
                             <input ref={docInputRef} type="file" multiple hidden
@@ -671,7 +679,7 @@ export default function ProjectForm({
                         {newDocs.length > 0 && (
                             <Stack spacing={2} sx={{ mt: 4 }}>
                                 {newDocs.map((doc, i) => (
-                                    <Paper key={i} variant="outlined" sx={{ p: 3, borderRadius: 2 }}>
+                                    <Paper key={i} variant="outlined" sx={{ p: 3, borderRadius: 0.75 }}>
                                         <Grid container spacing={3} alignItems="center">
                                             <Grid item xs={12} md={5}>
                                                 <FormLabel required>File Title</FormLabel>
@@ -708,12 +716,12 @@ export default function ProjectForm({
                     <TabPanel value={tab} index={2}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
                             <SectionHeader icon={<PeopleIcon />} title="Key Stakeholders" subtitle="Manage owners, partners, and site contacts" />
-                            <Button variant="contained" startIcon={<AddIcon />} onClick={addOwner} sx={{ borderRadius: 2, fontWeight: 800 }}>Add Stakeholder</Button>
+                            <Button variant="contained" startIcon={<AddIcon />} onClick={addOwner} sx={{ borderRadius: 0.75, fontWeight: 800 }}>Add Stakeholder</Button>
                         </Box>
                         <Grid container spacing={4}>
                             {owners.map((owner, i) => (
                                 <Grid item xs={12} md={6} key={i}>
-                                    <Paper variant="outlined" sx={{ p: 4, borderRadius: 2, bgcolor: 'background.default' }}>
+                                    <Paper variant="outlined" sx={{ p: 4, borderRadius: 0.75, bgcolor: 'background.default' }}>
                                         <Stack spacing={3}>
                                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                 <Chip label={`CONTACT #${i + 1}`} size="small" color="primary" sx={{ fontWeight: 900, borderRadius: 1 }} />
@@ -749,7 +757,7 @@ export default function ProjectForm({
                     {/* ─── Tab 3: Amenities ──────────────────────────────── */}
                     <TabPanel value={tab} index={3}>
                         <SectionHeader icon={<ConstructionIcon />} title="Project Features" subtitle="Highlight the luxuries and facilities available" />
-                        <Paper elevation={0} variant="outlined" sx={{ p: 5, borderRadius: 2, bgcolor: 'background.default' }}>
+                        <Paper elevation={0} variant="outlined" sx={{ p: 5, borderRadius: 0.75, bgcolor: 'background.default' }}>
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
                                 {amenities.map(a => {
                                     const selected = (data.amenity_ids ?? []).includes(a.id);
@@ -763,7 +771,7 @@ export default function ProjectForm({
                                             variant={selected ? 'filled' : 'outlined'}
                                             sx={{
                                                 fontWeight: 800,
-                                                borderRadius: 1.5,
+                                                borderRadius: 0.5,
                                                 height: 48,
                                                 px: 2,
                                                 fontSize: '0.9rem',
@@ -787,11 +795,11 @@ export default function ProjectForm({
                     <TabPanel value={tab} index={4}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
                             <SectionHeader icon={<ProgressIcon />} title="Build Journey" subtitle="Track development phases and reaching goals" />
-                            <Button variant="outlined" startIcon={<AddIcon />} onClick={addProgress} sx={{ borderRadius: 2, fontWeight: 800 }}>Add Entry</Button>
+                            <Button variant="outlined" startIcon={<AddIcon />} onClick={addProgress} sx={{ borderRadius: 0.75, fontWeight: 800 }}>Add Entry</Button>
                         </Box>
                         <Stack spacing={4}>
                             {progressList.map((prog, i) => (
-                                <Paper key={i} elevation={0} variant="outlined" sx={{ p: 4, borderRadius: 2, position: 'relative' }}>
+                                <Paper key={i} elevation={0} variant="outlined" sx={{ p: 4, borderRadius: 0.75, position: 'relative' }}>
                                     <IconButton
                                         color="error"
                                         size="small"
@@ -828,12 +836,12 @@ export default function ProjectForm({
                     <TabPanel value={tab} index={5}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
                             <SectionHeader icon={<VideoIcon />} title="Cinematic Tour" subtitle="Curate video walkthroughs and site flybys" />
-                            <Button variant="contained" startIcon={<AddIcon />} onClick={addVideo} sx={{ borderRadius: 2, fontWeight: 800 }}>Add Video Link</Button>
+                            <Button variant="contained" startIcon={<AddIcon />} onClick={addVideo} sx={{ borderRadius: 0.75, fontWeight: 800 }}>Add Video Link</Button>
                         </Box>
                         <Grid container spacing={3}>
                             {videos.map((vid, i) => (
                                 <Grid item xs={12} key={i}>
-                                    <Paper variant="outlined" sx={{ p: 3, borderRadius: 2, bgcolor: 'background.default' }}>
+                                    <Paper variant="outlined" sx={{ p: 3, borderRadius: 0.75, bgcolor: 'background.default' }}>
                                         <Grid container spacing={3} alignItems="center">
                                             <Grid item xs={12} md={2}>
                                                 <FormLabel required>Host</FormLabel>
@@ -871,7 +879,7 @@ export default function ProjectForm({
                 alignItems: 'center',
                 p: 3,
                 bgcolor: 'background.paper',
-                borderRadius: 2,
+                borderRadius: 0.75,
                 boxShadow: '0 -10px 40px -10px rgba(0,0,0,0.1)',
                 position: 'sticky',
                 bottom: 24,
@@ -889,7 +897,7 @@ export default function ProjectForm({
                     size="large"
                     sx={{
                         fontWeight: 900,
-                        borderRadius: 2,
+                        borderRadius: 0.75,
                         px: 8,
                         py: 1.8,
                         fontSize: '1rem',

@@ -144,13 +144,67 @@ export default function Show({ project, roomTypes }) {
 
     const handleEditRoomSubmit = (e) => {
         e.preventDefault();
-        editRoomForm.post(route('admin.project-rooms.update', editingRoom.id), {
+        
+        // Build FormData manually for update to handle nested arrays/objects with files
+        const fd = new FormData();
+        fd.append('_method', 'PATCH');
+        fd.append('room_type_id', editRoomForm.data.room_type_id);
+        fd.append('description', editRoomForm.data.description);
+        fd.append('details', JSON.stringify(editRoomForm.data.details));
+        fd.append('deleted_image_ids', JSON.stringify(editRoomForm.data.deleted_image_ids));
+        
+        // Meta for existing images
+        fd.append('existing_images_data', JSON.stringify(editRoomForm.data.images_data));
+        
+        // New files and their meta
+        editRoomForm.data.images.forEach((file, index) => {
+            fd.append('images[]', file);
+        });
+        fd.append('new_images_meta', JSON.stringify(editRoomForm.data.new_images_meta || []));
+
+        router.post(route('admin.project-rooms.update', editingRoom.id), fd, {
             forceFormData: true,
             onSuccess: () => {
                 setOpenRoomModal(false);
                 editRoomForm.reset();
             },
         });
+    };
+
+    const handleEditRoomFileChange = (e) => {
+        const files = Array.from(e.target.files);
+        const currentNewImages = editRoomForm.data.images || [];
+        const currentNewMeta = editRoomForm.data.new_images_meta || [];
+        
+        const newFiles = [...currentNewImages, ...files];
+        const newMeta = [
+            ...currentNewMeta,
+            ...files.map((_, i) => ({
+                image_name: '',
+                alt_text: '',
+                image_details: [{ label: '', value: '' }],
+                is_primary: false,
+                sort_order: currentNewImages.length + i
+            }))
+        ];
+
+        editRoomForm.setData(prev => ({
+            ...prev,
+            images: newFiles,
+            new_images_meta: newMeta
+        }));
+    };
+
+    const handleRemoveExistingRoomImage = (imgId) => {
+        const currentDeleted = editRoomForm.data.deleted_image_ids || [];
+        if (!currentDeleted.includes(imgId)) {
+            editRoomForm.setData('deleted_image_ids', [...currentDeleted, imgId]);
+        }
+    };
+
+    const handleRestoreExistingRoomImage = (imgId) => {
+        const currentDeleted = editRoomForm.data.deleted_image_ids || [];
+        editRoomForm.setData('deleted_image_ids', currentDeleted.filter(id => id !== imgId));
     };
 
     const handleDeleteRoom = (room) => {
@@ -425,6 +479,117 @@ export default function Show({ project, roomTypes }) {
                                 </Grid>
                                 <Grid item xs={12} sm={6}><TextField fullWidth label="Room Size" value={editRoomForm.data.details.size} onChange={e => editRoomForm.setData('details', { ...editRoomForm.data.details, size: e.target.value })} /></Grid>
                                 <Grid item xs={12}><TextField fullWidth multiline rows={2} label="Description" value={editRoomForm.data.description} onChange={e => editRoomForm.setData('description', e.target.value)} /></Grid>
+                                
+                                {/* Existing Images Management */}
+                                <Grid item xs={12}>
+                                    <Typography variant="subtitle2" sx={{ fontWeight: 900, mt: 2, mb: 2 }}>Manage Existing Images</Typography>
+                                    <Stack spacing={2}>
+                                        {editRoomForm.data.images_data?.map((img, iIdx) => {
+                                            const isDeleted = editRoomForm.data.deleted_image_ids.includes(img.id);
+                                            const originalImg = editingRoom.images.find(i => i.id === img.id);
+                                            return (
+                                                <Paper key={img.id} variant="outlined" sx={{ p: 2, borderRadius: 0.5, bgcolor: isDeleted ? 'error.50' : '#fafafa', opacity: isDeleted ? 0.6 : 1 }}>
+                                                    <Grid container spacing={3} alignItems="center">
+                                                        <Grid item xs={12} sm={2}>
+                                                            <Box component="img" src={`/storage/${originalImg?.file_path}`} sx={{ width: '100%', height: 100, borderRadius: 0.5, objectFit: 'cover' }} />
+                                                        </Grid>
+                                                        <Grid item xs={12} sm={8}>
+                                                            <TextField fullWidth size="small" label="Image Title" value={img.image_name} disabled={isDeleted} onChange={e => {
+                                                                const newData = [...editRoomForm.data.images_data]; newData[iIdx].image_name = e.target.value; editRoomForm.setData('images_data', newData);
+                                                            }} sx={{ mb: 2 }} />
+                                                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                                                                <Typography variant="caption" sx={{ fontWeight: 900 }}>Specifications</Typography>
+                                                                <Button size="small" disabled={isDeleted} onClick={() => {
+                                                                    const newData = [...editRoomForm.data.images_data]; newData[iIdx].image_details.push({ label: '', value: '' }); editRoomForm.setData('images_data', newData);
+                                                                }}>Add Field</Button>
+                                                            </Box>
+                                                            <Grid container spacing={1}>
+                                                                {img.image_details?.map((detail, dIdx) => (
+                                                                    <Grid item xs={12} key={dIdx}>
+                                                                        <Stack direction="row" spacing={1}>
+                                                                            <TextField fullWidth size="small" placeholder="Field" disabled={isDeleted} value={detail.label} onChange={e => {
+                                                                                const newData = [...editRoomForm.data.images_data]; newData[iIdx].image_details[dIdx].label = e.target.value; editRoomForm.setData('images_data', newData);
+                                                                            }} />
+                                                                            <TextField fullWidth size="small" placeholder="Value" disabled={isDeleted} value={detail.value} onChange={e => {
+                                                                                const newData = [...editRoomForm.data.images_data]; newData[iIdx].image_details[dIdx].value = e.target.value; editRoomForm.setData('images_data', newData);
+                                                                            }} />
+                                                                            <IconButton size="small" disabled={isDeleted || img.image_details.length === 1} onClick={() => {
+                                                                                const newData = [...editRoomForm.data.images_data]; newData[iIdx].image_details.splice(dIdx, 1); editRoomForm.setData('images_data', newData);
+                                                                            }}><DeleteIcon fontSize="small" /></IconButton>
+                                                                        </Stack>
+                                                                    </Grid>
+                                                                ))}
+                                                            </Grid>
+                                                        </Grid>
+                                                        <Grid item xs={12} sm={2} sx={{ textAlign: 'right' }}>
+                                                            {isDeleted ? (
+                                                                <Button size="small" variant="outlined" color="success" onClick={() => handleRestoreExistingRoomImage(img.id)}>Restore</Button>
+                                                            ) : (
+                                                                <Button size="small" variant="outlined" color="error" onClick={() => handleRemoveExistingRoomImage(img.id)}>Remove</Button>
+                                                            )}
+                                                        </Grid>
+                                                    </Grid>
+                                                </Paper>
+                                            );
+                                        })}
+                                    </Stack>
+                                </Grid>
+
+                                {/* New Images for Update */}
+                                <Grid item xs={12}>
+                                    <Divider sx={{ my: 4 }}>Add New Photos</Divider>
+                                    <Button variant="outlined" component="label" startIcon={<AddPhotoIcon />} fullWidth sx={{ borderStyle: 'dashed', borderRadius: 0.5, py: 1.5 }}>
+                                        Select Additional Photos
+                                        <input type="file" multiple hidden onChange={handleEditRoomFileChange} accept="image/*" />
+                                    </Button>
+
+                                    <Stack spacing={3} sx={{ mt: 3 }}>
+                                        {editRoomForm.data.images?.map((file, iIdx) => (
+                                            <Paper key={iIdx} variant="outlined" sx={{ p: 2, borderRadius: 0.5, bgcolor: '#fafafa' }}>
+                                                <Grid container spacing={3}>
+                                                    <Grid item xs={12} sm={3}>
+                                                        <Box component="img" src={URL.createObjectURL(file)} sx={{ width: '100%', height: 140, borderRadius: 0.5, objectFit: 'cover' }} />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={9}>
+                                                        <Box sx={{ display: 'flex', gap: 2, mb: 3, alignItems: 'center' }}>
+                                                            <TextField fullWidth size="small" label="Image Title" value={editRoomForm.data.new_images_meta[iIdx].image_name} onChange={e => {
+                                                                const nm = [...editRoomForm.data.new_images_meta]; nm[iIdx].image_name = e.target.value; editRoomForm.setData('new_images_meta', nm);
+                                                            }} />
+                                                            <IconButton size="small" color="error" onClick={() => {
+                                                                const ni = [...editRoomForm.data.images]; const nm = [...editRoomForm.data.new_images_meta];
+                                                                ni.splice(iIdx, 1); nm.splice(iIdx, 1);
+                                                                editRoomForm.setData({ ...editRoomForm.data, images: ni, new_images_meta: nm });
+                                                            }}><CloseIcon /></IconButton>
+                                                        </Box>
+                                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
+                                                            <Typography variant="caption" sx={{ fontWeight: 900 }}>Specifications</Typography>
+                                                            <Button size="small" onClick={() => {
+                                                                const nm = [...editRoomForm.data.new_images_meta]; nm[iIdx].image_details.push({ label: '', value: '' }); editRoomForm.setData('new_images_meta', nm);
+                                                            }}>Add Field</Button>
+                                                        </Box>
+                                                        <Grid container spacing={1.5}>
+                                                            {editRoomForm.data.new_images_meta[iIdx].image_details.map((detail, dIdx) => (
+                                                                <Grid item xs={12} key={dIdx}>
+                                                                    <Stack direction="row" spacing={1.5} alignItems="center">
+                                                                        <TextField fullWidth size="small" placeholder="Field" value={detail.label} onChange={e => {
+                                                                            const nm = [...editRoomForm.data.new_images_meta]; nm[iIdx].image_details[dIdx].label = e.target.value; editRoomForm.setData('new_images_meta', nm);
+                                                                        }} />
+                                                                        <TextField fullWidth size="small" placeholder="Value" value={detail.value} onChange={e => {
+                                                                            const nm = [...editRoomForm.data.new_images_meta]; nm[iIdx].image_details[dIdx].value = e.target.value; editRoomForm.setData('new_images_meta', nm);
+                                                                        }} />
+                                                                        <IconButton size="small" onClick={() => {
+                                                                            const nm = [...editRoomForm.data.new_images_meta]; nm[iIdx].image_details.splice(dIdx, 1); editRoomForm.setData('new_images_meta', nm);
+                                                                        }} disabled={editRoomForm.data.new_images_meta[iIdx].image_details.length === 1} color="error"><DeleteIcon fontSize="small" /></IconButton>
+                                                                    </Stack>
+                                                                </Grid>
+                                                            ))}
+                                                        </Grid>
+                                                    </Grid>
+                                                </Grid>
+                                            </Paper>
+                                        ))}
+                                    </Stack>
+                                </Grid>
                             </Grid>
                         ) : (
                             <Stack spacing={4}>

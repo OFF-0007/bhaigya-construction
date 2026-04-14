@@ -10,6 +10,7 @@ use App\Models\ServicePackage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ServicePackageController extends Controller
 {
@@ -22,6 +23,11 @@ class ServicePackageController extends Controller
     public function store(StoreServicePackageRequest $request): ServicePackageResource
     {
         $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('service-packages', 'public');
+        }
+
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
         }
@@ -47,6 +53,14 @@ class ServicePackageController extends Controller
     public function update(UpdateServicePackageRequest $request, ServicePackage $servicePackage): ServicePackageResource
     {
         $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            if ($servicePackage->image) {
+                Storage::disk('public')->delete($servicePackage->image);
+            }
+            $validated['image'] = $request->file('image')->store('service-packages', 'public');
+        }
+
         if ($servicePackage->title !== $validated['title']) {
             $validated['slug'] = Str::slug($validated['title']);
         }

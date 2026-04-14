@@ -28,16 +28,18 @@ const statusColors = {
     upcoming:  { color: '#6366f1', bg: '#ede9fe', label: 'Upcoming' },
 };
 
-export default function Index({ projects, projectTypes, filters }) {
+export default function Index({ projects, projectTypes, servicePackages = [], filters }) {
     const [search, setSearch] = useState(filters.search ?? '');
     const [status, setStatus] = useState(filters.status ?? '');
     const [typeId, setTypeId] = useState(filters.project_type_id ?? '');
+    const [packageId, setPackageId] = useState(filters.service_package_id ?? '');
 
     const applyFilter = (overrides = {}) => {
         router.get(route('admin.projects.index'), {
             search,
             status,
             project_type_id: typeId,
+            service_package_id: packageId,
             ...overrides,
         }, { preserveState: true, replace: true });
     };
@@ -71,14 +73,14 @@ export default function Index({ projects, projectTypes, filters }) {
                     startIcon={<AddIcon />}
                     component={Link}
                     href={route('admin.projects.create')}
-                    sx={{ borderRadius: 3, px: 3, py: 1.2, fontWeight: 700, boxShadow: '0 8px 16px -4px rgba(99,102,241,0.35)' }}
+                    sx={{ borderRadius: 1, px: 3, py: 1.2, fontWeight: 700, boxShadow: '0 8px 16px -4px rgba(99,102,241,0.35)' }}
                 >
                     Add Project
                 </Button>
             </Box>
 
             {/* Filters */}
-            <Card sx={{ borderRadius: 3, mb: 3, p: 2.5 }}>
+            <Card sx={{ borderRadius: 1, mb: 3, p: 2.5 }}>
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center">
                     <TextField
                         size="small"
@@ -100,17 +102,25 @@ export default function Index({ projects, projectTypes, filters }) {
                         <MenuItem value="completed">Completed</MenuItem>
                     </TextField>
                     <TextField
-                        select size="small" label="Project Type" value={typeId}
+                        select size="small" label="Project Category" value={packageId}
+                        onChange={e => { setPackageId(e.target.value); applyFilter({ service_package_id: e.target.value }); }}
+                        sx={{ minWidth: 160 }}
+                    >
+                        <MenuItem value="">All Categories</MenuItem>
+                        {servicePackages.map(p => <MenuItem key={p.id} value={p.id}>{p.title}</MenuItem>)}
+                    </TextField>
+                    <TextField
+                        select size="small" label="Style / Type" value={typeId}
                         onChange={e => { setTypeId(e.target.value); applyFilter({ project_type_id: e.target.value }); }}
                         sx={{ minWidth: 160 }}
                     >
-                        <MenuItem value="">All Types</MenuItem>
+                        <MenuItem value="">All Styles</MenuItem>
                         {projectTypes.map(t => <MenuItem key={t.id} value={t.id}>{t.name}</MenuItem>)}
                     </TextField>
                     <Button
                         variant="outlined" size="small"
-                        onClick={() => { setSearch(''); setStatus(''); setTypeId(''); applyFilter({ search: '', status: '', project_type_id: '' }); }}
-                        sx={{ borderRadius: 2, minWidth: 80 }}
+                        onClick={() => { setSearch(''); setStatus(''); setTypeId(''); setPackageId(''); applyFilter({ search: '', status: '', project_type_id: '', service_package_id: '' }); }}
+                        sx={{ borderRadius: 0.75, minWidth: 80 }}
                     >
                         Clear
                     </Button>
@@ -118,13 +128,14 @@ export default function Index({ projects, projectTypes, filters }) {
             </Card>
 
             {/* Table */}
-            <Card sx={{ borderRadius: 4 }}>
+            <Card sx={{ borderRadius: 1.5 }}>
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow sx={{ '& th': { fontWeight: 700, bgcolor: 'action.hover' } }}>
                                 <TableCell>Project</TableCell>
-                                <TableCell>Type</TableCell>
+                                <TableCell>Category</TableCell>
+                                <TableCell>Style</TableCell>
                                 <TableCell>Location</TableCell>
                                 <TableCell>Status</TableCell>
                                 <TableCell align="center">Flags</TableCell>
@@ -142,7 +153,7 @@ export default function Index({ projects, projectTypes, filters }) {
                                                 <Avatar
                                                     src={project.primary_image ? `/storage/${project.primary_image.file_path}` : null}
                                                     variant="rounded"
-                                                    sx={{ width: 44, height: 44, bgcolor: 'primary.main', borderRadius: 2 }}
+                                                    sx={{ width: 44, height: 44, bgcolor: 'primary.main', borderRadius: 0.75 }}
                                                 >
                                                     <ConstructionIcon fontSize="small" />
                                                 </Avatar>
@@ -153,7 +164,10 @@ export default function Index({ projects, projectTypes, filters }) {
                                             </Box>
                                         </TableCell>
                                         <TableCell>
-                                            <Typography variant="body2" sx={{ fontWeight: 600 }}>{project.project_type?.name ?? '—'}</Typography>
+                                            <Typography variant="body2" sx={{ fontWeight: 600 }}>{project.service_package?.title ?? '—'}</Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="body2">{project.project_type?.name ?? '—'}</Typography>
                                         </TableCell>
                                         <TableCell>
                                             <Typography variant="body2">{project.project_location}</Typography>
@@ -163,7 +177,7 @@ export default function Index({ projects, projectTypes, filters }) {
                                             <Chip
                                                 label={st.label}
                                                 size="small"
-                                                sx={{ fontWeight: 700, color: st.color, bgcolor: st.bg, borderRadius: 1.5, border: 'none' }}
+                                                sx={{ fontWeight: 700, color: st.color, bgcolor: st.bg, borderRadius: 0.5, border: 'none' }}
                                             />
                                         </TableCell>
                                         <TableCell align="center">
@@ -214,7 +228,7 @@ export default function Index({ projects, projectTypes, filters }) {
                                         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
                                             <ConstructionIcon sx={{ fontSize: 48, color: 'text.disabled' }} />
                                             <Typography color="text.secondary" sx={{ fontWeight: 600 }}>No projects found.</Typography>
-                                            <Button variant="contained" startIcon={<AddIcon />} component={Link} href={route('admin.projects.create')} sx={{ borderRadius: 3 }}>
+                                            <Button variant="contained" startIcon={<AddIcon />} component={Link} href={route('admin.projects.create')} sx={{ borderRadius: 1 }}>
                                                 Add First Project
                                             </Button>
                                         </Box>
