@@ -81,10 +81,11 @@ export default function ProjectForm({
     data, setData, errors, processing,
     projectTypes = [], districts = [], amenities = [], imageTypes = [], serviceCategories = [], servicePackages = [],
     onSubmit, isEdit = false,
+    initialTab = 0,
     existingImages = [], existingDocuments = [], existingOwners = [],
     existingProgress = [], existingVideos = [],
 }) {
-    const [tab, setTab] = useState(0);
+    const [tab, setTab] = useState(initialTab);
     const imageInputRef = useRef(null);
     const docInputRef = useRef(null);
 
@@ -222,11 +223,8 @@ export default function ProjectForm({
     };
 
     const tabMeta = [
-        { label: 'Basic Info', icon: <HomeIcon /> },
-        { label: 'Location', icon: <LocationIcon /> },
-        { label: 'Physical Details', icon: <AreaIcon /> },
-        { label: 'Media Gallery', icon: <ImageIcon /> },
-        { label: 'Documents', icon: <DocIcon /> },
+        { label: 'Project Details', icon: <HomeIcon /> },
+        { label: 'Media & Documents', icon: <ImageIcon /> },
         { label: 'Contacts', icon: <PeopleIcon /> },
         { label: 'Amenities', icon: <ConstructionIcon /> },
         { label: 'Progress', icon: <ProgressIcon /> },
@@ -267,7 +265,7 @@ export default function ProjectForm({
 
                 <Box sx={{ p: { xs: 3, md: 5 } }}>
 
-                    {/* ─── Tab 0: Basic Info ─────────────────────────────── */}
+                    {/* ─── Tab 0: Project Details (Basic + Location + Physical) ─── */}
                     <TabPanel value={tab} index={0}>
                         <SectionHeader icon={<HomeIcon />} title="Project Essentials" subtitle="Identify the project and its core purpose" />
                         <Grid container spacing={4}>
@@ -335,42 +333,7 @@ export default function ProjectForm({
                             </Grid>
                         </Grid>
 
-                        <Divider sx={{ my: 6 }} />
-                        <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <InfoIcon color="primary" fontSize="small" /> Operational Visibility & Badging
-                        </Typography>
-                        <Grid container spacing={3}>
-                            {[
-                                { name: 'is_active', label: 'Visible on Website', color: 'success', checked: data.is_active ?? true },
-                                { name: 'is_featured', label: 'Feature on Homepage', color: 'warning', checked: data.is_featured ?? false },
-                                { name: 'is_working', label: 'Currently Active Site', color: 'info', checked: data.is_working ?? false },
-                                { name: 'is_completed', label: 'Fully Handed Over', color: 'success', checked: data.is_completed ?? false },
-                            ].map((flag) => (
-                                <Grid item xs={12} sm={6} md={3} key={flag.name}>
-                                    <Paper variant="outlined" sx={{
-                                        p: 2,
-                                        borderRadius: 2,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                        bgcolor: flag.checked ? `${flag.color}.50` : 'transparent',
-                                        borderColor: flag.checked ? `${flag.color}.200` : 'divider',
-                                        transition: 'all 0.2s'
-                                    }}>
-                                        <Typography variant="body2" sx={{ fontWeight: 700 }}>{flag.label}</Typography>
-                                        <Switch
-                                            checked={flag.checked}
-                                            onChange={e => setData(flag.name, e.target.checked)}
-                                            color={flag.color}
-                                        />
-                                    </Paper>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </TabPanel>
-
-                    {/* ─── Tab 1: Location ───────────────────────────────── */}
-                    <TabPanel value={tab} index={1}>
+                        <Divider sx={{ my: 4 }} />
                         <SectionHeader icon={<LocationIcon />} title="Location & Access" subtitle="Provide precise geographical details" />
                         <Grid container spacing={4}>
                             <Grid item xs={12} md={6}>
@@ -407,10 +370,8 @@ export default function ProjectForm({
                                     value={data.longitude ?? ''} onChange={e => setData('longitude', e.target.value)} />
                             </Grid>
                         </Grid>
-                    </TabPanel>
 
-                    {/* ─── Tab 2: Physical Details ──────────────────────── */}
-                    <TabPanel value={tab} index={2}>
+                        <Divider sx={{ my: 4 }} />
                         <SectionHeader icon={<AreaIcon />} title="Project Scale" subtitle="Dimensions, room counts, and floor plans" />
                         <Grid container spacing={4}>
                             <Grid item xs={12} sm={4}>
@@ -467,10 +428,43 @@ export default function ProjectForm({
                                 </TextField>
                             </Grid>
                         </Grid>
+
+                        <Divider sx={{ my: 6 }} />
+                        <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <InfoIcon color="primary" fontSize="small" /> Operational Visibility & Badging
+                        </Typography>
+                        <Grid container spacing={3}>
+                            {[
+                                { name: 'is_active', label: 'Visible on Website', color: 'success', checked: data.is_active ?? true },
+                                { name: 'is_featured', label: 'Feature on Homepage', color: 'warning', checked: data.is_featured ?? false },
+                                { name: 'is_working', label: 'Currently Active Site', color: 'info', checked: data.is_working ?? false },
+                                { name: 'is_completed', label: 'Fully Handed Over', color: 'success', checked: data.is_completed ?? false },
+                            ].map((flag) => (
+                                <Grid item xs={12} sm={6} md={3} key={flag.name}>
+                                    <Paper variant="outlined" sx={{
+                                        p: 2,
+                                        borderRadius: 2,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        bgcolor: flag.checked ? `${flag.color}.50` : 'transparent',
+                                        borderColor: flag.checked ? `${flag.color}.200` : 'divider',
+                                        transition: 'all 0.2s'
+                                    }}>
+                                        <Typography variant="body2" sx={{ fontWeight: 700 }}>{flag.label}</Typography>
+                                        <Switch
+                                            checked={flag.checked}
+                                            onChange={e => setData(flag.name, e.target.checked)}
+                                            color={flag.color}
+                                        />
+                                    </Paper>
+                                </Grid>
+                            ))}
+                        </Grid>
                     </TabPanel>
 
-                    {/* ─── Tab 3: Media Gallery ──────────────────────────── */}
-                    <TabPanel value={tab} index={3}>
+                    {/* ─── Tab 1: Media & Documents ─────────────────────── */}
+                    <TabPanel value={tab} index={1}>
                         <SectionHeader icon={<ImageIcon />} title="Project Showcase" subtitle="Manage visuals, renders, and site photos" />
 
                         {/* Existing Images */}
@@ -621,10 +615,8 @@ export default function ProjectForm({
                                 </Stack>
                             </Box>
                         )}
-                    </TabPanel>
 
-                    {/* ─── Tab 4: Documents ──────────────────────────────── */}
-                    <TabPanel value={tab} index={4}>
+                        <Divider sx={{ my: 8 }} />
                         <SectionHeader icon={<DocIcon />} title="File Repository" subtitle="Project brochures, floor plans, and certifications" />
 
                         {existingDocuments.length > 0 && (
@@ -689,7 +681,7 @@ export default function ProjectForm({
                                             <Grid item xs={12} md={5}>
                                                 <FormLabel required>Document Category</FormLabel>
                                                 <TextField select size="small" fullWidth value={doc.type}
-                                                    onChange={e => { const d = [...newDocs]; d[i].type = e.target.value; setNewDocs(d); setData('document_types', JSON.stringify(d.map(x => x.type))); }}
+                                                    onChange={e => { const d = [...newDocs]; d[i].type = e.target.value; setNewDocs(d); setData('document_names', JSON.stringify(d.map(x => x.name))); }}
                                                 >
                                                     <MenuItem value="plan">Floor Plan</MenuItem>
                                                     <MenuItem value="approval">Government Approval</MenuItem>
@@ -712,8 +704,8 @@ export default function ProjectForm({
                         )}
                     </TabPanel>
 
-                    {/* ─── Tab 5: Contacts ───────────────────────────────── */}
-                    <TabPanel value={tab} index={5}>
+                    {/* ─── Tab 2: Contacts ───────────────────────────────── */}
+                    <TabPanel value={tab} index={2}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
                             <SectionHeader icon={<PeopleIcon />} title="Key Stakeholders" subtitle="Manage owners, partners, and site contacts" />
                             <Button variant="contained" startIcon={<AddIcon />} onClick={addOwner} sx={{ borderRadius: 2, fontWeight: 800 }}>Add Stakeholder</Button>
@@ -754,8 +746,8 @@ export default function ProjectForm({
                         </Grid>
                     </TabPanel>
 
-                    {/* ─── Tab 6: Amenities ──────────────────────────────── */}
-                    <TabPanel value={tab} index={6}>
+                    {/* ─── Tab 3: Amenities ──────────────────────────────── */}
+                    <TabPanel value={tab} index={3}>
                         <SectionHeader icon={<ConstructionIcon />} title="Project Features" subtitle="Highlight the luxuries and facilities available" />
                         <Paper elevation={0} variant="outlined" sx={{ p: 5, borderRadius: 2, bgcolor: 'background.default' }}>
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
@@ -791,8 +783,8 @@ export default function ProjectForm({
                         </Box>
                     </TabPanel>
 
-                    {/* ─── Tab 7: Progress ───────────────────────────────── */}
-                    <TabPanel value={tab} index={7}>
+                    {/* ─── Tab 4: Progress ───────────────────────────────── */}
+                    <TabPanel value={tab} index={4}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
                             <SectionHeader icon={<ProgressIcon />} title="Build Journey" subtitle="Track development phases and reaching goals" />
                             <Button variant="outlined" startIcon={<AddIcon />} onClick={addProgress} sx={{ borderRadius: 2, fontWeight: 800 }}>Add Entry</Button>
@@ -832,8 +824,8 @@ export default function ProjectForm({
                         </Stack>
                     </TabPanel>
 
-                    {/* ─── Tab 8: Videos ─────────────────────────────────── */}
-                    <TabPanel value={tab} index={8}>
+                    {/* ─── Tab 5: Videos ─────────────────────────────────── */}
+                    <TabPanel value={tab} index={5}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
                             <SectionHeader icon={<VideoIcon />} title="Cinematic Tour" subtitle="Curate video walkthroughs and site flybys" />
                             <Button variant="contained" startIcon={<AddIcon />} onClick={addVideo} sx={{ borderRadius: 2, fontWeight: 800 }}>Add Video Link</Button>
@@ -905,7 +897,13 @@ export default function ProjectForm({
                         textTransform: 'none'
                     }}
                 >
-                    {processing ? 'Saving Data…' : isEdit ? 'Sync Project Updates' : 'Launch New Project'}
+                    {processing 
+                        ? 'Saving Data…' 
+                        : !isEdit 
+                            ? 'Next: Media & Documents' 
+                            : tab === 0 
+                                ? 'Save & Next: Media' 
+                                : 'Sync Project Updates'}
                 </Button>
             </Box>
         </form>

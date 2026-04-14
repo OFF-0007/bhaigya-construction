@@ -52,6 +52,7 @@ class ProjectResource extends JsonResource
             'amenities'             => AmenityResource::collection($this->whenLoaded('amenities')),
             'progress'              => ProjectProgressResource::collection($this->whenLoaded('progress')),
             'videos'                => ProjectVideoResource::collection($this->whenLoaded('videos')),
+            'rooms'                 => ProjectRoomResource::collection($this->whenLoaded('rooms')),
         ];
     }
 }

@@ -80,7 +80,9 @@ class ProjectController extends Controller
             }
         }
 
-        return redirect()->route('admin.projects.index')->with('success', 'Project created successfully.');
+        return redirect()->route('admin.projects.edit', $project->id)
+            ->with('success', 'Project details saved. Now you can add media and documents.')
+            ->with('activeTab', 1);
     }
 
     public function show(Project $project)
@@ -88,14 +90,16 @@ class ProjectController extends Controller
         $project->load([
             'projectType', 'district', 'serviceCategory', 'servicePackage',
             'images.imageType', 'documents', 'owners', 'amenities', 'progress', 'videos',
+            'rooms.roomType', 'rooms.images', 'rooms.primaryImage'
         ]);
 
         return Inertia::render('Admin/Projects/Show', [
             'project' => $project,
+            'roomTypes' => \App\Models\RoomType::where('is_active', true)->get(),
         ]);
     }
 
-    public function edit(Project $project)
+    public function edit(Project $project, Request $request)
     {
         $project->load([
             'projectType', 'district', 'serviceCategory', 'servicePackage',
@@ -104,7 +108,10 @@ class ProjectController extends Controller
 
         return Inertia::render('Admin/Projects/Edit', array_merge(
             $this->formProps(),
-            ['project' => $project]
+            [
+                'project' => $project,
+                'initialTab' => (int) $request->get('tab', session('activeTab', 0))
+            ]
         ));
     }
 

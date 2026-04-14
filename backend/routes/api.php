@@ -47,6 +47,9 @@ Route::prefix('v1')->group(function () {
     // Progress & videos (public read)
     Route::get('/project-progress', [ProjectProgressController::class, 'index']);
     Route::get('/project-videos', [ProjectVideoController::class, 'index']);
+
+    // Project Rooms (public read)
+    Route::get('/projects/{project}/rooms', [\App\Http\Controllers\Api\ProjectRoomController::class, 'index']);
 });
 
 // ─── Protected Routes (Sanctum) ───────────────────────────────────────────────
@@ -65,6 +68,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('projects', ProjectController::class);
         Route::get('/projects-all', [ProjectController::class, 'adminIndex']);
         Route::patch('/projects/{project}/toggle-active', [ProjectController::class, 'toggleActive']);
+
+        // Project Rooms
+        Route::post('/projects/{project}/rooms', [\App\Http\Controllers\Api\ProjectRoomController::class, 'store']);
+        Route::apiResource('project-rooms', \App\Http\Controllers\Api\ProjectRoomController::class)->except(['index', 'store']);
 
         // Supporting lookups — writable from admin
         Route::apiResource('project-types', ProjectTypeController::class);

@@ -34,9 +34,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('amenities', \App\Http\Controllers\Admin\AmenityController::class)->names('amenities');
         Route::resource('districts', \App\Http\Controllers\Admin\DistrictController::class)->names('districts');
         Route::resource('image-types', \App\Http\Controllers\Admin\ImageTypeController::class)->names('image-types');
+        Route::resource('room-types', \App\Http\Controllers\Admin\RoomTypeController::class)->names('room-types');
 
         // Projects Routes
         Route::resource('projects', \App\Http\Controllers\Admin\ProjectController::class)->names('projects');
         Route::patch('projects/{project}/toggle-active', [\App\Http\Controllers\Admin\ProjectController::class, 'toggleActive'])->name('projects.toggle-active');
+
+        // Project Rooms
+        Route::post('projects/{project}/rooms', [\App\Http\Controllers\Admin\ProjectRoomController::class, 'store'])->name('projects.rooms.store');
+        Route::patch('project-rooms/{room}', [\App\Http\Controllers\Admin\ProjectRoomController::class, 'update'])->name('project-rooms.update');
+        Route::delete('project-rooms/{room}', [\App\Http\Controllers\Admin\ProjectRoomController::class, 'destroy'])->name('project-rooms.destroy');
     });
 });

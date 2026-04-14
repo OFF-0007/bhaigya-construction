@@ -36,6 +36,9 @@ class ProjectController extends Controller
         'amenities',
         'progress',
         'videos',
+        'rooms.roomType',
+        'rooms.images',
+        'rooms.primaryImage',
     ];
 
     // ─── Index ────────────────────────────────────────────────────────────────

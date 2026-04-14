@@ -37,7 +37,6 @@ import {
 } from '@mui/icons-material';
 import { Link, usePage, router } from '@inertiajs/react';
 import { route } from 'ziggy-js';
-import { Ziggy } from '../ziggy';
 import { useColorMode } from '@/Contexts/ThemeContext';
 
 const drawerWidth = 260;
@@ -50,8 +49,6 @@ export default function AdminLayout({ children }) {
     
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
-
-    const routeHelper = (name, params, absolute) => route(name, params, absolute, Ziggy);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -66,21 +63,22 @@ export default function AdminLayout({ children }) {
     };
 
     const handleLogout = () => {
-        router.post(routeHelper('admin.logout'));
+        router.post(route('admin.logout'));
     };
 
     const menuItems = [
-        { text: 'Dashboard', icon: <DashboardIcon />, href: routeHelper('admin.dashboard') },
-        { text: 'Service Packages', icon: <ListAltIcon />, href: routeHelper('admin.service-packages.index') },
-        { text: 'Projects', icon: <ConstructionIcon />, href: routeHelper('admin.projects.index') },
+        { text: 'Dashboard', icon: <DashboardIcon />, href: route('admin.dashboard') },
+        { text: 'Service Packages', icon: <ListAltIcon />, href: route('admin.service-packages.index') },
+        { text: 'Projects', icon: <ConstructionIcon />, href: route('admin.projects.index') },
         { text: 'Users', icon: <LogoutIcon />, href: '#' },
     ];
 
     const masterItems = [
-        { text: 'Service Categories', icon: <CategoryIcon />, href: routeHelper('admin.service-categories.index') },
-        { text: 'Amenities', icon: <ListAltIcon />, href: routeHelper('admin.amenities.index') },
-        { text: 'Districts', icon: <CategoryIcon />, href: routeHelper('admin.districts.index') },
-        { text: 'Image Types', icon: <CategoryIcon />, href: routeHelper('admin.image-types.index') },
+        { text: 'Service Categories', icon: <CategoryIcon />, href: route('admin.service-categories.index') },
+        { text: 'Amenities', icon: <ListAltIcon />, href: route('admin.amenities.index') },
+        { text: 'Districts', icon: <CategoryIcon />, href: route('admin.districts.index') },
+        { text: 'Image Types', icon: <CategoryIcon />, href: route('admin.image-types.index') },
+        { text: 'Room Types', icon: <CategoryIcon />, href: route('admin.room-types.index') },
     ];
 
     const ThemeIcon = () => {
