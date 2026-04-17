@@ -90,20 +90,9 @@ export default function AdminLayout({ children }) {
     const drawer = (
         <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             <Toolbar sx={{ px: 3, py: 2 }}>
-                <Box sx={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: 1.5,
-                    bgcolor: theme.palette.primary.main,
-                    p: 1,
-                    borderRadius: 2,
-                    color: 'white'
-                }}>
-                    <ConstructionIcon />
-                </Box>
-                <Typography variant="h6" sx={{ ml: 1.5, fontWeight: 800, letterSpacing: -0.5, color: 'text.primary' }}>
-                    Bhaigya
-                </Typography>
+                <Link href={route('admin.dashboard')} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+                    <Box component="img" src="/BGC.jpeg" alt="Bhaigya Logo" sx={{ height: 40, width: 'auto', borderRadius: 1 }} />
+                </Link>
             </Toolbar>
             
             <Box sx={{ px: 2, py: 2 }}>

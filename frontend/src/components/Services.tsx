@@ -1,12 +1,16 @@
 import { api } from '@/lib/api';
 import { ServicePackage } from '@/types/api';
+import ServicesClient from './ServicesClient';
 
 const FALLBACK_SERVICES: ServicePackage[] = [
   {
     id: 1,
+    categoryId: 1,
     title: "Standard Excellence",
     slug: "standard-excellence",
     description: "Solid construction with quality materials — perfect for value-conscious homeowners who refuse to compromise on standards.",
+    image: null,
+    imageUrl: null,
     benefits: [
       "Standard Electrical & Plumbing Systems",
       "Premium Paint Finishes",
@@ -15,24 +19,29 @@ const FALLBACK_SERVICES: ServicePackage[] = [
       "Quality Sanitary Fixtures",
       "Structural Warranty"
     ],
-    is_active: true,
+    isActive: true,
     popularity: "none",
     price: "0",
-    is_featured: false,
+    isFeatured: false,
     category: {
       id: 1,
-      category_name: "A CLASS",
-      is_active: true,
+      categoryName: "A CLASS",
+      isActive: true,
       type: "package",
-      createdAt: ""
+      createdAt: "",
+      updatedAt: ""
     },
-    createdAt: ""
+    createdAt: "",
+    updatedAt: ""
   },
   {
     id: 2,
+    categoryId: 2,
     title: "Premium Finishes",
     slug: "premium-finishes",
     description: "Elevated interiors with luxury finishes — a harmonious blend of comfort, aesthetics, and sophistication.",
+    image: null,
+    imageUrl: null,
     benefits: [
       "Premium Electrical & Plumbing",
       "Luxury Paint (Asian Paints / Berger)",
@@ -41,24 +50,29 @@ const FALLBACK_SERVICES: ServicePackage[] = [
       "Premium Sanitary & CP Fittings",
       "Modular Kitchen Provision"
     ],
-    is_active: true,
+    isActive: true,
     popularity: "popular",
     price: "0",
-    is_featured: true,
+    isFeatured: true,
     category: {
       id: 2,
-      category_name: "LUXURY CLASS",
-      is_active: true,
+      categoryName: "LUXURY CLASS",
+      isActive: true,
       type: "package",
-      createdAt: ""
+      createdAt: "",
+      updatedAt: ""
     },
-    createdAt: ""
+    createdAt: "",
+    updatedAt: ""
   },
   {
     id: 3,
+    categoryId: 3,
     title: "Bespoke High-End",
     slug: "bespoke-high-end",
     description: "A completely bespoke experience — globally sourced materials, end-to-end interior styling, and uncompromising attention to every detail.",
+    image: null,
+    imageUrl: null,
     benefits: [
       "Bespoke High-End Finishes",
       "Global Material Sourcing",
@@ -67,24 +81,29 @@ const FALLBACK_SERVICES: ServicePackage[] = [
       "Dedicated Project Manager",
       "Lifetime Structural Support"
     ],
-    is_active: true,
+    isActive: true,
     popularity: "none",
     price: "0",
-    is_featured: false,
+    isFeatured: false,
     category: {
       id: 3,
-      category_name: "ULTRA LUXURY",
-      is_active: true,
+      categoryName: "ULTRA LUXURY",
+      isActive: true,
       type: "package",
-      createdAt: ""
+      createdAt: "",
+      updatedAt: ""
     },
-    createdAt: ""
+    createdAt: "",
+    updatedAt: ""
   },
   {
     id: 4,
+    categoryId: 4,
     title: "Core Civil Work",
     slug: "core-civil-work",
     description: "Structural excellence without compromise — robust civil engineering forming the backbone of every great build.",
+    image: null,
+    imageUrl: null,
     benefits: [
       "Foundation & Structural Work",
       "RCC Framework & Slab",
@@ -93,37 +112,33 @@ const FALLBACK_SERVICES: ServicePackage[] = [
       "Plastering & Pointing",
       "BIS Certified Materials"
     ],
-    is_active: true,
+    isActive: true,
     popularity: "none",
     price: "0",
-    is_featured: false,
+    isFeatured: false,
     category: {
       id: 4,
-      category_name: "B CLASS",
-      is_active: true,
+      categoryName: "B CLASS",
+      isActive: true,
       type: "package",
-      createdAt: ""
+      createdAt: "",
+      updatedAt: ""
     },
-    createdAt: ""
+    createdAt: "",
+    updatedAt: ""
   }
 ];
-
-const getIcon = (categoryName: string) => {
-  const cat = categoryName.toUpperCase();
-  if (cat.includes('A CLASS')) return '🏠';
-  if (cat.includes('LUXURY CLASS')) return '🏛️';
-  if (cat.includes('ULTRA LUXURY')) return '💎';
-  if (cat.includes('B CLASS')) return '🏗️';
-  return '🏗️';
-};
 
 export default async function Services() {
   let services: ServicePackage[] = FALLBACK_SERVICES;
 
   try {
     const response = await api.getServicePackages();
-    if (response && response.data) {
-      services = response.data.filter(s => s.is_active);
+    if (response && response.data && Array.isArray(response.data)) {
+      const active = response.data.filter(s => s.isActive);
+      if (active.length > 0) {
+        services = active;
+      }
     }
   } catch (error) {
     console.error('Failed to fetch services:', error);
@@ -137,36 +152,11 @@ export default async function Services() {
         <h2 id="services-heading" className="section-title centered reveal-up">
           Our <span className="gold-text">Service Packages</span>
         </h2>
-        <p className="section-sub centered reveal-up">Four distinct construction tiers — each engineered for a different vision of excellence.</p>
+        <p className="section-sub centered reveal-up">
+          Four distinct construction tiers — each engineered for a different vision of excellence.
+        </p>
 
-        <div className="services-grid">
-          {services.map((service) => {
-            const isPopular = service.popularity === 'popular';
-            return (
-              <div 
-                key={service.id} 
-                className={`service-card reveal-up ${isPopular ? 'featured' : ''}`} 
-                id={`service-${service.slug}`}
-              >
-                {isPopular && <div className="service-badge-top">Most Popular</div>}
-                <div className="service-tier">{service.category.category_name}</div>
-                <div className="service-icon">{getIcon(service.category.category_name)}</div>
-                <h3 className="service-name">{service.title}</h3>
-                <p className="service-desc">{service.description}</p>
-                <ul className="service-features">
-                  {service.benefits.map((benefit, idx) => (
-                    <li key={idx}>
-                      <span className="feat-check">✦</span> {benefit}
-                    </li>
-                  ))}
-                </ul>
-                <a href="#contact" className={`service-cta ${isPopular ? 'gold-cta' : ''}`}>
-                  Get Quote →
-                </a>
-              </div>
-            );
-          })}
-        </div>
+        <ServicesClient services={services} />
       </div>
     </section>
   );

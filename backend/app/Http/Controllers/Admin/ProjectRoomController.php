@@ -53,7 +53,7 @@ class ProjectRoomController extends Controller
     {
         $request->validate([
             'room_type_id' => 'nullable|exists:room_types,id',
-            'details'      => 'nullable|string|array', // Can be JSON string or array
+            'details'      => 'nullable|string',
             'description'  => 'nullable|string',
         ]);
 
@@ -88,11 +88,14 @@ class ProjectRoomController extends Controller
                 if (is_string($existingData)) {
                     $existingData = json_decode($existingData, true);
                 }
+                \Illuminate\Support\Facades\Log::info("Existing data json decoded: ", (array)$existingData);
                 foreach ((array)$existingData as $imgData) {
                     if (isset($imgData['id'])) {
+                        $parsedDetails = $this->formatImageDetails($imgData['image_details'] ?? null);
+                        \Illuminate\Support\Facades\Log::info("Formatted for ID ".$imgData['id'].": ", (array)$parsedDetails);
                         ProjectRoomImage::where('id', $imgData['id'])->update([
                             'image_name' => $imgData['image_name'] ?? null,
-                            'image_details' => $imgData['image_details'] ?? null,
+                            'image_details' => $parsedDetails,
                         ]);
                     }
                 }
@@ -140,10 +143,41 @@ class ProjectRoomController extends Controller
                 'image_name'    => $data['image_name'] ?? null,
                 'file_path'     => $path,
                 'alt_text'      => $data['alt_text'] ?? null,
-                'image_details' => $data['image_details'] ?? null,
+                'image_details' => $this->formatImageDetails($data['image_details'] ?? null),
                 'is_primary'    => $isPrimary,
                 'sort_order'    => $data['sort_order'] ?? $index,
             ]);
         }
+    }
+
+    private function formatImageDetails($details)
+    {
+        if (empty($details)) return null;
+        if (is_string($details)) {
+            $details = json_decode($details, true);
+        }
+        if (!is_array($details)) return null;
+
+        $formatted = [];
+        
+        // Loop through all elements in the array
+        foreach ($details as $key => $detail) {
+            // Case 1: Frontend sent an array of objects [{'label': 'color', 'value': 'red'}]
+            if (is_array($detail) && array_key_exists('label', $detail)) {
+                $label = trim((string)($detail['label'] ?? ''));
+                if ($label !== '') {
+                    $formatted[$label] = $detail['value'] ?? '';
+                }
+            } 
+            // Case 2: It's an associative array directly passing the key-value pairs {"color": "red"}
+            elseif (!is_numeric($key)) {
+                $label = trim((string)$key);
+                if ($label !== '') {
+                    $formatted[$label] = is_array($detail) ? json_encode($detail) : (string)$detail;
+                }
+            }
+        }
+
+        return empty($formatted) ? null : $formatted;
     }
 }

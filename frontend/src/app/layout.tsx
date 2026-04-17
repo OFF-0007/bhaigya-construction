@@ -47,6 +47,11 @@ export const metadata: Metadata = {
     title: "Bhaigya Construction | Best Construction Company in Assam",
     description: "Premium residential and commercial construction services in Assam.",
   },
+  icons: {
+    icon: "/BGC.jpeg",
+    shortcut: "/BGC.jpeg",
+    apple: "/BGC.jpeg",
+  },
 };
 
 const structuredData = {
@@ -57,7 +62,7 @@ const structuredData = {
   description:
     "Premium residential and commercial construction company in Assam and North East India with 10+ years of excellence.",
   url: "https://bhaigyaconstruction.com",
-  logo: "https://bhaigyaconstruction.com/logo.png",
+  logo: "https://bhaigyaconstruction.com/BGC.jpeg",
   image: "https://bhaigyaconstruction.com/hero_bg.png",
   telephone: "+919678279817",
   email: "bhaigyaconstruction@gmail.com",
