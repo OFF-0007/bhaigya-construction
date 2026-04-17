@@ -10,11 +10,12 @@ class ServiceCategoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'            => $this->id,
-            'category_name' => $this->category_name,
-            'is_active'     => $this->is_active,
-            'type'          => $this->type,
-            'createdAt'     => $this->created_at?->toISOString(),
+            'id'           => $this->id,
+            'categoryName' => $this->category_name,
+            'isActive'     => (bool) $this->is_active,
+            'type'         => $this->type,
+            'createdAt'    => $this->created_at?->toISOString(),
+            'updatedAt'    => $this->updated_at?->toISOString(),
         ];
     }
 }

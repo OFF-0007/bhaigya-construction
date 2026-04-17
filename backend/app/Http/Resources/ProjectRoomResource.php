@@ -16,15 +16,15 @@ class ProjectRoomResource extends JsonResource
     {
         return [
             'id'           => $this->id,
-            'project_id'   => $this->project_id,
-            'room_type_id' => $this->room_type_id,
+            'projectId'    => $this->project_id,
+            'roomTypeId'   => $this->room_type_id,
             'details'      => $this->details ?? [], // JSON data (size, colors, materials, etc.)
             'description'  => $this->description,
-            'room_type'    => new RoomTypeResource($this->whenLoaded('roomType')), // Wait, I should check if there is a RoomTypeResource
+            'roomType'     => new RoomTypeResource($this->whenLoaded('roomType')), 
             'images'       => ProjectRoomImageResource::collection($this->whenLoaded('images')),
-            'primary_image'=> new ProjectRoomImageResource($this->whenLoaded('primaryImage')),
-            'created_at'   => $this->created_at,
-            'updated_at'   => $this->updated_at,
+            'primaryImage' => new ProjectRoomImageResource($this->whenLoaded('primaryImage')),
+            'createdAt'    => $this->created_at?->toISOString(),
+            'updatedAt'    => $this->updated_at?->toISOString(),
         ];
     }
 }

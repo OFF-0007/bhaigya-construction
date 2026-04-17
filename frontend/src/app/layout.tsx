@@ -22,6 +22,7 @@ const cormorantGaramond = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://bhaigyaconstruction.com"),
   title: "Bhaigya Construction | Best Construction Company in Assam & North East India",
   description:
     "Premium residential and commercial construction services in Assam. With 10+ years of excellence, Bhaigya Construction delivers luxury finishing and civil engineering across Guwahati, Dibrugarh, and Nagaon.",

@@ -16,9 +16,9 @@ class RoomTypeResource extends JsonResource
     {
         return [
             'id'             => $this->id,
-            'room_type_name' => $this->room_type_name,
-            'is_active'      => (bool) $this->is_active,
-            'primary_image'  => $this->primary_image,
+            'roomTypeName'   => $this->room_type_name,
+            'isActive'       => (bool) $this->is_active,
+            'primaryImage'   => $this->primary_image ? asset('storage/' . $this->primary_image) : null,
         ];
     }
 }

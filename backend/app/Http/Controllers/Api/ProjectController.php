@@ -19,8 +19,18 @@ class ProjectController extends Controller
     protected array $indexWith = [
         'projectType',
         'district',
+        'serviceCategory',
+        'servicePackage',
+        'images.imageType',
         'primaryImage.imageType',
+        'documents',
+        'owners',
         'amenities',
+        'progress',
+        'videos',
+        'rooms.roomType',
+        'rooms.images',
+        'rooms.primaryImage',
     ];
 
     // ─── Full relations for show ──────────────────────────────────────────────
