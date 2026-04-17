@@ -14,10 +14,10 @@ export default function Hero() {
           poster="/hero_bg.png"
           aria-hidden="true"
         >
-          {/* Primary: construction / luxury architecture timelapse */}
-          <source src="https://videos.pexels.com/video-files/1409899/1409899-hd_1920_1080_25fps.mp4" type="video/mp4" />
-          {/* Fallback source */}
-          <source src="https://videos.pexels.com/video-files/1370970/1370970-hd_1280_720_30fps.mp4" type="video/mp4" />
+          {/* Primary: construction / top view of house under construction */}
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-top-view-of-a-house-under-construction-41315-large.mp4" type="video/mp4" />
+          {/* Fallback source: workers in construction site */}
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-workers-in-a-construction-site-of-a-building-44321-large.mp4" type="video/mp4" />
         </video>
         {/* Gradient overlays for text legibility */}
         <div className="hero-video-tint"></div>

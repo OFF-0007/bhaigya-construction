@@ -1,116 +1,62 @@
 import { api } from '@/lib/api';
 import { Project } from '@/types/api';
+import PortfolioClient from './PortfolioClient';
 
 const FALLBACK_PROJECTS: Project[] = [
   {
     id: 1,
-    projectName: "Luxury Villa, Guwahati",
-    slug: "luxury-villa-guwahati",
-    description: "A magnificent luxury residence with bespoke premium finishes and end-to-end interior styling. The epitome of Assam's modern living.",
-    isActive: true,
-    isFeatured: true,
-    projectType: {
-      id: 5,
-      name: "ULTRA LUXURY",
-      slug: "villa",
-      description: "Independent villa",
-      status: "active"
-    },
-    primaryImage: {
-      id: 1,
-      projectId: 1,
-      fileUrl: "/portfolio_villa.png",
-      altText: "Luxury Villa",
-      isPrimary: true
-    },
-    createdAt: ""
+    projectName: 'Luxury Villa, Guwahati',
+    slug: 'luxury-villa-guwahati',
+    description: 'A magnificent luxury residence with bespoke premium finishes and end-to-end interior styling. The epitome of modern living in Assam.',
+    projectLocation: 'Guwahati',
+    address: null, latitude: null, longitude: null,
+    projectStartDate: null, projectCompletionDate: null,
+    numberOfRooms: null, numberOfFloors: null, numberOfWashrooms: null,
+    totalArea: null, carpetArea: null, areaUnit: 'sqft',
+    status: 'completed',
+    isActive: true, isFeatured: true, isCompleted: true, isWorking: false,
+    createdAt: '',
+    projectType: { id: 1, name: 'ULTRA LUXURY', slug: 'villa', description: '', status: 'active' },
+    district: null, serviceCategory: null, servicePackage: null,
+    primaryImage: { id: 1, projectId: 1, fileUrl: '/portfolio_villa.png', altText: 'Luxury Villa', isPrimary: true },
+    images: [], documents: [], owners: [], amenities: [], progress: [], videos: [], rooms: [],
   },
   {
     id: 2,
-    projectName: "Commercial Office Complex",
-    slug: "commercial-office-complex",
-    description: "Ultra-Luxury class commercial development in North East India's business corridor.",
-    isActive: true,
-    isFeatured: false,
-    projectType: {
-      id: 2,
-      name: "LUXURY CLASS",
-      slug: "commercial",
-      description: "Office buildings",
-      status: "active"
-    },
-    primaryImage: {
-      id: 2,
-      projectId: 2,
-      fileUrl: "/portfolio_office.png",
-      altText: "Commercial Office",
-      isPrimary: true
-    },
-    createdAt: ""
+    projectName: 'Commercial Office Complex',
+    slug: 'commercial-office-complex',
+    description: 'Ultra-Luxury class commercial development in North East India\'s business corridor.',
+    projectLocation: 'Dispur, Guwahati',
+    address: null, latitude: null, longitude: null,
+    projectStartDate: null, projectCompletionDate: null,
+    numberOfRooms: null, numberOfFloors: 6, numberOfWashrooms: null,
+    totalArea: null, carpetArea: null, areaUnit: 'sqft',
+    status: 'ongoing',
+    isActive: true, isFeatured: false, isCompleted: false, isWorking: true,
+    createdAt: '',
+    projectType: { id: 2, name: 'COMMERCIAL', slug: 'commercial', description: '', status: 'active' },
+    district: null, serviceCategory: null, servicePackage: null,
+    primaryImage: { id: 2, projectId: 2, fileUrl: '/portfolio_office.png', altText: 'Office Complex', isPrimary: true },
+    images: [], documents: [], owners: [], amenities: [], progress: [], videos: [], rooms: [],
   },
   {
     id: 3,
-    projectName: "Modern Apartment Complex",
-    slug: "modern-apartment-complex",
-    description: "Urban efficiency meets premium finishing — a signature residential development.",
-    isActive: true,
-    isFeatured: false,
-    projectType: {
-      id: 1,
-      name: "A CLASS",
-      slug: "apartment",
-      description: "Apartment complex",
-      status: "active"
-    },
-    primaryImage: {
-      id: 3,
-      projectId: 3,
-      fileUrl: "/portfolio_apartment.png",
-      altText: "Apartment Complex",
-      isPrimary: true
-    },
-    createdAt: ""
+    projectName: 'Modern Apartment Complex',
+    slug: 'modern-apartment-complex',
+    description: 'Urban efficiency meets premium finishing — a signature residential development.',
+    projectLocation: 'Jorhat, Assam',
+    address: null, latitude: null, longitude: null,
+    projectStartDate: null, projectCompletionDate: null,
+    numberOfRooms: 24, numberOfFloors: 4, numberOfWashrooms: null,
+    totalArea: null, carpetArea: null, areaUnit: 'sqft',
+    status: 'completed',
+    isActive: true, isFeatured: false, isCompleted: true, isWorking: false,
+    createdAt: '',
+    projectType: { id: 3, name: 'RESIDENTIAL', slug: 'apartment', description: '', status: 'active' },
+    district: null, serviceCategory: null, servicePackage: null,
+    primaryImage: { id: 3, projectId: 3, fileUrl: '/portfolio_apartment.png', altText: 'Apartment Complex', isPrimary: true },
+    images: [], documents: [], owners: [], amenities: [], progress: [], videos: [], rooms: [],
   },
-  {
-    id: 4,
-    projectName: "Modern Farmhouse Retreat",
-    slug: "modern-farmhouse-retreat",
-    description: "A bespoke countryside retreat blending modern design with natural elements of Assam.",
-    isActive: true,
-    isFeatured: false,
-    projectType: {
-      id: 4,
-      name: "ULTRA LUXURY",
-      slug: "farmhouse",
-      description: "Farmhouse retreat",
-      status: "active"
-    },
-    primaryImage: {
-      id: 4,
-      projectId: 4,
-      fileUrl: "/portfolio_farmhouse.png",
-      altText: "Farmhouse Retreat",
-      isPrimary: true
-    },
-    createdAt: ""
-  },
-  {
-    id: 5,
-    projectName: "Educational Facility",
-    slug: "educational-facility",
-    description: "State-of-the-art academic infrastructure built to inspire and endure.",
-    isActive: true,
-    isFeatured: false,
-    projectType: {
-      id: 10,
-      name: "INSTITUTIONAL",
-      slug: "institutional",
-      description: "Academic infrastructure",
-      status: "active"
-    },
-    primaryImage: null,
-    createdAt: ""
-  }
 ];
 
 export default async function Portfolio() {
@@ -118,8 +64,9 @@ export default async function Portfolio() {
 
   try {
     const response = await api.getProjects();
-    if (response && response.data) {
-      projects = response.data.filter(p => p.isActive);
+    if (response?.data && Array.isArray(response.data)) {
+      const active = response.data.filter((p) => p.isActive);
+      if (active.length > 0) projects = active;
     }
   } catch (error) {
     console.error('Failed to fetch projects:', error);
@@ -132,36 +79,11 @@ export default async function Portfolio() {
         <h2 id="portfolio-heading" className="section-title centered reveal-up">
           Our <span className="gold-text">Signature Projects</span>
         </h2>
-        <p className="section-sub centered reveal-up">Crafted across Assam and North East India — each project a testament to uncompromising quality.</p>
+        <p className="section-sub centered reveal-up">
+          Crafted across Assam and North East India — each project a testament to uncompromising quality.
+        </p>
 
-        <div className="portfolio-grid">
-          {projects.map((project) => (
-            <div 
-              key={project.id} 
-              className={`portfolio-item ${project.isFeatured ? 'large' : ''} reveal-up`} 
-              id={`portfolio-${project.slug}`}
-            >
-              {project.primaryImage?.fileUrl ? (
-                <div 
-                  className="portfolio-img" 
-                  style={{ backgroundImage: `url('${project.primaryImage.fileUrl}')` }} 
-                  role="img" 
-                  aria-label={`${project.projectName} by Bhaigya Construction`}
-                ></div>
-              ) : (
-                <div className="portfolio-img portfolio-img-placeholder" role="img" aria-label={`${project.projectName} by Bhaigya Construction`}>
-                  <div className="portfolio-placeholder-icon">🏗️</div>
-                </div>
-              )}
-              <div className="portfolio-overlay">
-                <div className="portfolio-tag">{project.projectType.name}</div>
-                <h3 className="portfolio-title">{project.projectName}</h3>
-                <p className="portfolio-sub">{project.description}</p>
-                <a href="#contact" className="portfolio-link">Enquire →</a>
-              </div>
-            </div>
-          ))}
-        </div>
+        <PortfolioClient projects={projects} />
       </div>
     </section>
   );

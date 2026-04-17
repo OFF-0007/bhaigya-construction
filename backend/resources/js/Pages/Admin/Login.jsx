@@ -48,11 +48,9 @@ export default function Login() {
                         borderRadius: 0.75
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5" sx={{ mb: 3 }}>
-                        Bhaigya Admin Login
+                    <Box component="img" src="/BGC.jpeg" alt="Bhaigya Construction" sx={{ height: 60, width: 'auto', borderRadius: 1, mb: 1, mt: 1 }} />
+                    <Typography component="h1" variant="h5" sx={{ mb: 3, fontWeight: 700 }}>
+                        Admin Portal
                     </Typography>
 
                     <Box component="form" onSubmit={submit} noValidate sx={{ mt: 1, width: '100%' }}>

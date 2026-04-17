@@ -5,11 +5,7 @@ export default function Header() {
     <header id="main-header" role="banner">
       <div className="header-inner container">
         <Link href="#home" className="logo" aria-label="Bhaigya Construction Home">
-          <span className="logo-icon">⬡</span>
-          <div className="logo-text">
-            <span className="logo-name">BHAIGYA</span>
-            <span className="logo-sub">CONSTRUCTION</span>
-          </div>
+          <img src="/BGC.jpeg" alt="Bhaigya Construction Logo" style={{ height: '45px', width: 'auto', borderRadius: '4px' }} />
         </Link>
         <nav id="main-nav" role="navigation" aria-label="Main Navigation">
           <ul>

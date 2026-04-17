@@ -94,10 +94,37 @@ class ProjectRoomController extends Controller
                 'image_name'    => $data['image_name'] ?? null,
                 'file_path'     => $path,
                 'alt_text'      => $data['alt_text'] ?? null,
-                'image_details' => $data['image_details'] ?? null,
+                'image_details' => $this->formatImageDetails($data['image_details'] ?? null),
                 'is_primary'    => $isPrimary,
                 'sort_order'    => $data['sort_order'] ?? $index,
             ]);
         }
+    }
+
+    private function formatImageDetails($details)
+    {
+        if (empty($details)) return null;
+        if (is_string($details)) {
+            $details = json_decode($details, true);
+        }
+        if (!is_array($details)) return null;
+
+        $formatted = [];
+        
+        foreach ($details as $key => $detail) {
+            if (is_array($detail) && array_key_exists('label', $detail)) {
+                $label = trim((string)($detail['label'] ?? ''));
+                if ($label !== '') {
+                    $formatted[$label] = $detail['value'] ?? '';
+                }
+            } elseif (!is_numeric($key)) {
+                $label = trim((string)$key);
+                if ($label !== '') {
+                    $formatted[$label] = is_array($detail) ? json_encode($detail) : (string)$detail;
+                }
+            }
+        }
+
+        return empty($formatted) ? null : $formatted;
     }
 }

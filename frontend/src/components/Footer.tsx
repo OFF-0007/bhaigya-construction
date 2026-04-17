@@ -7,11 +7,7 @@ export default function Footer() {
         <div className="footer-top container">
           <div className="footer-brand">
             <Link href="#home" className="logo" aria-label="Bhaigya Construction">
-              <span className="logo-icon">⬡</span>
-              <div className="logo-text">
-                <span className="logo-name">BHAIGYA</span>
-                <span className="logo-sub">CONSTRUCTION</span>
-              </div>
+              <img src="/BGC.jpeg" alt="Bhaigya Construction Logo" style={{ height: '45px', width: 'auto', borderRadius: '4px' }} />
             </Link>
             <p className="footer-tagline">Assam's Premier Construction Company. Building legacies across North East India since 2014.</p>
           </div>

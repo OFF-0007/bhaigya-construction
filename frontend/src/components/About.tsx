@@ -47,7 +47,7 @@ export default function About() {
           </div>
           <div className="about-visual reveal-right">
             <div className="about-card-stack">
-              <div className="about-card-img" style={{ backgroundImage: "url('/portfolio_villa.png')" }} role="img" aria-label="Luxury Villa Construction Guwahati Assam"></div>
+              <div className="about-card-img" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=2670&auto=format&fit=crop')" }} role="img" aria-label="Luxury Villa Construction Guwahati Assam"></div>
               <div className="about-badge-card">
                 <span className="badge-num">10+</span>
                 <span className="badge-label">Years of<br />Excellence</span>

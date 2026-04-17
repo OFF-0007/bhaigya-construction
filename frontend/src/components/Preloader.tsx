@@ -2,10 +2,8 @@ export default function Preloader() {
   return (
     <div id="preloader" role="status" aria-label="Loading Bhaigya Construction">
       <div className="preloader-logo">
-        <span className="preloader-icon">⬡</span>
-        <span className="preloader-name">BHAIGYA</span>
+        <img src="/BGC.jpeg" alt="Bhaigya Construction Logo" style={{ height: '50px', width: 'auto', borderRadius: '4px', marginBottom: '8px' }} />
       </div>
-      <span className="preloader-sub">Construction · Assam</span>
       <div className="preloader-bar-wrap">
         <div className="preloader-bar"></div>
       </div>

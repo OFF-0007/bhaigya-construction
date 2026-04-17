@@ -103,11 +103,26 @@ export default function Show({ project, roomTypes }) {
             description: room.description || '',
             details: { size: room.details?.size || '' },
             images: [],
-            images_data: (room.images || []).map(img => ({
-                id: img.id,
-                image_name: img.image_name || '',
-                image_details: img.image_details || [{ label: '', value: '' }]
-            })),
+            images_data: (room.images || []).map(img => {
+                let parsedDetails = [{ label: '', value: '' }];
+                if (img.image_details) {
+                    if (Array.isArray(img.image_details)) {
+                        if (img.image_details.length > 0 && img.image_details[0].label !== undefined) {
+                            parsedDetails = img.image_details;
+                        }
+                    } else if (typeof img.image_details === 'object') {
+                        const keys = Object.keys(img.image_details);
+                        if (keys.length > 0) {
+                            parsedDetails = keys.map(k => ({ label: k, value: img.image_details[k] }));
+                        }
+                    }
+                }
+                return {
+                    id: img.id,
+                    image_name: img.image_name || '',
+                    image_details: parsedDetails
+                };
+            }),
             deleted_image_ids: [],
         });
         setOpenRoomModal(true);
@@ -142,8 +157,11 @@ export default function Show({ project, roomTypes }) {
         });
     };
 
+    const [isSubmittingRoom, setIsSubmittingRoom] = React.useState(false);
+
     const handleEditRoomSubmit = (e) => {
         e.preventDefault();
+        setIsSubmittingRoom(true);
         
         // Build FormData manually for update to handle nested arrays/objects with files
         const fd = new FormData();
@@ -165,9 +183,16 @@ export default function Show({ project, roomTypes }) {
         router.post(route('admin.project-rooms.update', editingRoom.id), fd, {
             forceFormData: true,
             onSuccess: () => {
+                setIsSubmittingRoom(false);
                 setOpenRoomModal(false);
                 editRoomForm.reset();
             },
+            onError: (errors) => {
+                setIsSubmittingRoom(false);
+                console.error("ValErrors", errors);
+                alert("Could not save: " + JSON.stringify(errors));
+            },
+            onFinish: () => setIsSubmittingRoom(false)
         });
     };
 
@@ -680,9 +705,9 @@ export default function Show({ project, roomTypes }) {
                             </Stack>
                         )}
                     </DialogContent>
-                    <DialogActions sx={{ p: 3, bgcolor: '#fbfbfb' }}>
-                        <Button onClick={() => setOpenRoomModal(false)} sx={{ fontWeight: 800 }}>Cancel</Button>
-                        <Button type="submit" variant="contained" disabled={addRoomForm.processing || editRoomForm.processing} sx={{ fontWeight: 900, px: 4, borderRadius: 1 }}>Save Records</Button>
+                    <DialogActions dividers sx={{ p: 3, bgcolor: '#fbfbfb' }}>
+                        <Button onClick={() => setOpenRoomModal(false)}>Cancel</Button>
+                        <Button type="submit" variant="contained" disabled={addRoomForm.processing || editRoomForm.processing || isSubmittingRoom} sx={{ fontWeight: 900, px: 4, borderRadius: 1 }}>Save Records</Button>
                     </DialogActions>
                 </form>
             </Dialog>
