@@ -1,7 +1,6 @@
 import React from 'react';
 import { useForm, Head } from '@inertiajs/react';
 import { route } from 'ziggy-js';
-import { Ziggy } from '@/ziggy';
 import { 
     Box, 
     Button, 
@@ -17,7 +16,6 @@ import {
 import { LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
 
 export default function Login() {
-    const routeHelper = (name, params, absolute) => route(name, params, absolute, Ziggy);
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
@@ -26,7 +24,7 @@ export default function Login() {
 
     const submit = (e) => {
         e.preventDefault();
-        post(routeHelper('admin.login'));
+        post(route('admin.login'));
     };
 
     return (
@@ -47,7 +45,7 @@ export default function Login() {
                         display: 'flex', 
                         flexDirection: 'column', 
                         alignItems: 'center',
-                        borderRadius: 2
+                        borderRadius: 0.75
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>

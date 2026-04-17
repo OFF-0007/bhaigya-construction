@@ -95,13 +95,13 @@ export default function Index({ imageTypes }) {
                     variant="contained"
                     startIcon={<AddIcon />}
                     onClick={() => handleOpen()}
-                    sx={{ borderRadius: 3, px: 3, py: 1 }}
+                    sx={{ borderRadius: 1, px: 3, py: 1 }}
                 >
                     Add Type
                 </Button>
             </Box>
 
-            <Card sx={{ borderRadius: 4 }}>
+            <Card sx={{ borderRadius: 1.5 }}>
                 <TableContainer>
                     <Table>
                         <TableHead>
@@ -146,7 +146,7 @@ export default function Index({ imageTypes }) {
                 </TableContainer>
             </Card>
 
-            <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth PaperProps={{ sx: { borderRadius: 3 } }}>
+            <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth PaperProps={{ sx: { borderRadius: 1 } }}>
                 <form onSubmit={handleSubmit}>
                     <DialogTitle sx={{ fontWeight: 700 }}>
                         {editMode ? 'Edit Image Type' : 'Add New Image Type'}
@@ -188,7 +188,7 @@ export default function Index({ imageTypes }) {
                             type="submit"
                             variant="contained"
                             disabled={processing}
-                            sx={{ fontWeight: 700, borderRadius: 2 }}
+                            sx={{ fontWeight: 700, borderRadius: 0.75 }}
                         >
                             {editMode ? 'Update' : 'Save'}
                         </Button>

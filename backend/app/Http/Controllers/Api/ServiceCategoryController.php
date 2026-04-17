@@ -8,13 +8,29 @@ use App\Http\Requests\UpdateServiceCategoryRequest;
 use App\Http\Resources\ServiceCategoryResource;
 use App\Models\ServiceCategory;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ServiceCategoryController extends Controller
 {
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $categories = ServiceCategory::latest()->get();
+        $query = ServiceCategory::query();
+
+        if ($request->has('is_active')) {
+            $query->where('is_active', filter_var($request->is_active, FILTER_VALIDATE_BOOLEAN));
+        } else {
+            $query->where('is_active', true);
+        }
+
+        if ($request->filled('type')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('type', $request->type)
+                  ->orWhere('type', 'common');
+            });
+        }
+
+        $categories = $query->latest()->get();
         return ServiceCategoryResource::collection($categories);
     }
 

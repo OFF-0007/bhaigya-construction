@@ -147,4 +147,9 @@ class Project extends Model
     {
         return $this->hasMany(ProjectVideo::class, 'project_id');
     }
+
+    public function rooms(): HasMany
+    {
+        return $this->hasMany(ProjectRoom::class, 'project_id');
+    }
 }

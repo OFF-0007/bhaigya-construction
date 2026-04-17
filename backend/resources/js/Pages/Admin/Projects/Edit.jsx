@@ -4,7 +4,7 @@ import { Head, useForm, router } from '@inertiajs/react';
 import { Box, Typography } from '@mui/material';
 import ProjectForm from './ProjectForm';
 
-export default function Edit({ project, projectTypes, districts, amenities, imageTypes, serviceCategories, servicePackages }) {
+export default function Edit({ project, projectTypes, districts, amenities, imageTypes, serviceCategories, servicePackages, initialTab = 0 }) {
     const { data, setData, processing, errors } = useForm({
         project_name: project.project_name ?? '',
         project_type_id: project.project_type_id ?? '',
@@ -116,6 +116,7 @@ export default function Edit({ project, projectTypes, districts, amenities, imag
                 servicePackages={servicePackages}
                 onSubmit={handleSubmit}
                 isEdit={true}
+                initialTab={initialTab}
                 existingImages={project.images ?? []}
                 existingDocuments={project.documents ?? []}
                 existingOwners={project.owners ?? []}

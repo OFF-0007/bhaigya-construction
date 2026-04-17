@@ -11,16 +11,20 @@ class ServicePackageResource extends JsonResource
     {
         return [
             'id'            => $this->id,
+            'categoryId'    => $this->category_id,
             'title'         => $this->title,
             'slug'          => $this->slug,
             'description'   => $this->description,
+            'image'         => $this->image,
+            'imageUrl'      => $this->image ? asset('storage/' . $this->image) : null,
             'benefits'      => $this->benefits,
-            'is_active'     => $this->is_active,
+            'isActive'      => (bool) $this->is_active,
             'popularity'    => $this->popularity,
             'price'         => $this->price,
-            'is_featured'   => $this->is_featured,
+            'isFeatured'    => (bool) $this->is_featured,
             'category'      => new ServiceCategoryResource($this->whenLoaded('category')),
             'createdAt'     => $this->created_at?->toISOString(),
+            'updatedAt'     => $this->updated_at?->toISOString(),
         ];
     }
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { route } from 'ziggy-js';
-import { Ziggy } from '@/ziggy';
 import { 
     AppBar, 
     Toolbar, 
@@ -25,7 +24,6 @@ import {
 } from '@mui/icons-material';
 
 export default function Welcome() {
-    const routeHelper = (name, params, absolute) => route(name, params, absolute, Ziggy);
     const services = [
         {
             title: 'Residential Projects',

@@ -16,6 +16,7 @@ class ServicePackage extends Model
         'category_id',
         'title',
         'description',
+        'image',
         'benefits',
         'is_active',
         'popularity',

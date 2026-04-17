@@ -37,14 +37,8 @@ class ProjectResource extends JsonResource
             // Relationships (lazy-loaded when not available)
             'projectType'           => new ProjectTypeResource($this->whenLoaded('projectType')),
             'district'              => new DistrictResource($this->whenLoaded('district')),
-            'serviceCategory'       => $this->whenLoaded('serviceCategory', fn () => [
-                'id'   => $this->serviceCategory?->id,
-                'name' => $this->serviceCategory?->category_name,
-            ]),
-            'servicePackage'        => $this->whenLoaded('servicePackage', fn () => [
-                'id'    => $this->servicePackage?->id,
-                'title' => $this->servicePackage?->title,
-            ]),
+            'serviceCategory'       => new ServiceCategoryResource($this->whenLoaded('serviceCategory')),
+            'servicePackage'        => new ServicePackageResource($this->whenLoaded('servicePackage')),
             'primaryImage'          => new ProjectImageResource($this->whenLoaded('primaryImage')),
             'images'                => ProjectImageResource::collection($this->whenLoaded('images')),
             'documents'             => ProjectDocumentResource::collection($this->whenLoaded('documents')),
@@ -52,6 +46,7 @@ class ProjectResource extends JsonResource
             'amenities'             => AmenityResource::collection($this->whenLoaded('amenities')),
             'progress'              => ProjectProgressResource::collection($this->whenLoaded('progress')),
             'videos'                => ProjectVideoResource::collection($this->whenLoaded('videos')),
+            'rooms'                 => ProjectRoomResource::collection($this->whenLoaded('rooms')),
         ];
     }
 }

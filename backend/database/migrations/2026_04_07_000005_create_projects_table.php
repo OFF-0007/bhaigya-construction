@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('slug')->unique();
 
             // Type & Category links
-            $table->foreignId('project_type_id')->constrained('project_types')->cascadeOnDelete();
+            $table->foreignId('project_type_id')->nullable()->constrained('project_types')->nullOnDelete();            
             $table->foreignId('service_category_id')->nullable()->constrained('service_categories')->nullOnDelete();
             $table->foreignId('service_package_id')->nullable()->constrained('service_packages')->nullOnDelete();
 

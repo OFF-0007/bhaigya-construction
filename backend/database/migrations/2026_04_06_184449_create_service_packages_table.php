@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('service_categories')->onDelete('cascade');
             $table->string('title');
             $table->text('description')->nullable();
+            $table->string('image')->nullable();
             $table->json('benefits')->nullable();
             $table->boolean('is_active')->default(true);
             $table->enum('popularity', ['standard', 'popular', 'premium'])->default('standard');

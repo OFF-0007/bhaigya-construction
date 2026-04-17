@@ -8,6 +8,7 @@ use App\Models\ServicePackage;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ServicePackageController extends Controller
 {
@@ -30,12 +31,17 @@ class ServicePackageController extends Controller
             'category_id' => 'required|exists:service_categories,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|max:2048',
             'benefits' => 'nullable|array',
             'is_active' => 'required|boolean',
             'popularity' => 'required|in:standard,popular,premium',
             'price' => 'nullable|numeric|min:0',
             'is_featured' => 'required|boolean',
         ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('service-packages', 'public');
+        }
 
         $validated['slug'] = Str::slug($validated['title']);
 
@@ -50,12 +56,20 @@ class ServicePackageController extends Controller
             'category_id' => 'required|exists:service_categories,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'image' => 'nullable|image|max:2048',
             'benefits' => 'nullable|array',
             'is_active' => 'required|boolean',
             'popularity' => 'required|in:standard,popular,premium',
             'price' => 'nullable|numeric|min:0',
             'is_featured' => 'required|boolean',
         ]);
+
+        if ($request->hasFile('image')) {
+            if ($servicePackage->image) {
+                Storage::disk('public')->delete($servicePackage->image);
+            }
+            $validated['image'] = $request->file('image')->store('service-packages', 'public');
+        }
 
         if ($servicePackage->title !== $validated['title']) {
             $validated['slug'] = Str::slug($validated['title']);
@@ -64,6 +78,13 @@ class ServicePackageController extends Controller
         $servicePackage->update($validated);
 
         return redirect()->back()->with('success', 'Service package updated successfully.');
+    }
+
+    public function show(ServicePackage $servicePackage)
+    {
+        return Inertia::render('Admin/ServicePackages/Show', [
+            'package' => $servicePackage->load('category')
+        ]);
     }
 
     public function destroy(ServicePackage $servicePackage)
