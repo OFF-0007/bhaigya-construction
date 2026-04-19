@@ -84,7 +84,7 @@ export default function ServiceDetailModal({ service, onClose }: ServiceDetailMo
           <div className="svc-modal-section">
             <h3 className="svc-modal-section-title">What&apos;s Included</h3>
             <ul className="svc-modal-benefits">
-              {service.benefits.map((benefit, idx) => (
+              {(service.benefits || []).map((benefit, idx) => (
                 <li key={idx} className="svc-modal-benefit-item">
                   <span className="svc-modal-check">✦</span>
                   <span>{benefit}</span>

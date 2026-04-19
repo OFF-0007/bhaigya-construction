@@ -9,7 +9,7 @@ export default function Footer() {
             <Link href="#home" className="logo" aria-label="Bhaigya Construction">
               <img src="/BGC.jpeg" alt="Bhaigya Construction Logo" style={{ height: '45px', width: 'auto', borderRadius: '4px' }} />
             </Link>
-            <p className="footer-tagline">Assam's Premier Construction Company. Building legacies across North East India since 2014.</p>
+            <p className="footer-tagline">Assam&apos;s Premier Construction Company. Building legacies across North East India since 2014.</p>
           </div>
           <div className="footer-links">
             <h4>Quick Links</h4>
@@ -46,7 +46,7 @@ export default function Footer() {
         </div>
         <div className="footer-bottom container">
           <p>© 2024 Bhaigya Construction. All rights reserved. &nbsp;|&nbsp; GST Reg: Manikpur, Moukhowa, Bongaigaon</p>
-          <p>Designed with ✦ for North East India's finest construction experience.</p>
+          <p>Designed with ✦ for North East India&apos;s finest construction experience.</p>
         </div>
       </footer>
 

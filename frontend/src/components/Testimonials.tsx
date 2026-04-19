@@ -11,8 +11,8 @@ export default function Testimonials() {
         <div className="testimonials-grid">
 
           <div className="testimonial-card reveal-up" id="testimonial-1">
-            <div className="quote-icon">"</div>
-            <p className="testimonial-text">Bhaigya Construction transformed my vision into an extraordinary reality. The attention to detail, premium materials, and the team's professionalism were truly unmatched. Our Guwahati villa is exactly what we dreamed of — delivered ahead of schedule!</p>
+            <div className="quote-icon">&quot;</div>
+            <p className="testimonial-text">Bhaigya Construction transformed my vision into an extraordinary reality. The attention to detail, premium materials, and the team&apos;s professionalism were truly unmatched. Our Guwahati villa is exactly what we dreamed of — delivered ahead of schedule!</p>
             <div className="testimonial-author">
               <div className="author-avatar" aria-hidden="true">RS</div>
               <div>
@@ -24,7 +24,7 @@ export default function Testimonials() {
           </div>
 
           <div className="testimonial-card reveal-up" id="testimonial-2">
-            <div className="quote-icon">"</div>
+            <div className="quote-icon">&quot;</div>
             <p className="testimonial-text">As a business owner, I needed a construction partner I could trust completely. Bhaigya Construction delivered our commercial space on time, within budget, and with finishes that genuinely impressed our clients. An absolute pleasure to work with.</p>
             <div className="testimonial-author">
               <div className="author-avatar" aria-hidden="true">PD</div>
@@ -37,8 +37,8 @@ export default function Testimonials() {
           </div>
 
           <div className="testimonial-card reveal-up" id="testimonial-3">
-            <div className="quote-icon">"</div>
-            <p className="testimonial-text">I've worked with many contractors across North East India, but Bhaigya Construction stands in a class of their own. Their Ultra Luxury package is genuinely world-class. The quality assurance process gave me complete confidence throughout the project.</p>
+            <div className="quote-icon">&quot;</div>
+            <p className="testimonial-text">I&apos;ve worked with many contractors across North East India, but Bhaigya Construction stands in a class of their own. Their Ultra Luxury package is genuinely world-class. The quality assurance process gave me complete confidence throughout the project.</p>
             <div className="testimonial-author">
               <div className="author-avatar" aria-hidden="true">AB</div>
               <div>

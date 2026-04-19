@@ -135,7 +135,7 @@ export default async function Services() {
   try {
     const response = await api.getServicePackages();
     if (response && response.data && Array.isArray(response.data)) {
-      const active = response.data.filter(s => s.isActive);
+      const active = response.data.filter(s => s && s.isActive);
       if (active.length > 0) {
         services = active;
       }

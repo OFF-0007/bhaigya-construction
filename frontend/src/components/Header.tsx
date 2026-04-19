@@ -1,23 +1,31 @@
-import Link from 'next/link';
+'use client';
+
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
+  const pathname = usePathname();
+
+  const getStyle = (path: string) => {
+    return pathname === path ? { color: 'var(--gold)' } : undefined;
+  };
+
   return (
     <header id="main-header" role="banner">
       <div className="header-inner container">
-        <Link href="#home" className="logo" aria-label="Bhaigya Construction Home">
+        <a href="/#home" className="logo" aria-label="Bhaigya Construction Home">
           <img src="/BGC.jpeg" alt="Bhaigya Construction Logo" style={{ height: '45px', width: 'auto', borderRadius: '4px' }} />
-        </Link>
+        </a>
         <nav id="main-nav" role="navigation" aria-label="Main Navigation">
           <ul>
-            <li><Link href="#about">About</Link></li>
-            <li><Link href="#services">Services</Link></li>
-            <li><Link href="#portfolio">Portfolio</Link></li>
-            <li><Link href="#process">Process</Link></li>
-            <li><Link href="#testimonials">Testimonials</Link></li>
-            <li><Link href="#contact">Contact</Link></li>
+            <li><a href="/about" style={getStyle('/about')}>About</a></li>
+            <li><a href="/#services">Services</a></li>
+            <li><a href="/#portfolio">Portfolio</a></li>
+            <li><a href="/#process">Process</a></li>
+            <li><a href="/#testimonials">Testimonials</a></li>
+            <li><a href="/contact" style={getStyle('/contact')}>Contact</a></li>
           </ul>
         </nav>
-        <Link href="#contact" className="btn-header" id="header-cta">Request Quote</Link>
+        <a href="/contact" className="btn-header" id="header-cta">Request Quote</a>
         <button className="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>

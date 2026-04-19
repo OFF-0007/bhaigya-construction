@@ -9,7 +9,7 @@ export default function About() {
               A Decade of <span className="gold-text">Meticulous<br />Craftsmanship</span>
             </h2>
             <p className="about-body reveal-up">
-              Founded in Bongaigaon, Assam, Bhaigya Construction has grown to become North East India's most trusted name in premium residential and commercial construction. Under the visionary leadership of <strong>Mofidul Rahman (CEO &amp; Director)</strong>, we have redefined construction standards across Assam.
+              Founded in Bongaigaon, Assam, Bhaigya Construction has grown to become North East India&apos;s most trusted name in premium residential and commercial construction. Under the visionary leadership of <strong>Mofidul Rahman (CEO &amp; Director)</strong>, we have redefined construction standards across Assam.
             </p>
             <p className="about-body reveal-up">
               Our philosophy is simple: every project is a masterpiece. We combine cutting-edge engineering, globally sourced materials, and traditional craftsmanship to deliver structures that stand the test of time — on schedule, every time.
