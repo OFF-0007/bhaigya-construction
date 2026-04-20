@@ -44,7 +44,11 @@ export default function ServicesClient({ services }: ServicesClientProps) {
               style={{
                 cursor: 'pointer',
                 ...(service.imageUrl
-                  ? { backgroundImage: `url('${service.imageUrl}')` }
+                  ? { 
+                      backgroundImage: `url('${service.imageUrl}')`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    }
                   : {}),
               }}
             >
@@ -54,14 +58,14 @@ export default function ServicesClient({ services }: ServicesClientProps) {
               <h3 className="service-name">{service.title}</h3>
               <p className="service-desc">{service.description}</p>
               <ul className="service-features">
-                {service.benefits.slice(0, 5).map((benefit, idx) => (
+                {(service.benefits || []).slice(0, 5).map((benefit, idx) => (
                   <li key={idx}>
                     <span className="feat-check">✦</span> {benefit}
                   </li>
                 ))}
-                {service.benefits.length > 5 && (
+                {(service.benefits || []).length > 5 && (
                   <li className="service-more-hint">
-                    <span className="feat-check">+</span> {service.benefits.length - 5} more included...
+                    <span className="feat-check">+</span> {(service.benefits || []).length - 5} more included...
                   </li>
                 )}
               </ul>

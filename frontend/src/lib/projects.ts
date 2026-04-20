@@ -1,0 +1,81 @@
+import { Project } from '@/types/api';
+
+export const FALLBACK_PROJECTS: Project[] = [
+  {
+    id: 1,
+    projectName: 'Luxury Villa, Guwahati',
+    slug: 'luxury-villa-guwahati',
+    description: 'A magnificent luxury residence with bespoke premium finishes and end-to-end interior styling. The epitome of modern living in Assam.',
+    projectLocation: 'Guwahati',
+    address: 'Near Zoo Road, Guwahati, Assam', 
+    latitude: null, longitude: null,
+    projectStartDate: '2022-01-01', projectCompletionDate: '2023-06-15',
+    numberOfRooms: 12, numberOfFloors: 3, numberOfWashrooms: 8,
+    totalArea: '4500', carpetArea: '3800', areaUnit: 'sqft',
+    status: 'completed',
+    isActive: true, isFeatured: true, isCompleted: true, isWorking: false,
+    createdAt: '',
+    projectType: { id: 1, name: 'ULTRA LUXURY', slug: 'villa', description: '', status: 'active' },
+    district: { id: 1, name: 'Kamrup Metro' }, 
+    serviceCategory: null, servicePackage: { id: 1, title: 'Ultra Luxury Class', slug: 'ultra-luxury', description: 'Premium construction tier', image: null, imageUrl: null, price: 'Contact for Quote', popularity: 'High', benefits: [], isActive: true, isFeatured: true, categoryId: 1, category: { id: 1, categoryName: 'Construction', isActive: true, type: 'construction', createdAt: '', updatedAt: '' }, createdAt: '', updatedAt: '' },
+    primaryImage: { id: 1, projectId: 1, fileUrl: '/portfolio_villa.png', altText: 'Luxury Villa', isPrimary: true },
+    images: [
+        { id: 1, projectId: 1, fileUrl: '/portfolio_villa.png', altText: 'Luxury Villa Exterior', isPrimary: true },
+        { id: 101, projectId: 1, fileUrl: '/portfolio_apartment.png', altText: 'Luxury Villa Interior', isPrimary: false }
+    ], 
+    documents: [], owners: [], amenities: [
+        { id: 1, name: 'Home Theater', slug: 'home-theater', icon: '🎬' },
+        { id: 2, name: 'Swimming Pool', slug: 'pool', icon: '🏊' },
+        { id: 3, name: 'Smart Home Automation', slug: 'smart-home', icon: '📱' }
+    ], 
+    progress: [
+        { id: 1, projectId: 1, title: 'Foundation & RCC', description: 'Complete structural work with earthquake resistant design.', progressDate: '2022-03-10', status: 'completed' },
+        { id: 2, projectId: 1, title: 'Finishing & Interiors', description: 'Premium Italian marble flooring and bespoke teak woodwork.', progressDate: '2023-05-20', status: 'completed' }
+    ], 
+    videos: [], 
+    rooms: [
+        { id: 1, projectId: 1, roomTypeId: 1, roomType: { id: 1, name: 'Master Bedroom' }, description: 'Spacious master suite with walk-in closet and premium ensuite.', details: { 'Flooring': 'Italian Marble', 'Lighting': 'Smart Ambient Lighting' }, images: [], primaryImage: null },
+        { id: 2, projectId: 1, roomTypeId: 2, roomType: { id: 2, name: 'Modular Kitchen' }, description: 'Gourmet kitchen with top-of-the-line appliances and island.', details: { 'Countertop': 'Quartz', 'Cabinetry': 'Premium Lacquer' }, images: [], primaryImage: null }
+    ],
+  },
+  {
+    id: 2,
+    projectName: 'Commercial Office Complex',
+    slug: 'commercial-office-complex',
+    description: 'Ultra-Luxury class commercial development in North East India\'s business corridor.',
+    projectLocation: 'Dispur, Guwahati',
+    address: 'GS Road, Dispur, Guwahati, Assam',
+    latitude: null, longitude: null,
+    projectStartDate: '2023-08-01', projectCompletionDate: null,
+    numberOfRooms: null, numberOfFloors: 6, numberOfWashrooms: 12,
+    totalArea: '25000', carpetArea: '21000', areaUnit: 'sqft',
+    status: 'ongoing',
+    isActive: true, isFeatured: false, isCompleted: false, isWorking: true,
+    createdAt: '',
+    projectType: { id: 2, name: 'COMMERCIAL', slug: 'commercial', description: '', status: 'active' },
+    district: { id: 1, name: 'Kamrup Metro' },
+    serviceCategory: null, servicePackage: null,
+    primaryImage: { id: 2, projectId: 2, fileUrl: '/portfolio_office.png', altText: 'Office Complex', isPrimary: true },
+    images: [], documents: [], owners: [], amenities: [], progress: [], videos: [], rooms: [],
+  },
+  {
+    id: 3,
+    projectName: 'Modern Apartment Complex',
+    slug: 'modern-apartment-complex',
+    description: 'Urban efficiency meets premium finishing — a signature residential development.',
+    projectLocation: 'Jorhat, Assam',
+    address: 'Jail Road, Jorhat, Assam',
+    latitude: null, longitude: null,
+    projectStartDate: '2021-05-01', projectCompletionDate: '2022-12-20',
+    numberOfRooms: 24, numberOfFloors: 4, numberOfWashrooms: 24,
+    totalArea: '18000', carpetArea: '15500', areaUnit: 'sqft',
+    status: 'completed',
+    isActive: true, isFeatured: false, isCompleted: true, isWorking: false,
+    createdAt: '',
+    projectType: { id: 3, name: 'RESIDENTIAL', slug: 'apartment', description: '', status: 'active' },
+    district: { id: 2, name: 'Jorhat' },
+    serviceCategory: null, servicePackage: null,
+    primaryImage: { id: 3, projectId: 3, fileUrl: '/portfolio_apartment.png', altText: 'Apartment Complex', isPrimary: true },
+    images: [], documents: [], owners: [], amenities: [], progress: [], videos: [], rooms: [],
+  },
+];

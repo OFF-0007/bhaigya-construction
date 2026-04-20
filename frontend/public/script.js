@@ -31,7 +31,7 @@
 
   /* -------- VIDEO BACKGROUND MANAGEMENT -------- */
   function initHeroVideo() {
-    if (!heroVideo) return;
+    if (!heroVideo || heroVideo.tagName !== 'VIDEO') return;
 
     // Attempt autoplay; on failure, unmute and show poster
     const playPromise = heroVideo.play();

@@ -42,6 +42,8 @@ export interface ProjectType {
 export interface District {
   id: number;
   name: string;
+  state?: string;
+  country?: string;
   createdAt?: string;
 }
 
@@ -79,9 +81,11 @@ export interface ProjectRoomImage {
 
 export interface RoomType {
   id: number;
-  name: string;
-  slug?: string;
+  roomTypeName: string;
+  isActive?: boolean;
+  primaryImage?: string | null;
   createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ProjectRoom {
