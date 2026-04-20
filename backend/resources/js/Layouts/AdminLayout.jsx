@@ -41,6 +41,8 @@ import { useColorMode } from '@/Contexts/ThemeContext';
 
 const drawerWidth = 260;
 
+const BRAND_COLOR = '#00695c';
+
 export default function AdminLayout({ children }) {
     const { auth } = usePage().props;
     const theme = useTheme();
@@ -88,18 +90,20 @@ export default function AdminLayout({ children }) {
     };
 
     const drawer = (
-        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <Toolbar sx={{ px: 3, py: 2 }}>
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: 'background.paper' }}>
+            <Toolbar sx={{ px: 3, py: 3, justifyContent: 'center' }}>
                 <Link href={route('admin.dashboard')} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-                    <Box component="img" src="/BGC.jpeg" alt="Bhaigya Logo" sx={{ height: 40, width: 'auto', borderRadius: 1 }} />
+                    <Box component="img" src="/BGC.jpeg" alt="Bhaigya Logo" sx={{ height: 45, width: 'auto', borderRadius: 0.5, filter: theme.palette.mode === 'dark' ? 'brightness(0.9)' : 'none' }} />
                 </Link>
             </Toolbar>
             
-            <Box sx={{ px: 2, py: 2 }}>
-                <Typography variant="overline" sx={{ px: 1.5, fontWeight: 700, color: 'text.secondary', opacity: 0.6 }}>
-                    General
+            <Divider sx={{ mx: 2, mb: 2, opacity: 0.5 }} />
+
+            <Box sx={{ px: 2, flexGrow: 1, overflowY: 'auto' }}>
+                <Typography variant="overline" sx={{ px: 1.5, fontWeight: 800, color: 'text.secondary', fontSize: '0.7rem', letterSpacing: 1.2 }}>
+                    Main Menu
                 </Typography>
-                <List sx={{ mt: 1 }}>
+                <List sx={{ mt: 1, mb: 3 }}>
                     {menuItems.map((item) => {
                         let active = false;
                         try {
@@ -116,32 +120,33 @@ export default function AdminLayout({ children }) {
                                     selected={active}
                                     onClick={() => isMobile && setMobileOpen(false)}
                                     sx={{
-                                        borderRadius: 2.5,
-                                        py: 1.2,
+                                        borderRadius: 1, // Small border radius
+                                        py: 1,
                                         px: 2,
+                                        mx: 0.5,
                                         transition: 'all 0.2s',
                                         '&.Mui-selected': {
-                                            backgroundColor: theme.palette.primary.main,
+                                            backgroundColor: BRAND_COLOR,
                                             color: 'white',
                                             '& .MuiListItemIcon-root': {
                                                 color: 'white',
                                             },
                                             '&:hover': {
-                                                backgroundColor: theme.palette.primary.dark,
+                                                backgroundColor: alpha(BRAND_COLOR, 0.9),
                                             }
                                         },
                                         '&:hover': {
-                                            backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                                            backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)',
                                         }
                                     }}
                                 >
-                                    <ListItemIcon sx={{ minWidth: 38, color: active ? 'inherit' : 'text.secondary' }}>
-                                        {item.icon}
+                                    <ListItemIcon sx={{ minWidth: 35, color: active ? 'inherit' : 'text.secondary' }}>
+                                        {React.cloneElement(item.icon, { fontSize: 'small' })}
                                     </ListItemIcon>
                                     <ListItemText 
                                         primary={item.text} 
                                         primaryTypographyProps={{ 
-                                            fontSize: '0.925rem',
+                                            fontSize: '0.875rem',
                                             fontWeight: active ? 700 : 500 
                                         }} 
                                     />
@@ -150,11 +155,9 @@ export default function AdminLayout({ children }) {
                         );
                     })}
                 </List>
-            </Box>
 
-            <Box sx={{ px: 2, py: 0 }}>
-                <Typography variant="overline" sx={{ px: 1.5, fontWeight: 700, color: 'text.secondary', opacity: 0.6 }}>
-                    Master
+                <Typography variant="overline" sx={{ px: 1.5, fontWeight: 800, color: 'text.secondary', fontSize: '0.7rem', letterSpacing: 1.2 }}>
+                    Configurations
                 </Typography>
                 <List sx={{ mt: 1 }}>
                     {masterItems.map((item) => {
@@ -173,32 +176,33 @@ export default function AdminLayout({ children }) {
                                     selected={active}
                                     onClick={() => isMobile && setMobileOpen(false)}
                                     sx={{
-                                        borderRadius: 2.5,
-                                        py: 1.2,
+                                        borderRadius: 1, // Small border radius
+                                        py: 1,
                                         px: 2,
+                                        mx: 0.5,
                                         transition: 'all 0.2s',
                                         '&.Mui-selected': {
-                                            backgroundColor: theme.palette.primary.main,
+                                            backgroundColor: BRAND_COLOR,
                                             color: 'white',
                                             '& .MuiListItemIcon-root': {
                                                 color: 'white',
                                             },
                                             '&:hover': {
-                                                backgroundColor: theme.palette.primary.dark,
+                                                backgroundColor: alpha(BRAND_COLOR, 0.9),
                                             }
                                         },
                                         '&:hover': {
-                                            backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                                            backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)',
                                         }
                                     }}
                                 >
-                                    <ListItemIcon sx={{ minWidth: 38, color: active ? 'inherit' : 'text.secondary' }}>
-                                        {item.icon}
+                                    <ListItemIcon sx={{ minWidth: 35, color: active ? 'inherit' : 'text.secondary' }}>
+                                        {React.cloneElement(item.icon, { fontSize: 'small' })}
                                     </ListItemIcon>
                                     <ListItemText 
                                         primary={item.text} 
                                         primaryTypographyProps={{ 
-                                            fontSize: '0.925rem',
+                                            fontSize: '0.875rem',
                                             fontWeight: active ? 700 : 500 
                                         }} 
                                     />
@@ -209,17 +213,16 @@ export default function AdminLayout({ children }) {
                 </List>
             </Box>
 
-            <Box sx={{ mt: 'auto', p: 3 }}>
+            <Box sx={{ p: 2 }}>
                 <Box sx={{ 
                     p: 2, 
-                    borderRadius: 3, 
-                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.05)',
+                    borderRadius: 1.5, 
+                    bgcolor: theme.palette.mode === 'dark' ? alpha(BRAND_COLOR, 0.1) : alpha(BRAND_COLOR, 0.05),
                     border: '1px solid',
-                    borderColor: 'primary.main',
-                    borderOpacity: 0.1
+                    borderColor: alpha(BRAND_COLOR, 0.2),
                 }}>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>Support</Typography>
-                    <Typography variant="caption" color="text.secondary">Need help? Contact our tech team.</Typography>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 800, color: BRAND_COLOR }}>Tech Support</Typography>
+                    <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 500 }}>v1.0.4 • Bhaigya Admin</Typography>
                 </Box>
             </Box>
         </Box>
