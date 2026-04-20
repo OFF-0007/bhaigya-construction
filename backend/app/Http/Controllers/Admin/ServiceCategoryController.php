@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ServiceCategory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
 
 class ServiceCategoryController extends Controller
 {
@@ -23,7 +24,12 @@ class ServiceCategoryController extends Controller
             'category_name' => 'required|string|max:255',
             'is_active' => 'required|boolean',
             'type' => 'required|in:package,project,common',
+            'category_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
+
+        if ($request->hasFile('category_image')) {
+            $validated['category_image'] = $request->file('category_image')->store('service_categories', 'public');
+        }
 
         ServiceCategory::create($validated);
 
@@ -36,7 +42,15 @@ class ServiceCategoryController extends Controller
             'category_name' => 'required|string|max:255',
             'is_active' => 'required|boolean',
             'type' => 'required|in:package,project,common',
+            'category_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
+
+        if ($request->hasFile('category_image')) {
+            if ($serviceCategory->category_image) {
+                Storage::disk('public')->delete($serviceCategory->category_image);
+            }
+            $validated['category_image'] = $request->file('category_image')->store('service_categories', 'public');
+        }
 
         $serviceCategory->update($validated);
 
@@ -45,6 +59,9 @@ class ServiceCategoryController extends Controller
 
     public function destroy(ServiceCategory $serviceCategory)
     {
+        if ($serviceCategory->category_image) {
+            Storage::disk('public')->delete($serviceCategory->category_image);
+        }
         $serviceCategory->delete();
 
         return redirect()->back()->with('success', 'Service category deleted successfully.');

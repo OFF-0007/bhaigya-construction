@@ -484,13 +484,13 @@ export default function Show({ project, roomTypes }) {
 
             {/* MODAL: ADD/EDIT ROOMS */}
             <Dialog open={openRoomModal} onClose={() => setOpenRoomModal(false)} maxWidth="lg" fullWidth PaperProps={{ sx: { borderRadius: 1 } }}>
-                <DialogTitle sx={{ p: 3, fontWeight: 900, bgcolor: 'primary.50', color: 'primary.main', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <DialogTitle sx={{ p: 3, fontWeight: 900, bgcolor: 'background.default', color: 'text.primary', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     {editingRoom ? 'Edit Room layout' : 'Add Multiple Room layouts'}
                     <IconButton onClick={() => setOpenRoomModal(false)} color="inherit"><CloseIcon /></IconButton>
                 </DialogTitle>
 
                 <form onSubmit={editingRoom ? handleEditRoomSubmit : handleAddRoomSubmit}>
-                    <DialogContent dividers sx={{ p: 4, bgcolor: '#fbfbfb' }}>
+                    <DialogContent dividers sx={{ p: 4, bgcolor: 'background.paper' }}>
                         {editingRoom ? (
                             <Grid container spacing={3}>
                                 <Grid item xs={12} sm={6}>
@@ -513,7 +513,7 @@ export default function Show({ project, roomTypes }) {
                                             const isDeleted = editRoomForm.data.deleted_image_ids.includes(img.id);
                                             const originalImg = editingRoom.images.find(i => i.id === img.id);
                                             return (
-                                                <Paper key={img.id} variant="outlined" sx={{ p: 2, borderRadius: 0.5, bgcolor: isDeleted ? 'error.50' : '#fafafa', opacity: isDeleted ? 0.6 : 1 }}>
+                                                <Paper key={img.id} variant="outlined" sx={{ p: 2, borderRadius: 0.5, bgcolor: 'background.default', opacity: isDeleted ? 0.6 : 1, ...(isDeleted && { borderColor: 'error.main' }) }}>
                                                     <Grid container spacing={3} alignItems="center">
                                                         <Grid item xs={12} sm={2}>
                                                             <Box component="img" src={`/storage/${originalImg?.file_path}`} sx={{ width: '100%', height: 100, borderRadius: 0.5, objectFit: 'cover' }} />
@@ -570,7 +570,7 @@ export default function Show({ project, roomTypes }) {
 
                                     <Stack spacing={3} sx={{ mt: 3 }}>
                                         {editRoomForm.data.images?.map((file, iIdx) => (
-                                            <Paper key={iIdx} variant="outlined" sx={{ p: 2, borderRadius: 0.5, bgcolor: '#fafafa' }}>
+                                            <Paper key={iIdx} variant="outlined" sx={{ p: 2, borderRadius: 0.5, bgcolor: 'background.default' }}>
                                                 <Grid container spacing={3}>
                                                     <Grid item xs={12} sm={3}>
                                                         <Box component="img" src={URL.createObjectURL(file)} sx={{ width: '100%', height: 140, borderRadius: 0.5, objectFit: 'cover' }} />
@@ -619,7 +619,7 @@ export default function Show({ project, roomTypes }) {
                         ) : (
                             <Stack spacing={4}>
                                 {addRoomForm.data.rooms.map((room, rIdx) => (
-                                    <Paper key={rIdx} elevation={0} sx={{ p: 3, borderRadius: 1, border: '1px solid', borderColor: 'divider', position: 'relative', bgcolor: 'white' }}>
+                                    <Paper key={rIdx} elevation={0} sx={{ p: 3, borderRadius: 1, border: '1px solid', borderColor: 'divider', position: 'relative', bgcolor: 'background.paper' }}>
                                         {addRoomForm.data.rooms.length > 1 && (
                                             <IconButton onClick={() => handleRemoveRoomEntry(rIdx)} sx={{ position: 'absolute', top: 8, right: 8, color: 'error.main' }} size="small"><DeleteForeverIcon /></IconButton>
                                         )}
@@ -657,7 +657,7 @@ export default function Show({ project, roomTypes }) {
 
                                                 <Stack spacing={3} sx={{ mt: 3 }}>
                                                     {room.images.map((file, iIdx) => (
-                                                        <Paper key={iIdx} variant="outlined" sx={{ p: 2, borderRadius: 1, bgcolor: '#fafafa', border: '1px solid', borderColor: 'divider' }}>
+                                                        <Paper key={iIdx} variant="outlined" sx={{ p: 2, borderRadius: 1, bgcolor: 'background.default', border: '1px solid', borderColor: 'divider' }}>
                                                             <Grid container spacing={3}>
                                                                 <Grid item xs={12} sm={3}>
                                                                     <Box component="img" src={URL.createObjectURL(file)} sx={{ width: '100%', height: 160, borderRadius: 1, objectFit: 'cover', border: '1px solid', borderColor: 'divider' }} />
@@ -705,7 +705,7 @@ export default function Show({ project, roomTypes }) {
                             </Stack>
                         )}
                     </DialogContent>
-                    <DialogActions dividers sx={{ p: 3, bgcolor: '#fbfbfb' }}>
+                    <DialogActions dividers sx={{ p: 3, bgcolor: 'background.paper' }}>
                         <Button onClick={() => setOpenRoomModal(false)}>Cancel</Button>
                         <Button type="submit" variant="contained" disabled={addRoomForm.processing || editRoomForm.processing || isSubmittingRoom} sx={{ fontWeight: 900, px: 4, borderRadius: 1 }}>Save Records</Button>
                     </DialogActions>

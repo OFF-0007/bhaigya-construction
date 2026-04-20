@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('service_categories', function (Blueprint $table) {
             $table->id();
             $table->string('category_name');
+            $table->string('category_image')->nullable();
             $table->boolean('is_active')->default(true);
             $table->enum('type', ['package', 'project', 'common']);
             $table->timestamps();

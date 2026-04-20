@@ -17,6 +17,7 @@ class UpdateServiceCategoryRequest extends FormRequest
             'category_name' => 'required|string|max:255',
             'is_active' => 'required|boolean',
             'type' => 'required|in:package,project,common',
+            'category_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ];
     }
 }

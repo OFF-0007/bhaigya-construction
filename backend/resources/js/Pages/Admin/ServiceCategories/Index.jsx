@@ -24,7 +24,8 @@ import {
     MenuItem,
     FormControlLabel,
     Switch,
-    Tooltip
+    Tooltip,
+    Avatar
 } from '@mui/material';
 import {
     Add as AddIcon,
@@ -38,10 +39,12 @@ export default function Index({ categories }) {
     const [editMode, setEditMode] = useState(false);
     const [currentId, setCurrentId] = useState(null);
 
-    const { data, setData, post, put, delete: destroy, processing, errors, reset, clearErrors } = useForm({
+    const { data, setData, post, delete: destroy, processing, errors, reset, clearErrors } = useForm({
         category_name: '',
         type: 'common',
-        is_active: true
+        is_active: true,
+        category_image: null,
+        _method: 'post'
     });
 
     const handleOpen = (category = null) => {
@@ -51,11 +54,20 @@ export default function Index({ categories }) {
             setData({
                 category_name: category.category_name,
                 type: category.type,
-                is_active: category.is_active
+                is_active: category.is_active,
+                category_image: null,
+                _method: 'put'
             });
         } else {
             setEditMode(false);
             reset();
+            setData({
+                category_name: '',
+                type: 'common',
+                is_active: true,
+                category_image: null,
+                _method: 'post'
+            });
         }
         setOpen(true);
     };
@@ -69,7 +81,7 @@ export default function Index({ categories }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editMode) {
-            put(route('admin.service-categories.update', currentId), {
+            post(route('admin.service-categories.update', currentId), {
                 onSuccess: () => handleClose()
             });
         } else {
@@ -114,6 +126,7 @@ export default function Index({ categories }) {
                         <TableHead>
                             <TableRow>
                                 <TableCell sx={{ fontWeight: 700 }}>ID</TableCell>
+                                <TableCell sx={{ fontWeight: 700 }}>Image</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Category Name</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Type</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
@@ -124,6 +137,9 @@ export default function Index({ categories }) {
                             {categories.map((category) => (
                                 <TableRow key={category.id} hover>
                                     <TableCell>{category.id}</TableCell>
+                                    <TableCell>
+                                        <Avatar src={category.category_image ? `/storage/${category.category_image}` : null} variant="rounded" sx={{ width: 40, height: 40 }} />
+                                    </TableCell>
                                     <TableCell sx={{ fontWeight: 600 }}>{category.category_name}</TableCell>
                                     <TableCell>
                                         <Chip
@@ -161,7 +177,7 @@ export default function Index({ categories }) {
                             ))}
                             {categories.length === 0 && (
                                 <TableRow>
-                                    <TableCell colSpan={5} align="center" sx={{ py: 3 }}>
+                                    <TableCell colSpan={6} align="center" sx={{ py: 3 }}>
                                         No categories found.
                                     </TableCell>
                                 </TableRow>
@@ -201,6 +217,25 @@ export default function Index({ categories }) {
                                 <MenuItem value="project">Project</MenuItem>
                                 <MenuItem value="common">Common</MenuItem>
                             </TextField>
+                            <Button
+                                variant="outlined"
+                                component="label"
+                                fullWidth
+                                sx={{ justifyContent: 'flex-start', py: 1.5, borderColor: errors.category_image ? 'error.main' : undefined }}
+                            >
+                                {data.category_image ? data.category_image.name : 'Upload Category Image'}
+                                <input
+                                    type="file"
+                                    hidden
+                                    accept="image/*"
+                                    onChange={(e) => setData('category_image', e.target.files[0])}
+                                />
+                            </Button>
+                            {errors.category_image && (
+                                <Typography color="error" variant="caption" sx={{ mt: -1.5, ml: 1 }}>
+                                    {errors.category_image}
+                                </Typography>
+                            )}
                             <FormControlLabel
                                 control={
                                     <Switch

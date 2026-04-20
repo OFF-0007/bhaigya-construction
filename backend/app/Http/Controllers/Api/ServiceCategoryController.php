@@ -10,6 +10,7 @@ use App\Models\ServiceCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Storage;
 
 class ServiceCategoryController extends Controller
 {
@@ -36,7 +37,11 @@ class ServiceCategoryController extends Controller
 
     public function store(StoreServiceCategoryRequest $request): ServiceCategoryResource
     {
-        $category = ServiceCategory::create($request->validated());
+        $validated = $request->validated();
+        if ($request->hasFile('category_image')) {
+            $validated['category_image'] = $request->file('category_image')->store('service_categories', 'public');
+        }
+        $category = ServiceCategory::create($validated);
         return new ServiceCategoryResource($category);
     }
 
@@ -47,12 +52,22 @@ class ServiceCategoryController extends Controller
 
     public function update(UpdateServiceCategoryRequest $request, ServiceCategory $serviceCategory): ServiceCategoryResource
     {
-        $serviceCategory->update($request->validated());
+        $validated = $request->validated();
+        if ($request->hasFile('category_image')) {
+            if ($serviceCategory->category_image) {
+                Storage::disk('public')->delete($serviceCategory->category_image);
+            }
+            $validated['category_image'] = $request->file('category_image')->store('service_categories', 'public');
+        }
+        $serviceCategory->update($validated);
         return new ServiceCategoryResource($serviceCategory->fresh());
     }
 
     public function destroy(ServiceCategory $serviceCategory): JsonResponse
     {
+        if ($serviceCategory->category_image) {
+            Storage::disk('public')->delete($serviceCategory->category_image);
+        }
         $serviceCategory->delete();
         return response()->json(['message' => 'Service category deleted successfully.']);
     }

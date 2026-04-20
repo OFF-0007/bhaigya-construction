@@ -12,6 +12,7 @@ class ServiceCategoryResource extends JsonResource
         return [
             'id'           => $this->id,
             'categoryName' => $this->category_name,
+            'categoryImage'=> $this->category_image ? url('storage/' . $this->category_image) : null,
             'isActive'     => (bool) $this->is_active,
             'type'         => $this->type,
             'createdAt'    => $this->created_at?->toISOString(),
