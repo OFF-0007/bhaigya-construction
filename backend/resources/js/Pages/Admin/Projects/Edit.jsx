@@ -5,7 +5,7 @@ import { Box, Typography } from '@mui/material';
 import ProjectForm from './ProjectForm';
 
 export default function Edit({ project, projectTypes, districts, amenities, imageTypes, serviceCategories, servicePackages, initialTab = 0 }) {
-    const { data, setData, processing, errors } = useForm({
+    const { data, setData, processing, errors, setError, clearErrors } = useForm({
         project_name: project.project_name ?? '',
         project_type_id: project.project_type_id ?? '',
         service_category_id: project.service_category_id ?? '',
@@ -46,6 +46,52 @@ export default function Edit({ project, projectTypes, districts, amenities, imag
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        clearErrors();
+
+        // Client-side validation
+        let hasErrors = false;
+
+        if (!data.project_name) { setError('project_name', 'Project name is required'); hasErrors = true; }
+        if (!data.service_package_id) { setError('service_package_id', 'Service package is required'); hasErrors = true; }
+        if (!data.description) { setError('description', 'Description is required'); hasErrors = true; }
+        if (!data.project_location) { setError('project_location', 'Location is required'); hasErrors = true; }
+        if (!data.district_id) { setError('district_id', 'District is required'); hasErrors = true; }
+        if (!data.address) { setError('address', 'Address is required'); hasErrors = true; }
+        if (!data.status) { setError('status', 'Status is required'); hasErrors = true; }
+
+        if (data.latitude && (data.latitude < -90 || data.latitude > 90)) {
+            setError('latitude', 'Latitude must be between -90 and 90');
+            hasErrors = true;
+        }
+        if (data.longitude && (data.longitude < -180 || data.longitude > 180)) {
+            setError('longitude', 'Longitude must be between -180 and 180');
+            hasErrors = true;
+        }
+
+        // Owners
+        const ownersArr = JSON.parse(data.owners || '[]');
+        ownersArr.forEach((owner, i) => {
+            if (!owner.name) { setError(`owners.${i}.name`, 'Name is required'); hasErrors = true; }
+        });
+
+        // Progress
+        const progressArr = JSON.parse(data.progress || '[]');
+        progressArr.forEach((prog, i) => {
+            if (!prog.title) { setError(`progress.${i}.title`, 'Title is required'); hasErrors = true; }
+            if (!prog.progress_date) { setError(`progress.${i}.progress_date`, 'Date is required'); hasErrors = true; }
+        });
+
+        // Videos
+        const videosArr = JSON.parse(data.videos || '[]');
+        videosArr.forEach((vid, i) => {
+            if (!vid.video_url) { setError(`videos.${i}.video_url`, 'URL is required'); hasErrors = true; }
+            if (!vid.platform) { setError(`videos.${i}.platform`, 'Platform is required'); hasErrors = true; }
+        });
+
+        if (hasErrors) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
 
         const fd = new FormData();
         fd.append('_method', 'PUT');

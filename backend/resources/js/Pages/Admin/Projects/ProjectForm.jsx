@@ -369,13 +369,15 @@ export default function ProjectForm({
                                 <FormLabel>GPS Latitude</FormLabel>
                                 <TextField fullWidth type="number" placeholder="e.g. 26.91243"
                                     InputProps={{ inputProps: { step: 'any' } }}
-                                    value={data.latitude ?? ''} onChange={e => setData('latitude', e.target.value)} />
+                                    value={data.latitude ?? ''} onChange={e => setData('latitude', e.target.value)}
+                                    error={!!errors.latitude} helperText={errors.latitude} />
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <FormLabel>GPS Longitude</FormLabel>
                                 <TextField fullWidth type="number" placeholder="e.g. 75.78727"
                                     InputProps={{ inputProps: { step: 'any' } }}
-                                    value={data.longitude ?? ''} onChange={e => setData('longitude', e.target.value)} />
+                                    value={data.longitude ?? ''} onChange={e => setData('longitude', e.target.value)}
+                                    error={!!errors.longitude} helperText={errors.longitude} />
                             </Grid>
                         </Grid>
 
@@ -389,7 +391,8 @@ export default function ProjectForm({
                                         startAdornment: <InputAdornment position="start"><RoomIcon color="action" /></InputAdornment>,
                                         inputProps: { min: 0 }
                                     }}
-                                    value={data.number_of_rooms ?? ''} onChange={e => setData('number_of_rooms', e.target.value)} />
+                                    value={data.number_of_rooms ?? ''} onChange={e => setData('number_of_rooms', e.target.value)}
+                                    error={!!errors.number_of_rooms} helperText={errors.number_of_rooms} />
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <FormLabel>Number of Floors</FormLabel>
@@ -398,7 +401,8 @@ export default function ProjectForm({
                                         startAdornment: <InputAdornment position="start"><FloorIcon color="action" /></InputAdornment>,
                                         inputProps: { min: 0 }
                                     }}
-                                    value={data.number_of_floors ?? ''} onChange={e => setData('number_of_floors', e.target.value)} />
+                                    value={data.number_of_floors ?? ''} onChange={e => setData('number_of_floors', e.target.value)}
+                                    error={!!errors.number_of_floors} helperText={errors.number_of_floors} />
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <FormLabel>Washrooms / Ensuites</FormLabel>
@@ -407,7 +411,8 @@ export default function ProjectForm({
                                         startAdornment: <InputAdornment position="start"><WashroomIcon color="action" /></InputAdornment>,
                                         inputProps: { min: 0 }
                                     }}
-                                    value={data.number_of_washrooms ?? ''} onChange={e => setData('number_of_washrooms', e.target.value)} />
+                                    value={data.number_of_washrooms ?? ''} onChange={e => setData('number_of_washrooms', e.target.value)}
+                                    error={!!errors.number_of_washrooms} helperText={errors.number_of_washrooms} />
                             </Grid>
                             <Grid item xs={12} md={5}>
                                 <FormLabel>Gross Built-up Area</FormLabel>
@@ -416,7 +421,8 @@ export default function ProjectForm({
                                         endAdornment: <InputAdornment position="end">{data.area_unit}</InputAdornment>,
                                         inputProps: { min: 0, step: 'any' }
                                     }}
-                                    value={data.total_area ?? ''} onChange={e => setData('total_area', e.target.value)} />
+                                    value={data.total_area ?? ''} onChange={e => setData('total_area', e.target.value)}
+                                    error={!!errors.total_area} helperText={errors.total_area} />
                             </Grid>
                             <Grid item xs={12} md={5}>
                                 <FormLabel>Net Carpet Area</FormLabel>
@@ -425,12 +431,14 @@ export default function ProjectForm({
                                         endAdornment: <InputAdornment position="end">{data.area_unit}</InputAdornment>,
                                         inputProps: { min: 0, step: 'any' }
                                     }}
-                                    value={data.carpet_area ?? ''} onChange={e => setData('carpet_area', e.target.value)} />
+                                    value={data.carpet_area ?? ''} onChange={e => setData('carpet_area', e.target.value)}
+                                    error={!!errors.carpet_area} helperText={errors.carpet_area} />
                             </Grid>
                             <Grid item xs={12} md={2}>
                                 <FormLabel>Measurement Unit</FormLabel>
                                 <TextField select fullWidth
-                                    value={data.area_unit ?? 'sqft'} onChange={e => setData('area_unit', e.target.value)}>
+                                    value={data.area_unit ?? 'sqft'} onChange={e => setData('area_unit', e.target.value)}
+                                    error={!!errors.area_unit} helperText={errors.area_unit}>
                                     <MenuItem value="sqft">Square Feet (sqft)</MenuItem>
                                     <MenuItem value="sqm">Square Meters (sqm)</MenuItem>
                                 </TextField>
@@ -474,6 +482,28 @@ export default function ProjectForm({
                     {/* ─── Tab 1: Media & Documents ─────────────────────── */}
                     <TabPanel value={tab} index={1}>
                         <SectionHeader icon={<ImageIcon />} title="Project Showcase" subtitle="Manage visuals, renders, and site photos" />
+
+                        {Object.keys(errors).some(key => key.startsWith('images')) && (
+                            <Alert severity="error" sx={{ mb: 4 }}>
+                                <Typography variant="subtitle2" sx={{ fontWeight: 800 }}>Image Validation Errors:</Typography>
+                                <ul style={{ margin: 0, paddingLeft: '20px' }}>
+                                    {Object.keys(errors).filter(key => key.startsWith('images')).map(key => (
+                                        <li key={key}>{errors[key]}</li>
+                                    ))}
+                                </ul>
+                            </Alert>
+                        )}
+
+                        {Object.keys(errors).some(key => key.startsWith('documents')) && (
+                            <Alert severity="error" sx={{ mb: 4 }}>
+                                <Typography variant="subtitle2" sx={{ fontWeight: 800 }}>Document Validation Errors:</Typography>
+                                <ul style={{ margin: 0, paddingLeft: '20px' }}>
+                                    {Object.keys(errors).filter(key => key.startsWith('documents')).map(key => (
+                                        <li key={key}>{errors[key]}</li>
+                                    ))}
+                                </ul>
+                            </Alert>
+                        )}
 
                         {/* Existing Images */}
                         {existingImages.filter(img => !deletedImageIds.includes(img.id)).length > 0 && (
@@ -731,21 +761,48 @@ export default function ProjectForm({
                                             </Box>
                                             <Box>
                                                 <FormLabel required>Stakeholder Name</FormLabel>
-                                                <TextField fullWidth value={owner.name} onChange={e => updateOwner(i, 'name', e.target.value)} />
+                                                <TextField 
+                                                    fullWidth 
+                                                    value={owner.name} 
+                                                    onChange={e => updateOwner(i, 'name', e.target.value)}
+                                                    error={!!errors[`owners.${i}.name`]}
+                                                    helperText={errors[`owners.${i}.name`]}
+                                                />
                                             </Box>
                                             <Grid container spacing={2}>
                                                 <Grid item xs={12} sm={6}>
                                                     <FormLabel>Mobile Number</FormLabel>
-                                                    <TextField fullWidth value={owner.phone} onChange={e => updateOwner(i, 'phone', e.target.value)} />
+                                                    <TextField 
+                                                        fullWidth 
+                                                        value={owner.phone} 
+                                                        onChange={e => updateOwner(i, 'phone', e.target.value)}
+                                                        error={!!errors[`owners.${i}.phone`]}
+                                                        helperText={errors[`owners.${i}.phone`]}
+                                                    />
                                                 </Grid>
                                                 <Grid item xs={12} sm={6}>
                                                     <FormLabel>Email Address</FormLabel>
-                                                    <TextField fullWidth type="email" value={owner.email} onChange={e => updateOwner(i, 'email', e.target.value)} />
+                                                    <TextField 
+                                                        fullWidth 
+                                                        type="email" 
+                                                        value={owner.email} 
+                                                        onChange={e => updateOwner(i, 'email', e.target.value)}
+                                                        error={!!errors[`owners.${i}.email`]}
+                                                        helperText={errors[`owners.${i}.email`]}
+                                                    />
                                                 </Grid>
                                             </Grid>
                                             <Box>
                                                 <FormLabel>Mailing Address</FormLabel>
-                                                <TextField fullWidth multiline rows={2} value={owner.address} onChange={e => updateOwner(i, 'address', e.target.value)} />
+                                                <TextField 
+                                                    fullWidth 
+                                                    multiline 
+                                                    rows={2} 
+                                                    value={owner.address} 
+                                                    onChange={e => updateOwner(i, 'address', e.target.value)}
+                                                    error={!!errors[`owners.${i}.address`]}
+                                                    helperText={errors[`owners.${i}.address`]}
+                                                />
                                             </Box>
                                         </Stack>
                                     </Paper>
@@ -809,22 +866,53 @@ export default function ProjectForm({
                                     <Grid container spacing={4}>
                                         <Grid item xs={12} md={7}>
                                             <FormLabel required>Phase Title</FormLabel>
-                                            <TextField fullWidth placeholder="e.g. Foundation & Plinth Work" value={prog.title} onChange={e => updateProgress(i, 'title', e.target.value)} required />
+                                            <TextField 
+                                                fullWidth 
+                                                placeholder="e.g. Foundation & Plinth Work" 
+                                                value={prog.title} 
+                                                onChange={e => updateProgress(i, 'title', e.target.value)} 
+                                                error={!!errors[`progress.${i}.title`]}
+                                                helperText={errors[`progress.${i}.title`]}
+                                            />
                                         </Grid>
                                         <Grid item xs={12} sm={6} md={2.5}>
                                             <FormLabel required>Log Date</FormLabel>
-                                            <TextField fullWidth type="date" InputLabelProps={{ shrink: true }} value={prog.progress_date} onChange={e => updateProgress(i, 'progress_date', e.target.value)} required />
+                                            <TextField 
+                                                fullWidth 
+                                                type="date" 
+                                                InputLabelProps={{ shrink: true }} 
+                                                value={prog.progress_date} 
+                                                onChange={e => updateProgress(i, 'progress_date', e.target.value)} 
+                                                error={!!errors[`progress.${i}.progress_date`]}
+                                                helperText={errors[`progress.${i}.progress_date`]}
+                                            />
                                         </Grid>
                                         <Grid item xs={12} sm={6} md={2.5}>
                                             <FormLabel required>Status</FormLabel>
-                                            <TextField select fullWidth value={prog.status ?? 'in_progress'} onChange={e => updateProgress(i, 'status', e.target.value)}>
+                                            <TextField 
+                                                select 
+                                                fullWidth 
+                                                value={prog.status ?? 'in_progress'} 
+                                                onChange={e => updateProgress(i, 'status', e.target.value)}
+                                                error={!!errors[`progress.${i}.status`]}
+                                                helperText={errors[`progress.${i}.status`]}
+                                            >
                                                 <MenuItem value="in_progress">In Progress</MenuItem>
                                                 <MenuItem value="completed">Achieved</MenuItem>
                                             </TextField>
                                         </Grid>
                                         <Grid item xs={12}>
                                             <FormLabel>Narrative Summary</FormLabel>
-                                            <TextField fullWidth multiline rows={2} placeholder="Describe the work done in this phase..." value={prog.description ?? ''} onChange={e => updateProgress(i, 'description', e.target.value)} />
+                                            <TextField 
+                                                fullWidth 
+                                                multiline 
+                                                rows={2} 
+                                                placeholder="Describe the work done in this phase..." 
+                                                value={prog.description ?? ''} 
+                                                onChange={e => updateProgress(i, 'description', e.target.value)} 
+                                                error={!!errors[`progress.${i}.description`]}
+                                                helperText={errors[`progress.${i}.description`]}
+                                            />
                                         </Grid>
                                     </Grid>
                                 </Paper>
@@ -845,7 +933,14 @@ export default function ProjectForm({
                                         <Grid container spacing={3} alignItems="center">
                                             <Grid item xs={12} md={2}>
                                                 <FormLabel required>Host</FormLabel>
-                                                <TextField select fullWidth value={vid.platform} onChange={e => updateVideo(i, 'platform', e.target.value)}>
+                                                <TextField 
+                                                    select 
+                                                    fullWidth 
+                                                    value={vid.platform} 
+                                                    onChange={e => updateVideo(i, 'platform', e.target.value)}
+                                                    error={!!errors[`videos.${i}.platform`]}
+                                                    helperText={errors[`videos.${i}.platform`]}
+                                                >
                                                     <MenuItem value="youtube">YouTube</MenuItem>
                                                     <MenuItem value="vimeo">Vimeo</MenuItem>
                                                     <MenuItem value="upload">Local</MenuItem>
@@ -853,11 +948,23 @@ export default function ProjectForm({
                                             </Grid>
                                             <Grid item xs={12} md={6}>
                                                 <FormLabel required>Resource URL</FormLabel>
-                                                <TextField fullWidth value={vid.video_url} onChange={e => updateVideo(i, 'video_url', e.target.value)} required />
+                                                <TextField 
+                                                    fullWidth 
+                                                    value={vid.video_url} 
+                                                    onChange={e => updateVideo(i, 'video_url', e.target.value)} 
+                                                    error={!!errors[`videos.${i}.video_url`]}
+                                                    helperText={errors[`videos.${i}.video_url`]}
+                                                />
                                             </Grid>
                                             <Grid item xs={12} md={3}>
                                                 <FormLabel>Display Title</FormLabel>
-                                                <TextField fullWidth value={vid.title} onChange={e => updateVideo(i, 'title', e.target.value)} />
+                                                <TextField 
+                                                    fullWidth 
+                                                    value={vid.title} 
+                                                    onChange={e => updateVideo(i, 'title', e.target.value)} 
+                                                    error={!!errors[`videos.${i}.title`]}
+                                                    helperText={errors[`videos.${i}.title`]}
+                                                />
                                             </Grid>
                                             <Grid item xs={12} md={1} sx={{ textAlign: 'right' }}>
                                                 <IconButton color="error" onClick={() => removeVideo(i)} sx={{ mt: 2.5 }}><DeleteIcon /></IconButton>

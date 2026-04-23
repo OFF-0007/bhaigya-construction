@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             ImageTypeSeeder::class,
             AmenitySeeder::class,
             DistrictSeeder::class,
+            RoomTypeSeeder::class,
+            AgreementTypeSeeder::class,
         ]);
     }
 }

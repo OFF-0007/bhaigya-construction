@@ -222,8 +222,8 @@ class ProjectController extends Controller
             'project_location'      => 'required|string|max:255',
             'district_id'           => 'required|exists:districts,id',
             'address'               => 'required|string',
-            'latitude'              => 'nullable|numeric',
-            'longitude'             => 'nullable|numeric',
+            'latitude'              => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude'             => ['nullable', 'numeric', 'between:-180,180'],
             'project_start_date'    => 'nullable|date',
             'project_completion_date' => 'nullable|date',
             'number_of_rooms'       => 'nullable|integer|min:0',
@@ -237,6 +237,16 @@ class ProjectController extends Controller
             'is_featured'           => 'boolean',
             'is_completed'          => 'boolean',
             'is_working'            => 'boolean',
+            'images.*'              => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,bmp|max:5120',
+            'documents.*'           => 'nullable|file|max:10240',
+            'amenity_ids'           => 'nullable|string',
+            'owners'                => 'nullable|string',
+            'progress'              => 'nullable|string',
+            'videos'                => 'nullable|string',
+            'image_types'           => 'nullable|string',
+            'image_alt_texts'       => 'nullable|string',
+            'document_names'        => 'nullable|string',
+            'document_types'        => 'nullable|string',
         ]);
     }
 

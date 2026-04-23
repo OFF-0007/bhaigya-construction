@@ -260,6 +260,38 @@ export default function Dashboard({ stats, recentActivities }) {
                                 >
                                     Service Configurations
                                 </Button>
+                                <Button 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    component={Link}
+                                    href={route('admin.agreements.index')}
+                                    sx={{ 
+                                        borderColor: 'rgba(255,255,255,0.4)',
+                                        color: 'white',
+                                        borderRadius: 1,
+                                        fontWeight: 700,
+                                        textTransform: 'none',
+                                        '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)' }
+                                    }}
+                                >
+                                    Package Agreements
+                                </Button>
+                                <Button 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    component={Link}
+                                    href={route('admin.package-materials.index')}
+                                    sx={{ 
+                                        borderColor: 'rgba(255,255,255,0.4)',
+                                        color: 'white',
+                                        borderRadius: 1,
+                                        fontWeight: 700,
+                                        textTransform: 'none',
+                                        '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)' }
+                                    }}
+                                >
+                                    Package Materials
+                                </Button>
                             </Stack>
                         </CardContent>
                     </Card>

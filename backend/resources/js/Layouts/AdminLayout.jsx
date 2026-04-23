@@ -81,6 +81,8 @@ export default function AdminLayout({ children }) {
         { text: 'Districts', icon: <CategoryIcon />, href: route('admin.districts.index') },
         { text: 'Image Types', icon: <CategoryIcon />, href: route('admin.image-types.index') },
         { text: 'Room Types', icon: <CategoryIcon />, href: route('admin.room-types.index') },
+        { text: 'Package Agreements', icon: <ListAltIcon />, href: route('admin.agreements.index') },
+        { text: 'Package Materials', icon: <CategoryIcon />, href: route('admin.package-materials.index') },
     ];
 
     const ThemeIcon = () => {
