@@ -288,18 +288,8 @@
   initHeroVideo();
 
   /* -------- PORTFOLIO ITEM HOVER (touch fallback) -------- */
-  const portfolioItems = document.querySelectorAll('.portfolio-item');
-  portfolioItems.forEach(item => {
-    item.addEventListener('touchstart', () => {
-      item.querySelector('.portfolio-overlay').style.opacity = '1';
-    }, { passive: true });
-    item.addEventListener('touchend', () => {
-      setTimeout(() => {
-        if (item.querySelector('.portfolio-overlay')) {
-          item.querySelector('.portfolio-overlay').style.opacity = '0';
-        }
-      }, 2000);
-    }, { passive: true });
-  });
+  // Removed since overlay is now always visible
+  // const portfolioItems = document.querySelectorAll('.portfolio-item');
+  // portfolioItems.forEach(item => { ... });
 
 })();

@@ -27,6 +27,28 @@ export interface ServicePackage {
   updatedAt: string;
 }
 
+// ─── Image Gallery ──────────────────────────────────────────────────────────────
+
+export interface ImageType {
+  id: number;
+  name: string;
+  slug: string;
+  description: string | null;
+  createdAt?: string;
+}
+
+export interface ImageGallery {
+  id: number;
+  image_type_id: number;
+  image_name: string;
+  description: string | null;
+  upload_image: string | null;
+  is_active: boolean;
+  image_type: ImageType | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
 // ─── Project building blocks ───────────────────────────────────────────────────
 
 export interface ProjectType {

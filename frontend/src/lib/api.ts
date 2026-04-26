@@ -1,4 +1,4 @@
-import { ApiResponse, ServicePackage, Project } from '@/types/api';
+import { ApiResponse, ServicePackage, Project, ImageGallery, ImageType } from '@/types/api';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000/api/v1';
 
@@ -52,6 +52,19 @@ export const api = {
 
   getProjectById: (id: number) =>
     fetcher<ApiResponse<Project>>(`/projects/${id}`, {
+      next: { revalidate: 300 },
+    }),
+
+  // ─── Image Gallery ───────────────────────────────────────────────────────────
+  getGallery: (imageTypeId?: number) => {
+    const url = imageTypeId ? `/gallery?image_type_id=${imageTypeId}` : '/gallery';
+    return fetcher<ApiResponse<ImageGallery[]>>(url, {
+      next: { revalidate: 300 },
+    });
+  },
+
+  getImageTypes: () =>
+    fetcher<ApiResponse<ImageType[]>>('/image-types', {
       next: { revalidate: 300 },
     }),
 };

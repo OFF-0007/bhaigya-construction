@@ -34,8 +34,8 @@ export const FALLBACK_PROJECTS: Project[] = [
     ], 
     videos: [], 
     rooms: [
-        { id: 1, projectId: 1, roomTypeId: 1, roomType: { id: 1, name: 'Master Bedroom' }, description: 'Spacious master suite with walk-in closet and premium ensuite.', details: { 'Flooring': 'Italian Marble', 'Lighting': 'Smart Ambient Lighting' }, images: [], primaryImage: null },
-        { id: 2, projectId: 1, roomTypeId: 2, roomType: { id: 2, name: 'Modular Kitchen' }, description: 'Gourmet kitchen with top-of-the-line appliances and island.', details: { 'Countertop': 'Quartz', 'Cabinetry': 'Premium Lacquer' }, images: [], primaryImage: null }
+        { id: 1, projectId: 1, roomTypeId: 1, roomType: { id: 1, roomTypeName: 'Master Bedroom' }, description: 'Spacious master suite with walk-in closet and premium ensuite.', details: { 'Flooring': 'Italian Marble', 'Lighting': 'Smart Ambient Lighting' }, images: [], primaryImage: null },
+        { id: 2, projectId: 1, roomTypeId: 2, roomType: { id: 2, roomTypeName: 'Modular Kitchen' }, description: 'Gourmet kitchen with top-of-the-line appliances and island.', details: { 'Countertop': 'Quartz', 'Cabinetry': 'Premium Lacquer' }, images: [], primaryImage: null }
     ],
   },
   {
