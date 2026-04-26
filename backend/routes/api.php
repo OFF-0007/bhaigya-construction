@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AmenityController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DistrictController;
+use App\Http\Controllers\Api\ImageGalleryController;
 use App\Http\Controllers\Api\ImageTypeController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ProjectProgressController;
@@ -28,6 +29,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/districts/{district}', [DistrictController::class, 'show']);
 
     Route::get('/image-types', [ImageTypeController::class, 'index']);
+
+    Route::get('/gallery', [ImageGalleryController::class, 'index']);
 
     Route::get('/amenities', [AmenityController::class, 'index']);
 

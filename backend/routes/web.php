@@ -35,8 +35,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('districts', \App\Http\Controllers\Admin\DistrictController::class)->names('districts');
         Route::resource('image-types', \App\Http\Controllers\Admin\ImageTypeController::class)->names('image-types');
         Route::resource('room-types', \App\Http\Controllers\Admin\RoomTypeController::class)->names('room-types');
-        Route::resource('agreements', \App\Http\Controllers\Admin\AgreementController::class)->names('agreements')->only(['index', 'store', 'destroy']);
+        Route::resource('agreements', \App\Http\Controllers\Admin\AgreementController::class)->names('agreements');
         Route::resource('package-materials', \App\Http\Controllers\Admin\PackageMaterialController::class)->names('package-materials');
+        Route::resource('gallery', \App\Http\Controllers\Admin\ImageGalleryController::class)->names('gallery');
 
         // Projects Routes
         Route::resource('projects', \App\Http\Controllers\Admin\ProjectController::class)->names('projects');

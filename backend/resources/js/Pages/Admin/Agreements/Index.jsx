@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, useForm, router } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import {
     Box,
     Typography,
@@ -13,58 +13,16 @@ import {
     TableHead,
     TableRow,
     IconButton,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    TextField,
     Tooltip,
-    MenuItem,
-    Paper,
-    Link,
 } from "@mui/material";
 import {
     Add as AddIcon,
+    Edit as EditIcon,
     Delete as DeleteIcon,
-    Description as FileIcon,
     Download as DownloadIcon,
 } from "@mui/icons-material";
 
-export default function Index({ agreements, agreementTypes, servicePackages }) {
-    const [open, setOpen] = useState(false);
-
-    const {
-        data,
-        setData,
-        post,
-        processing,
-        errors,
-        reset,
-        clearErrors,
-    } = useForm({
-        agreement_type_id: "",
-        service_package_id: "",
-        document: null,
-    });
-
-    const handleOpen = () => {
-        reset();
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-        reset();
-        clearErrors();
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        post(route("admin.agreements.store"), {
-            onSuccess: () => handleClose(),
-        });
-    };
-
+export default function Index({ agreements }) {
     const handleDelete = (id) => {
         if (confirm("Are you sure you want to delete this agreement?")) {
             router.delete(route("admin.agreements.destroy", id));
@@ -99,9 +57,10 @@ export default function Index({ agreements, agreementTypes, servicePackages }) {
                     </Typography>
                 </Box>
                 <Button
+                    component={Link}
+                    href={route("admin.agreements.create")}
                     variant="contained"
                     startIcon={<AddIcon />}
-                    onClick={handleOpen}
                     sx={{ borderRadius: 1, px: 3, py: 1 }}
                 >
                     Upload Agreement
@@ -154,6 +113,16 @@ export default function Index({ agreements, agreementTypes, servicePackages }) {
                                         </Button>
                                     </TableCell>
                                     <TableCell align="right">
+                                        <Tooltip title="Edit">
+                                            <IconButton
+                                                component={Link}
+                                                href={route("admin.agreements.edit", agreement.id)}
+                                                color="primary"
+                                                size="small"
+                                            >
+                                                <EditIcon fontSize="small" />
+                                            </IconButton>
+                                        </Tooltip>
                                         <Tooltip title="Delete">
                                             <IconButton
                                                 onClick={() => handleDelete(agreement.id)}
@@ -177,87 +146,6 @@ export default function Index({ agreements, agreementTypes, servicePackages }) {
                     </Table>
                 </TableContainer>
             </Card>
-
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                maxWidth="sm"
-                fullWidth
-                PaperProps={{ sx: { borderRadius: 1 } }}
-            >
-                <form onSubmit={handleSubmit}>
-                    <DialogTitle sx={{ fontWeight: 700 }}>
-                        Upload New Agreement
-                    </DialogTitle>
-                    <DialogContent>
-                        <Box sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 3 }}>
-                            <TextField
-                                select
-                                label="Service Package"
-                                fullWidth
-                                value={data.service_package_id}
-                                onChange={(e) => setData("service_package_id", e.target.value)}
-                                error={!!errors.service_package_id}
-                                helperText={errors.service_package_id}
-                                required
-                            >
-                                {servicePackages.map((pkg) => (
-                                    <MenuItem key={pkg.id} value={pkg.id}>
-                                        {pkg.title}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-
-                            <TextField
-                                select
-                                label="Agreement Type"
-                                fullWidth
-                                value={data.agreement_type_id}
-                                onChange={(e) => setData("agreement_type_id", e.target.value)}
-                                error={!!errors.agreement_type_id}
-                                helperText={errors.agreement_type_id}
-                                required
-                            >
-                                {agreementTypes.map((type) => (
-                                    <MenuItem key={type.id} value={type.id}>
-                                        {type.type_name}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-
-                            <Box>
-                                <Typography variant="caption" color="text.secondary" gutterBottom display="block">
-                                    Upload Document (PDF, Word, or Image)
-                                </Typography>
-                                <input
-                                    type="file"
-                                    onChange={(e) => setData("document", e.target.files[0])}
-                                    style={{ width: "100%" }}
-                                    required
-                                />
-                                {errors.document && (
-                                    <Typography variant="caption" color="error" display="block">
-                                        {errors.document}
-                                    </Typography>
-                                )}
-                            </Box>
-                        </Box>
-                    </DialogContent>
-                    <DialogActions sx={{ p: 3 }}>
-                        <Button onClick={handleClose} color="inherit" sx={{ fontWeight: 700 }}>
-                            Cancel
-                        </Button>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            disabled={processing}
-                            sx={{ fontWeight: 700, borderRadius: 0.75 }}
-                        >
-                            Upload
-                        </Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
         </AdminLayout>
     );
 }

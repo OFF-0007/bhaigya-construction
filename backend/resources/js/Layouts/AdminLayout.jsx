@@ -33,7 +33,8 @@ import {
     ChevronLeft as ChevronLeftIcon,
     KeyboardArrowDown as KeyboardArrowDownIcon,
     ListAlt as ListAltIcon,
-    Category as CategoryIcon
+    Category as CategoryIcon,
+    Collections as GalleryIcon
 } from '@mui/icons-material';
 import { Link, usePage, router } from '@inertiajs/react';
 import { route } from 'ziggy-js';
@@ -72,6 +73,7 @@ export default function AdminLayout({ children }) {
         { text: 'Dashboard', icon: <DashboardIcon />, href: route('admin.dashboard') },
         { text: 'Service Packages', icon: <ListAltIcon />, href: route('admin.service-packages.index') },
         { text: 'Projects', icon: <ConstructionIcon />, href: route('admin.projects.index') },
+        { text: 'Image Gallery', icon: <GalleryIcon />, href: route('admin.gallery.index') },
         { text: 'Users', icon: <LogoutIcon />, href: '#' },
     ];
 

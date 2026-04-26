@@ -15,6 +15,7 @@ import {
     IconButton,
     Tooltip,
     Avatar,
+    Chip,
 } from "@mui/material";
 import {
     Add as AddIcon,
@@ -23,16 +24,16 @@ import {
     Image as ImageIcon,
 } from "@mui/icons-material";
 
-export default function Index({ materials }) {
+export default function Index({ images }) {
     const handleDelete = (id) => {
-        if (confirm("Are you sure you want to delete this material?")) {
-            router.delete(route("admin.package-materials.destroy", id));
+        if (confirm("Are you sure you want to remove this image from gallery?")) {
+            router.delete(route("admin.gallery.destroy", id));
         }
     };
 
     return (
         <AdminLayout>
-            <Head title="Package Materials" />
+            <Head title="Image Gallery" />
 
             <Box
                 sx={{
@@ -47,24 +48,24 @@ export default function Index({ materials }) {
                         variant="h4"
                         sx={{ fontWeight: 800, letterSpacing: -1 }}
                     >
-                        Package Materials
+                        Image Gallery
                     </Typography>
                     <Typography
                         variant="body1"
                         color="text.secondary"
                         sx={{ fontWeight: 500 }}
                     >
-                        Manage materials used across different service packages.
+                        Manage general images for the company gallery.
                     </Typography>
                 </Box>
                 <Button
                     component={Link}
-                    href={route("admin.package-materials.create")}
+                    href={route("admin.gallery.create")}
                     variant="contained"
                     startIcon={<AddIcon />}
                     sx={{ borderRadius: 1, px: 3, py: 1 }}
                 >
-                    Add Materials
+                    Add Image
                 </Button>
             </Box>
 
@@ -75,51 +76,52 @@ export default function Index({ materials }) {
                             <TableRow>
                                 <TableCell sx={{ fontWeight: 700 }}>ID</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Image</TableCell>
-                                <TableCell sx={{ fontWeight: 700 }}>Material Name</TableCell>
-                                <TableCell sx={{ fontWeight: 700 }}>Package</TableCell>
+                                <TableCell sx={{ fontWeight: 700 }}>Image Name</TableCell>
+                                <TableCell sx={{ fontWeight: 700 }}>Description</TableCell>
+                                <TableCell sx={{ fontWeight: 700 }}>Type</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }} align="right">Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {materials.data.map((material, index) => (
-                                <TableRow key={material.id} hover>
+                            {images.data.map((img, index) => (
+                                <TableRow key={img.id} hover>
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>
                                         <Avatar
-                                            src={material.material_image ? `/storage/${material.material_image}` : null}
+                                            src={img.upload_image ? `/storage/${img.upload_image}` : null}
                                             variant="rounded"
-                                            sx={{ bgcolor: "primary.light" }}
+                                            sx={{ bgcolor: "primary.light", width: 56, height: 56 }}
                                         >
                                             <ImageIcon />
                                         </Avatar>
                                     </TableCell>
                                     <TableCell sx={{ fontWeight: 600 }}>
-                                        {material.material_name}
+                                        {img.image_name}
+                                    </TableCell>
+                                    <TableCell sx={{ maxWidth: 200, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                        {img.description || "-"}
                                     </TableCell>
                                     <TableCell>
-                                        {material.service_package?.title}
+                                        <Chip 
+                                            label={img.image_type?.name} 
+                                            size="small" 
+                                            sx={{ fontWeight: 700, borderRadius: 0.5 }} 
+                                        />
                                     </TableCell>
                                     <TableCell>
-                                        <Typography
-                                            variant="caption"
-                                            sx={{
-                                                px: 1,
-                                                py: 0.5,
-                                                borderRadius: 1,
-                                                bgcolor: material.is_available ? "success.light" : "error.light",
-                                                color: material.is_available ? "success.contrastText" : "error.contrastText",
-                                                fontWeight: 700,
-                                            }}
-                                        >
-                                            {material.is_available ? "AVAILABLE" : "UNAVAILABLE"}
-                                        </Typography>
+                                        <Chip
+                                            label={img.is_active ? "ACTIVE" : "INACTIVE"}
+                                            size="small"
+                                            color={img.is_active ? "success" : "error"}
+                                            sx={{ fontWeight: 700, borderRadius: 0.5 }}
+                                        />
                                     </TableCell>
                                     <TableCell align="right">
                                         <Tooltip title="Edit">
                                             <IconButton
                                                 component={Link}
-                                                href={route("admin.package-materials.edit", material.id)}
+                                                href={route("admin.gallery.edit", img.id)}
                                                 color="primary"
                                                 size="small"
                                             >
@@ -128,7 +130,7 @@ export default function Index({ materials }) {
                                         </Tooltip>
                                         <Tooltip title="Delete">
                                             <IconButton
-                                                onClick={() => handleDelete(material.id)}
+                                                onClick={() => handleDelete(img.id)}
                                                 color="error"
                                                 size="small"
                                             >
@@ -138,10 +140,10 @@ export default function Index({ materials }) {
                                     </TableCell>
                                 </TableRow>
                             ))}
-                            {materials.data.length === 0 && (
+                            {images.data.length === 0 && (
                                 <TableRow>
-                                    <TableCell colSpan={6} align="center" sx={{ py: 3 }}>
-                                        No materials found.
+                                    <TableCell colSpan={7} align="center" sx={{ py: 3 }}>
+                                        No images found in gallery.
                                     </TableCell>
                                 </TableRow>
                             )}

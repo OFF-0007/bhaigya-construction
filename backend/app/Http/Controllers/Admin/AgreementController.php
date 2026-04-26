@@ -12,14 +12,27 @@ use Inertia\Inertia;
 
 class AgreementController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $agreements = Agreement::with(['agreementType', 'servicePackage'])->latest()->paginate(15);
+        $query = Agreement::with(['agreementType', 'servicePackage']);
+
+        if ($request->has('package_id')) {
+            $query->where('service_package_id', $request->package_id);
+        }
+
+        $agreements = $query->latest()->paginate(15);
         
         return Inertia::render('Admin/Agreements/Index', [
             'agreements' => $agreements,
+        ]);
+    }
+
+    public function create(Request $request)
+    {
+        return Inertia::render('Admin/Agreements/Create', [
             'agreementTypes' => AgreementType::all(),
             'servicePackages' => ServicePackage::all(),
+            'selectedPackageId' => $request->service_package_id,
         ]);
     }
 
@@ -39,7 +52,41 @@ class AgreementController extends Controller
             'document_uploaded' => $path,
         ]);
 
-        return redirect()->back()->with('success', 'Agreement uploaded successfully.');
+        return redirect()->route('admin.agreements.index')->with('success', 'Agreement uploaded successfully.');
+    }
+
+    public function edit(Agreement $agreement)
+    {
+        return Inertia::render('Admin/Agreements/Edit', [
+            'agreement' => $agreement,
+            'agreementTypes' => AgreementType::all(),
+            'servicePackages' => ServicePackage::all(),
+        ]);
+    }
+
+    public function update(Request $request, Agreement $agreement)
+    {
+        $request->validate([
+            'agreement_type_id' => 'required|exists:agreement_types,id',
+            'service_package_id' => 'required|exists:service_packages,id',
+            'document' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:10240',
+        ]);
+
+        $data = [
+            'agreement_type_id' => $request->agreement_type_id,
+            'service_package_id' => $request->service_package_id,
+        ];
+
+        if ($request->hasFile('document')) {
+            if ($agreement->document_uploaded) {
+                Storage::disk('public')->delete($agreement->document_uploaded);
+            }
+            $data['document_uploaded'] = $request->file('document')->store('agreements', 'public');
+        }
+
+        $agreement->update($data);
+
+        return redirect()->route('admin.agreements.index')->with('success', 'Agreement updated successfully.');
     }
 
     public function destroy(Agreement $agreement)

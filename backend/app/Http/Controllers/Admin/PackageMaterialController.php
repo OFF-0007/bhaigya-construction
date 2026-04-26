@@ -11,13 +11,26 @@ use Inertia\Inertia;
 
 class PackageMaterialController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $materials = PackageMaterial::with('servicePackage')->latest()->paginate(15);
+        $query = PackageMaterial::with('servicePackage');
+
+        if ($request->has('package_id')) {
+            $query->where('service_package_id', $request->package_id);
+        }
+
+        $materials = $query->latest()->paginate(15);
         
         return Inertia::render('Admin/Materials/Index', [
             'materials' => $materials,
+        ]);
+    }
+
+    public function create(Request $request)
+    {
+        return Inertia::render('Admin/Materials/Create', [
             'servicePackages' => ServicePackage::all(),
+            'selectedPackageId' => $request->service_package_id,
         ]);
     }
 
@@ -25,29 +38,40 @@ class PackageMaterialController extends Controller
     {
         $request->validate([
             'service_package_id' => 'required|exists:service_packages,id',
-            'material_name' => 'required|string|max:255',
-            'material_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,bmp|max:5120',
-            'description' => 'nullable|string',
-            'is_available' => 'boolean',
+            'materials' => 'required|array|min:1',
+            'materials.*.material_name' => 'required|string|max:255',
+            'materials.*.material_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp,bmp|max:5120',
+            'materials.*.description' => 'nullable|string',
+            'materials.*.is_available' => 'boolean',
         ]);
 
-        $path = null;
-        if ($request->hasFile('material_image')) {
-            $path = $request->file('material_image')->store('materials', 'public');
+        foreach ($request->input('materials') as $index => $materialData) {
+            $path = null;
+            if ($request->hasFile("materials.{$index}.material_image")) {
+                $path = $request->file("materials.{$index}.material_image")->store('materials', 'public');
+            }
+
+            PackageMaterial::create([
+                'service_package_id' => $request->service_package_id,
+                'material_name' => $materialData['material_name'],
+                'material_image' => $path,
+                'description' => $materialData['description'] ?? null,
+                'is_available' => isset($materialData['is_available']) ? filter_var($materialData['is_available'], FILTER_VALIDATE_BOOLEAN) : true,
+            ]);
         }
 
-        PackageMaterial::create([
-            'service_package_id' => $request->service_package_id,
-            'material_name' => $request->material_name,
-            'material_image' => $path,
-            'description' => $request->description,
-            'is_available' => $request->boolean('is_available', true),
-        ]);
-
-        return redirect()->back()->with('success', 'Material added successfully.');
+        return redirect()->route('admin.package-materials.index')->with('success', 'Materials added successfully.');
     }
 
-    public function update(Request $request, PackageMaterial $material)
+    public function edit(PackageMaterial $packageMaterial)
+    {
+        return Inertia::render('Admin/Materials/Edit', [
+            'material' => $packageMaterial,
+            'servicePackages' => ServicePackage::all(),
+        ]);
+    }
+
+    public function update(Request $request, PackageMaterial $packageMaterial)
     {
         $request->validate([
             'service_package_id' => 'required|exists:service_packages,id',
@@ -65,15 +89,15 @@ class PackageMaterialController extends Controller
         ];
 
         if ($request->hasFile('material_image')) {
-            if ($material->material_image) {
-                Storage::disk('public')->delete($material->material_image);
+            if ($packageMaterial->material_image) {
+                Storage::disk('public')->delete($packageMaterial->material_image);
             }
             $data['material_image'] = $request->file('material_image')->store('materials', 'public');
         }
 
-        $material->update($data);
+        $packageMaterial->update($data);
 
-        return redirect()->back()->with('success', 'Material updated successfully.');
+        return redirect()->route('admin.package-materials.index')->with('success', 'Material updated successfully.');
     }
 
     public function destroy(PackageMaterial $material)

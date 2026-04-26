@@ -31,7 +31,11 @@ import {
     Category as CategoryIcon,
     TrendingUp as TrendingIcon,
     Info as InfoIcon,
-    Done as DoneIcon
+    Done as DoneIcon,
+    Assignment as AgreementIcon,
+    Build as MaterialIcon,
+    Download as DownloadIcon,
+    Image as ImageIcon
 } from '@mui/icons-material';
 
 export default function Show({ package: pkg }) {
@@ -221,6 +225,115 @@ export default function Show({ package: pkg }) {
                             </Box>
                         </CardContent>
                     </Card>
+
+                    {/* Related Agreements & Materials Section */}
+                    <Grid container spacing={4} sx={{ mb: 4 }}>
+                        {/* Agreements */}
+                        <Grid item xs={12} md={6}>
+                            <Card elevation={0} sx={{ borderRadius: 0.5, border: '1px solid', borderColor: 'divider', height: '100%' }}>
+                                <CardContent sx={{ p: 4 }}>
+                                    <Typography variant="h6" sx={{ fontWeight: 900, mb: 3, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                        <AgreementIcon color="secondary" /> Related Agreements
+                                    </Typography>
+                                    {pkg.agreements && pkg.agreements.length > 0 ? (
+                                        <List disablePadding>
+                                            {pkg.agreements.map((agreement) => (
+                                                <ListItem 
+                                                    key={agreement.id} 
+                                                    divider 
+                                                    sx={{ 
+                                                        px: 0, 
+                                                        py: 2,
+                                                        '&:last-child': { borderBottom: 'none' } 
+                                                    }}
+                                                >
+                                                    <ListItemText 
+                                                        primary={agreement.agreement_type?.type_name} 
+                                                        primaryTypographyProps={{ fontWeight: 700, variant: 'body2' }}
+                                                        secondary={new Date(agreement.created_at).toLocaleDateString()}
+                                                    />
+                                                    <Button 
+                                                        size="small" 
+                                                        component="a" 
+                                                        href={`/storage/${agreement.document_uploaded}`} 
+                                                        target="_blank"
+                                                        startIcon={<DownloadIcon />}
+                                                    >
+                                                        View
+                                                    </Button>
+                                                </ListItem>
+                                            ))}
+                                        </List>
+                                    ) : (
+                                        <Typography variant="body2" color="text.secondary">No agreements uploaded for this package.</Typography>
+                                    )}
+                                    <Button 
+                                        component={Link} 
+                                        href={route('admin.agreements.create', { service_package_id: pkg.id })}
+                                        size="small" 
+                                        variant="outlined" 
+                                        sx={{ mt: 3, borderRadius: 0.5, fontWeight: 700 }}
+                                        fullWidth
+                                    >
+                                        Manage Agreements
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+
+                        {/* Materials */}
+                        <Grid item xs={12} md={6}>
+                            <Card elevation={0} sx={{ borderRadius: 0.5, border: '1px solid', borderColor: 'divider', height: '100%' }}>
+                                <CardContent sx={{ p: 4 }}>
+                                    <Typography variant="h6" sx={{ fontWeight: 900, mb: 3, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                        <MaterialIcon color="warning" /> Package Materials
+                                    </Typography>
+                                    {pkg.materials && pkg.materials.length > 0 ? (
+                                        <List disablePadding>
+                                            {pkg.materials.map((material) => (
+                                                <ListItem 
+                                                    key={material.id} 
+                                                    divider 
+                                                    sx={{ 
+                                                        px: 0, 
+                                                        py: 2,
+                                                        '&:last-child': { borderBottom: 'none' } 
+                                                    }}
+                                                >
+                                                    <ListItemIcon sx={{ minWidth: 48 }}>
+                                                        <Avatar 
+                                                            src={material.material_image ? `/storage/${material.material_image}` : null} 
+                                                            variant="rounded" 
+                                                            sx={{ width: 32, height: 32, bgcolor: 'warning.light' }}
+                                                        >
+                                                            <ImageIcon sx={{ fontSize: 16 }} />
+                                                        </Avatar>
+                                                    </ListItemIcon>
+                                                    <ListItemText 
+                                                        primary={material.material_name} 
+                                                        primaryTypographyProps={{ fontWeight: 700, variant: 'body2' }}
+                                                        secondary={material.is_available ? 'Available' : 'Unavailable'}
+                                                    />
+                                                </ListItem>
+                                            ))}
+                                        </List>
+                                    ) : (
+                                        <Typography variant="body2" color="text.secondary">No materials listed for this package.</Typography>
+                                    )}
+                                    <Button 
+                                        component={Link} 
+                                        href={route('admin.package-materials.create', { service_package_id: pkg.id })}
+                                        size="small" 
+                                        variant="outlined" 
+                                        sx={{ mt: 3, borderRadius: 0.5, fontWeight: 700 }}
+                                        fullWidth
+                                    >
+                                        Manage Materials
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    </Grid>
 
                     <Box sx={{ p: 4, borderRadius: 0.5, bgcolor: 'action.hover', border: '1px solid', borderColor: 'divider', textAlign: 'center' }}>
                         <Typography variant="body2" sx={{ fontWeight: 700, mb: 2 }}>
