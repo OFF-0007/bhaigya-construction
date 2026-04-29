@@ -34,6 +34,8 @@ Route::prefix('v1')->group(function () {
 
     Route::get('/amenities', [AmenityController::class, 'index']);
 
+    Route::get('/office-branches', [\App\Http\Controllers\Api\OfficeBranchController::class, 'index']);
+
     // Services
     Route::get('/service-categories', [ServiceCategoryController::class, 'index']);
     Route::get('/service-categories/{serviceCategory}', [ServiceCategoryController::class, 'show']);

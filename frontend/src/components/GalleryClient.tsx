@@ -6,10 +6,15 @@ import { useState, useMemo } from 'react';
 interface GalleryClientProps {
   images: ImageGallery[];
   isMainPage?: boolean;
+  unstructured?: boolean;
 }
 
-export default function GalleryClient({ images, isMainPage = false }: GalleryClientProps) {
+export default function GalleryClient({ images, isMainPage = false, unstructured = false }: GalleryClientProps) {
   const [activeTab, setActiveTab] = useState<number | 'all'>('all');
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  
+  // Use either prop to trigger the layout
+  const useUnstructured = unstructured || isMainPage;
 
   // Extract unique image types
   const imageTypes = useMemo(() => {
@@ -29,6 +34,57 @@ export default function GalleryClient({ images, isMainPage = false }: GalleryCli
 
   return (
     <div>
+      {/* Lightbox Modal */}
+      {selectedImage && (
+        <div 
+          onClick={() => setSelectedImage(null)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.95)',
+            zIndex: 100000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'zoom-out',
+            padding: '40px'
+          }}
+        >
+          <img 
+            src={selectedImage} 
+            alt="Full Size" 
+            style={{ 
+              maxWidth: '100%', 
+              maxHeight: '100%', 
+              objectFit: 'contain',
+              boxShadow: '0 0 50px rgba(0,0,0,0.5)',
+              borderRadius: '4px'
+            }} 
+          />
+          <button 
+            style={{
+              position: 'absolute',
+              top: '30px',
+              right: '30px',
+              background: 'white',
+              border: 'none',
+              borderRadius: '50%',
+              width: '40px',
+              height: '40px',
+              fontSize: '24px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              color: 'black',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            ×
+          </button>
+        </div>
+      )}
+
       {!isMainPage && imageTypes.length > 0 && (
         <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
           <button
@@ -67,8 +123,8 @@ export default function GalleryClient({ images, isMainPage = false }: GalleryCli
         </div>
       )}
 
-      <div className="portfolio-grid">
-        {filteredImages.slice(0, isMainPage ? 6 : undefined).map((image) => {
+      <div className={`portfolio-grid ${useUnstructured ? 'unstructured' : ''}`}>
+        {filteredImages.slice(0, isMainPage ? 8 : undefined).map((image, index) => {
           const bgUrl = image.upload_image;
           
           return (
@@ -79,6 +135,7 @@ export default function GalleryClient({ images, isMainPage = false }: GalleryCli
               tabIndex={0}
               aria-label={`View ${image.image_name}`}
               style={{ cursor: 'pointer' }}
+              onClick={() => bgUrl && setSelectedImage(bgUrl)}
             >
               {bgUrl ? (
                 <div
@@ -86,8 +143,7 @@ export default function GalleryClient({ images, isMainPage = false }: GalleryCli
                   style={{ 
                       backgroundImage: `url('${bgUrl}')`,
                       backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      height: '100%'
+                      backgroundPosition: 'center'
                   }}
                   role="img"
                   aria-label={image.image_name}
@@ -126,16 +182,7 @@ export default function GalleryClient({ images, isMainPage = false }: GalleryCli
                   </div>
                 )}
 
-                <a 
-                  href={bgUrl || '#'} 
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="portfolio-link" 
-                  aria-label={`View ${image.image_name || 'image'} full size`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  View Full Size →
-                </a>
+                {/* Removed manual link in favor of Lightbox click */}
               </div>
             </div>
           );

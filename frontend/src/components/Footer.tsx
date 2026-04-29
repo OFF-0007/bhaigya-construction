@@ -45,8 +45,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-bottom container">
-          <p>© 2024 Bhaigya Construction. All rights reserved. &nbsp;|&nbsp; GST Reg: Manikpur, Moukhowa, Bongaigaon</p>
-          <p>Designed with ✦ for North East India&apos;s finest construction experience.</p>
+          <p>© 2024 Bhaigya Construction. All rights reserved.</p>
         </div>
       </footer>
 

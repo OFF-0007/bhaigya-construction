@@ -7,8 +7,15 @@ import { api } from '@/lib/api';
 import { ImageGallery } from '@/types/api';
 
 export const metadata = {
-  title: 'Gallery - Bhaigya Construction',
-  description: 'View our complete gallery of construction projects and services.',
+  title: 'Gallery — Construction Photos & Project Images from Assam',
+  description: 'View Bhaigya Construction\'s complete photo gallery featuring luxury residential homes, commercial buildings, interior finishes, and construction projects from across Guwahati, Bongaigaon, and North East India.',
+  alternates: { canonical: 'https://bhaigyaconstruction.com/gallery' },
+  openGraph: {
+    title: 'Construction Gallery | Bhaigya Construction Assam',
+    description: 'Explore stunning photos of luxury homes, villas, and commercial projects built by Bhaigya Construction across Assam and North East India.',
+    url: 'https://bhaigyaconstruction.com/gallery',
+    images: [{ url: '/hero.jpeg', width: 1200, height: 630 }],
+  },
 };
 
 export default async function GalleryPage() {
@@ -37,7 +44,7 @@ export default async function GalleryPage() {
               Filter and explore our complete visual showcase by category.
             </p>
 
-            <GalleryClient images={images} isMainPage={false} />
+            <GalleryClient images={images} isMainPage={false} unstructured={true} />
           </div>
         </section>
       </main>
