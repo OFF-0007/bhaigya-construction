@@ -12,7 +12,7 @@ export default async function Portfolio() {
     
     if (Array.isArray(fetchedProjects) && fetchedProjects.length > 0) {
       // Handle both camelCase and snake_case, and ensure we only take active ones
-      const active = fetchedProjects.filter((p) => p && (p.isActive === true || (p as any).is_active === true || p.isActive === 1 || (p as any).is_active === 1));
+      const active = fetchedProjects.filter((p) => p && (p.isActive === true || (p as any).is_active === true || (p as any).isActive === 1 || (p as any).is_active === 1));
       if (active.length > 0) {
         projects = active;
       }

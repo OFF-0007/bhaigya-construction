@@ -1,4 +1,6 @@
 import Header from '@/components/Header';
+
+export const dynamic = 'force-dynamic';
 import Footer from '@/components/Footer';
 import Preloader from '@/components/Preloader';
 import Script from 'next/script';
