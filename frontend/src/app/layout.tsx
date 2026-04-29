@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Playfair_Display, Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import "./animations.css";
@@ -191,7 +192,11 @@ export default function RootLayout({
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Script src="/animations.js" strategy="afterInteractive" />
+        <Script src="/script.js"     strategy="afterInteractive" />
+      </body>
     </html>
   );
 }

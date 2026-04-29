@@ -6,43 +6,56 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Wait for page to be fully interactive, then start the video
-    // This maintains the "preload=none" performance benefit
-    const timer = setTimeout(() => {
-      if (videoRef.current) {
-        videoRef.current.play().catch(err => {
-          console.log("Video autoplay prevented or failed:", err);
-        });
-      }
-    }, 1200);
+    const video = videoRef.current;
+    if (!video) return;
 
-    return () => clearTimeout(timer);
+    // Attempt explicit play() — needed even with autoPlay on some browsers
+    const tryPlay = () => {
+      video.play().catch(() => {
+        // Autoplay blocked (e.g. some Android browsers) — poster image (hero.jpeg) shows
+      });
+    };
+
+    // Short delay to allow the DOM to settle before playing
+    const timer = setTimeout(tryPlay, 300);
+
+    // iOS Safari: resume after first user touch (autoPlay alone isn't enough)
+    const onTouch = () => {
+      video.play().catch(() => {});
+    };
+    document.addEventListener('touchstart', onTouch, { once: true, passive: true });
+
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('touchstart', onTouch);
+    };
   }, []);
 
   return (
     <section id="home" className="hero" aria-label="Hero Section">
 
-      {/* Optimized Hero Video Background */}
+      {/* Hero Video Background */}
       <div className="hero-video-wrap">
         <video
           ref={videoRef}
+          autoPlay
           muted
           loop
           playsInline
-          preload="none"
+          preload="metadata"
           poster="/hero.jpeg"
           className="hero-video"
           id="hero-video"
           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
         >
           <source src="/hero-video.mp4" type="video/mp4" />
-          {/* Fallback to static image if video isn't supported */}
+          {/* Fallback poster shown if video is unsupported */}
         </video>
         {/* Gradient overlay */}
         <div className="hero-video-tint"></div>
       </div>
 
-      {/* Fallback static bg */}
+      {/* Static fallback bg (shown behind video while it loads) */}
       <div className="hero-bg-fallback" aria-hidden="true"></div>
 
       {/* Overlay */}
@@ -67,7 +80,7 @@ export default function Hero() {
         </p>
 
         <div className="hero-actions">
-          <a href="#contact" className="btn-gold">Get a Free Consultation</a>
+          <a href="#contact"   className="btn-gold">Get a Free Consultation</a>
           <a href="#portfolio" className="btn-outline">View Our Work</a>
         </div>
 

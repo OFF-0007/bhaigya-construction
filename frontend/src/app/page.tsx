@@ -8,7 +8,6 @@ import Quality from '@/components/Quality';
 import Process from '@/components/Process';
 import Testimonials from '@/components/Testimonials';
 import Footer from '@/components/Footer';
-import Script from 'next/script';
 
 export default function Home() {
   return (
@@ -24,8 +23,6 @@ export default function Home() {
         <Testimonials />
       </main>
       <Footer />
-      <Script src="/animations.js" strategy="afterInteractive" />
-      <Script src="/script.js" strategy="afterInteractive" />
     </>
   );
 }
