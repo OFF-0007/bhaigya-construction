@@ -13,7 +13,6 @@ import Script from 'next/script';
 export default function Home() {
   return (
     <>
-      <Preloader />
       <Header />
       <main id="main-content">
         <Hero />

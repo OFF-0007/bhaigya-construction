@@ -77,6 +77,21 @@ export interface Amenity {
   createdAt?: string;
 }
 
+export interface OfficeBranch {
+  id: number;
+  name: string;
+  image: string | null;
+  image_url: string | null;
+  location: string | null;
+  address: string | null;
+  email: string | null;
+  phone: string | null;
+  description: string | null;
+  map_url: string | null;
+  is_active: boolean;
+  created_at?: string;
+}
+
 export interface ProjectImage {
   id: number;
   projectId: number;

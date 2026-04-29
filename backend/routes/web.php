@@ -38,6 +38,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('agreements', \App\Http\Controllers\Admin\AgreementController::class)->names('agreements');
         Route::resource('package-materials', \App\Http\Controllers\Admin\PackageMaterialController::class)->names('package-materials');
         Route::resource('gallery', \App\Http\Controllers\Admin\ImageGalleryController::class)->names('gallery');
+        Route::resource('office-branches', \App\Http\Controllers\Admin\OfficeBranchController::class)->names('office-branches');
 
         // Projects Routes
         Route::resource('projects', \App\Http\Controllers\Admin\ProjectController::class)->names('projects');

@@ -42,17 +42,17 @@ export const api = {
   // ─── Projects ──────────────────────────────────────────────────────────────
   getProjects: () =>
     fetcher<ApiResponse<Project[]>>('/projects', {
-      next: { revalidate: 300 },
+      next: { revalidate: 0 },
     }),
 
   getProjectBySlug: (slug: string) =>
     fetcher<ApiResponse<Project>>(`/projects/slug/${slug}`, {
-      next: { revalidate: 300 },
+      next: { revalidate: 0 },
     }),
 
   getProjectById: (id: number) =>
     fetcher<ApiResponse<Project>>(`/projects/${id}`, {
-      next: { revalidate: 300 },
+      next: { revalidate: 0 },
     }),
 
   // ─── Image Gallery ───────────────────────────────────────────────────────────
@@ -66,5 +66,10 @@ export const api = {
   getImageTypes: () =>
     fetcher<ApiResponse<ImageType[]>>('/image-types', {
       next: { revalidate: 300 },
+    }),
+
+  getOfficeBranches: () =>
+    fetcher<ApiResponse<import('@/types/api').OfficeBranch[]>>('/office-branches', {
+      next: { revalidate: 0 },
     }),
 };

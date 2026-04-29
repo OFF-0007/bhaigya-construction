@@ -21,7 +21,7 @@ export default function Header() {
             <li><a href="/#services">Services</a></li>
             <li><a href="/#portfolio">Portfolio</a></li>
             <li><a href="/#process">Process</a></li>
-            <li><a href="/#testimonials">Testimonials</a></li>
+            <li><a href="/branches" style={getStyle('/branches')}>Branches</a></li>
             <li><a href="/contact" style={getStyle('/contact')}>Contact</a></li>
           </ul>
         </nav>
