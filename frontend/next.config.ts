@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
     "localhost:3000",
     "10.35.149.202"
   ],
+  output: 'standalone',
 };
+
 
 export default nextConfig;
