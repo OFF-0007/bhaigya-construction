@@ -1,4 +1,6 @@
 import Preloader from '@/components/Preloader';
+
+export const dynamic = 'force-dynamic';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Services from '@/components/Services';

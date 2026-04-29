@@ -192,7 +192,7 @@ export default function RootLayout({
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
         <Script src="/animations.js" strategy="afterInteractive" />
         <Script src="/script.js"     strategy="afterInteractive" />
