@@ -80,7 +80,7 @@ export default function Hero() {
         </div>
 
         <h1 className="hero-title">
-          <span className="gold-text">Construction</span> Excellence in North East India
+          <span className="gold-text">Bhaigya Construction:</span> Premier Building Firm in Assam
         </h1>
 
         <p className="hero-sub">

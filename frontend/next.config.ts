@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     "10.35.149.202"
   ],
   output: 'standalone',
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       {

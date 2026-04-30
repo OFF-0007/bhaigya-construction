@@ -27,11 +27,11 @@ const cormorantGaramond = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL("https://bhaigyaconstruction.com"),
   title: {
-    default: "Bhaigya Construction | #1 Best Construction Company in Assam & NE India",
-    template: "%s | Bhaigya Construction Assam",
+    default: "Bhaigya Construction | Top Builders in Assam & NE India",
+    template: "%s | Bhaigya Construction",
   },
   description:
-    "Bhaigya Construction — Assam's premier building firm. Outranking top Guwahati builders with luxury residential & commercial projects. 10+ years | 50+ projects | Serving Guwahati, Bongaigaon & North East India.",
+    "Bhaigya Construction: Assam's premier firm for luxury residential & commercial projects in Guwahati, Bongaigaon & North East India. 10+ years of excellence.",
   keywords: [
     "construction", "Bhaigya Construction", "Bhaigya Construction Assam",
     "best construction company in Guwahati", "top builders in Guwahati", "home construction Guwahati",
@@ -53,6 +53,10 @@ export const metadata: Metadata = {
     url: "https://bhaigyaconstruction.com/",
     images: [{ url: "/hero.jpeg", width: 1200, height: 630, alt: "Bhaigya Construction" }],
     locale: "en_IN",
+  },
+  icons: {
+    icon: "/BGC.jpeg",
+    apple: "/BGC.jpeg",
   },
 };
 

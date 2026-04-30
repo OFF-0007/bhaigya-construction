@@ -11,7 +11,7 @@ export default function Contact() {
         <div className="contact-grid">
 
           <div className="contact-info reveal-up">
-            <h3 className="contact-info-title">Our Offices</h3>
+            <h3 className="contact-info-title">Visit Our Offices</h3>
 
             <div className="contact-detail" id="contact-hq">
               <div className="contact-icon">📍</div>
@@ -63,7 +63,7 @@ export default function Contact() {
 
           <div className="contact-form-wrap reveal-up">
             <form className="contact-form" id="contact-form" noValidate aria-label="Contact Form">
-              <h3 className="form-title">Request a Free Quote</h3>
+              <h3 className="form-title">Consultation Request</h3>
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="name">Full Name</label>

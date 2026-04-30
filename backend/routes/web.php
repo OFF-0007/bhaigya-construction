@@ -18,9 +18,9 @@ Route::get('/login', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     // Guest Admin Routes
     Route::get('/login', [LoginController::class, 'index'])->name('login');
-    
+
     Route::middleware('guest')->group(function () {
-        Route::post('/login', [LoginController::class, 'store'])->name('login');
+        Route::post('/login', [LoginController::class, 'store'])->name('login.submit');
     });
 
     // Authenticated Admin Routes

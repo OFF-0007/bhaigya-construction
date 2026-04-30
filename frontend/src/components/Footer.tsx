@@ -14,7 +14,7 @@ export default function Footer() {
             <p className="footer-tagline">Assam&apos;s Premier Construction Company. Building legacies across North East India since 2014.</p>
           </div>
           <div className="footer-links">
-            <h4>Quick Links</h4>
+            <h4>Explore Bhaigya</h4>
             <ul>
               <li><Link href="#about">About Us</Link></li>
               <li><Link href="#services">Service Packages</Link></li>
@@ -23,7 +23,7 @@ export default function Footer() {
             </ul>
           </div>
           <div className="footer-links">
-            <h4>Services</h4>
+            <h4>Expert Services</h4>
             <ul>
               <li><Link href="#services">Ultra Luxury Construction</Link></li>
               <li><Link href="#services">Luxury Class Finishing</Link></li>
@@ -32,7 +32,7 @@ export default function Footer() {
             </ul>
           </div>
           <div className="footer-contact">
-            <h4>Contact</h4>
+            <h4>Direct Contact</h4>
             <p>Ground Floor, PRAG MAHAL RESIDENCY, opp. Durga mandir, Bhetapara Chariali, Bhetapara, Guwahati, Assam 781038<br /></p>
             <a href="tel:+919678279817">+91 96782 79817</a>
             <a href="mailto:bhaigyaconstruction@gmail.com">bhaigyaconstruction@gmail.com</a>
