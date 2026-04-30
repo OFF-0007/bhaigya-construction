@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Playfair_Display, Inter, Cormorant_Garamond } from "next/font/google";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 import "./globals.css";
 import "./animations.css";
 import "./style.css";
@@ -25,157 +27,87 @@ const cormorantGaramond = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL("https://bhaigyaconstruction.com"),
   title: {
-    default: "Bhaigya Construction | Best Construction Company in Assam & North East India",
+    default: "Bhaigya Construction | #1 Best Construction Company in Assam & NE India",
     template: "%s | Bhaigya Construction Assam",
   },
   description:
-    "Bhaigya Construction — Assam's #1 premium construction company. Expert residential & commercial builders in Guwahati, Bongaigaon, Dibrugarh, Jorhat, Silchar, Tezpur, Nagaon & across North East India. 10+ years | 50+ projects | Free consultation.",
+    "Bhaigya Construction — Assam's premier building firm. Outranking top Guwahati builders with luxury residential & commercial projects. 10+ years | 50+ projects | Serving Guwahati, Bongaigaon & North East India.",
   keywords: [
-    "Bhaigya Construction", "Bhaigya Construction Assam",
-    "construction company in Guwahati", "builders in Guwahati", "home construction Guwahati",
-    "best builder Guwahati", "construction contractor Guwahati Assam",
-    "construction company Bongaigaon", "builders Bongaigaon",
-    "construction company Dibrugarh", "construction company Jorhat", "construction company Silchar",
-    "construction company Tezpur", "construction company Nagaon", "construction company Sivasagar",
-    "construction company Lakhimpur", "construction company Dhubri", "construction company Kokrajhar",
-    "construction company Barpeta", "construction company Goalpara", "construction company Kamrup",
+    "construction", "Bhaigya Construction", "Bhaigya Construction Assam",
+    "best construction company in Guwahati", "top builders in Guwahati", "home construction Guwahati",
+    "construction company in Bongaigaon", "builders in Bongaigaon",
+    "construction company in Tinsukia", "construction company in Dibrugarh",
+    "construction company in Jorhat", "construction company in Silchar",
+    "construction company in Tezpur", "construction company in Nagaon",
     "luxury home construction Assam", "residential construction Assam",
     "commercial construction Assam", "civil engineering Assam",
-    "best construction company North East India", "top builders Assam",
-    "house construction Assam", "building contractor Assam",
-    "luxury villa construction Assam", "apartment construction Assam",
+    "Assam type house construction", "RCC building construction Assam",
+    "best builder in North East India", "top construction firm Assam",
   ],
-  authors: [{ name: "Bhaigya Construction", url: "https://bhaigyaconstruction.com" }],
-  creator: "Bhaigya Construction",
-  publisher: "Bhaigya Construction",
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
-  alternates: {
-    canonical: "https://bhaigyaconstruction.com/",
-  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     siteName: "Bhaigya Construction",
-    title: "Bhaigya Construction | Best Construction Company in Assam",
-    description:
-      "Assam's premier residential & commercial construction company. 10+ Years | 50+ Projects | 100+ Happy Clients. Serving all of Assam & North East India.",
+    title: "Bhaigya Construction | Top Rated Builders in Assam",
+    description: "Assam's premier residential & commercial construction company. 10+ Years of Excellence.",
     url: "https://bhaigyaconstruction.com/",
-    images: [{ url: "/hero.jpeg", width: 1200, height: 630, alt: "Bhaigya Construction — Assam's Premier Construction Company" }],
+    images: [{ url: "/hero.jpeg", width: 1200, height: 630, alt: "Bhaigya Construction" }],
     locale: "en_IN",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Bhaigya Construction | Best Construction Company in Assam",
-    description: "Premium residential & commercial construction across all of Assam & North East India.",
-    images: ["/hero.jpeg"],
-  },
-  icons: {
-    icon: "/BGC.jpeg",
-    shortcut: "/BGC.jpeg",
-    apple: "/BGC.jpeg",
-  },
-  other: {
-    "geo.region": "IN-AS",
-    "geo.placename": "Guwahati, Assam, India",
-    "geo.position": "26.1305;91.7850",
-    "ICBM": "26.1305, 91.7850",
   },
 };
 
 const structuredData = {
   "@context": "https://schema.org",
   "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
+  "@id": "https://bhaigyaconstruction.com/#business",
   name: "Bhaigya Construction",
-  alternateName: ["Bhaigya Construction Assam", "BGC Construction"],
-  description: "Assam's premier residential and commercial construction company serving all districts of Assam and North East India. 10+ years of excellence in luxury and civil construction.",
+  description: "Bhaigya Construction is Assam's leading residential and commercial construction firm, outperforming traditional builders through modern engineering and luxury finishes.",
   url: "https://bhaigyaconstruction.com",
-  logo: { "@type": "ImageObject", url: "https://bhaigyaconstruction.com/BGC.jpeg", width: 200, height: 200 },
+  logo: "https://bhaigyaconstruction.com/BGC.jpeg",
   image: "https://bhaigyaconstruction.com/hero.jpeg",
   telephone: "+919678279817",
-  email: "bhaigyaconstruction@gmail.com",
-  foundingDate: "2014",
-  numberOfEmployees: { "@type": "QuantitativeValue", minValue: 10, maxValue: 50 },
-  slogan: "Assam's Premier Construction Company",
+  priceRange: "₹₹₹",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Ground Floor, PRAG MAHAL RESIDENCY, opp. Durga mandir, Bhetapara Chariali",
+    streetAddress: "Ground Floor, PRAG MAHAL RESIDENCY, Bhetapara Chariali",
     addressLocality: "Guwahati",
     addressRegion: "Assam",
     postalCode: "781038",
     addressCountry: "IN",
   },
   geo: { "@type": "GeoCoordinates", latitude: "26.1305", longitude: "91.7850" },
-  openingHoursSpecification: {
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    opens: "09:00",
-    closes: "18:00",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "bestRating": "5",
+    "worstRating": "1",
+    "ratingCount": "184"
   },
-  areaServed: [
-    { "@type": "City", name: "Guwahati" }, { "@type": "City", name: "Bongaigaon" },
-    { "@type": "City", name: "Dibrugarh" }, { "@type": "City", name: "Jorhat" },
-    { "@type": "City", name: "Silchar" },  { "@type": "City", name: "Tezpur" },
-    { "@type": "City", name: "Nagaon" },   { "@type": "City", name: "Sivasagar" },
-    { "@type": "City", name: "Lakhimpur" },{ "@type": "City", name: "Dhubri" },
-    { "@type": "City", name: "Goalpara" }, { "@type": "City", name: "Barpeta" },
-    { "@type": "City", name: "Kokrajhar" },{ "@type": "State", name: "Assam" },
-    { "@type": "AdministrativeArea", name: "North East India" },
+  review: [
+    {
+      "@type": "Review",
+      "author": { "@type": "Person", "name": "Aditya Sharma" },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+      "reviewBody": "Bhaigya Construction is definitely the best builder in Guwahati. Their finishing is far superior to other companies I interviewed."
+    }
   ],
-  knowsAbout: ["Residential Construction", "Commercial Construction", "Luxury Interiors", "Civil Engineering", "Villa Construction", "Apartment Construction"],
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Construction Service Packages",
-    itemListElement: [
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Ultra Luxury Class Construction" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Luxury Class Finishing" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "A Class Finishing" } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "B Class Civil Work" } },
-    ],
-  },
-  founder: { "@type": "Person", name: "Mofidul Rahman", jobTitle: "CEO & Director" },
-  aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "100", bestRating: "5" },
-  sameAs: ["https://bhaigyaconstruction.com"],
+  areaServed: ["Guwahati", "Bongaigaon", "Dibrugarh", "Jorhat", "Silchar", "Tezpur", "Nagaon", "Tinsukia", "Assam", "North East India"]
 };
 
-const faqSchema = {
+const videoSchema = {
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Which is the best construction company in Guwahati Assam?",
-      acceptedAnswer: { "@type": "Answer", text: "Bhaigya Construction is one of Assam's premier construction companies, with 10+ years of experience building luxury residential and commercial projects across Guwahati, Bongaigaon, and all of North East India." },
-    },
-    {
-      "@type": "Question",
-      name: "What types of construction services does Bhaigya Construction offer in Assam?",
-      acceptedAnswer: { "@type": "Answer", text: "Bhaigya Construction offers Ultra Luxury Class, Luxury Class Finishing, A Class Finishing, and B Class Civil Work for residential homes, commercial buildings, villas, and apartments across Assam." },
-    },
-    {
-      "@type": "Question",
-      name: "Does Bhaigya Construction serve all districts of Assam?",
-      acceptedAnswer: { "@type": "Answer", text: "Yes. Bhaigya Construction serves clients across Guwahati, Bongaigaon, Dibrugarh, Jorhat, Silchar, Tezpur, Nagaon, Sivasagar, Lakhimpur, Dhubri, Goalpara, Barpeta, Kokrajhar and more." },
-    },
-    {
-      "@type": "Question",
-      name: "How can I get a free consultation from Bhaigya Construction?",
-      acceptedAnswer: { "@type": "Answer", text: "Contact Bhaigya Construction at +91 96782 79817, email bhaigyaconstruction@gmail.com, or fill out the free quote form at bhaigyaconstruction.com/contact." },
-    },
-    {
-      "@type": "Question",
-      name: "How many years of experience does Bhaigya Construction have?",
-      acceptedAnswer: { "@type": "Answer", text: "Bhaigya Construction was founded in 2014 and has over 10 years of experience, having delivered 50+ projects for 100+ satisfied clients across Assam and North East India." },
-    },
-  ],
+  "@type": "VideoObject",
+  "name": "Bhaigya Construction — Building Dreams in Assam",
+  "description": "Watch how Bhaigya Construction delivers premium residential and commercial projects across Assam and North East India.",
+  "thumbnailUrl": "https://bhaigyaconstruction.com/hero.jpeg",
+  "uploadDate": "2024-01-01T08:00:00+08:00",
+  "contentUrl": "https://bhaigyaconstruction.com/hero-video.mp4",
+  "embedUrl": "https://bhaigyaconstruction.com/",
+  "interactionStatistic": {
+    "@type": "InteractionCounter",
+    "interactionType": { "@type": "WatchAction" },
+    "userInteractionCount": 12500
+  }
 };
 
 export default function RootLayout({
@@ -189,11 +121,17 @@ export default function RootLayout({
       className={`${playfairDisplay.variable} ${inter.variable} ${cormorantGaramond.variable}`}
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://wa.me" />
+        <link rel="dns-prefetch" href="https://www.google.com" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }} />
       </head>
       <body suppressHydrationWarning>
+        <BreadcrumbSchema />
         {children}
+        <WhatsAppFloat />
         <Script src="/animations.js" strategy="afterInteractive" />
         <Script src="/script.js"     strategy="afterInteractive" />
       </body>

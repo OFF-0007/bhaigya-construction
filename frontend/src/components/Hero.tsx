@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -56,7 +57,16 @@ export default function Hero() {
       </div>
 
       {/* Static fallback bg (shown behind video while it loads) */}
-      <div className="hero-bg-fallback" aria-hidden="true"></div>
+      <div className="hero-bg-fallback" aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: -2 }}>
+        <Image 
+          src="/hero.jpeg"
+          alt="Bhaigya Construction Luxury Background"
+          fill
+          priority
+          style={{ objectFit: 'cover' }}
+          sizes="100vw"
+        />
+      </div>
 
       {/* Overlay */}
       <div className="hero-overlay"></div>
@@ -70,7 +80,7 @@ export default function Hero() {
         </div>
 
         <h1 className="hero-title">
-          Building the <span className="gold-text">Future of North East India</span>
+          <span className="gold-text">Construction</span> Excellence in North East India
         </h1>
 
         <p className="hero-sub">

@@ -2,6 +2,7 @@
 
 import { ImageGallery, ImageType } from '@/types/api';
 import { useState, useMemo } from 'react';
+import Image from 'next/image';
 
 interface GalleryClientProps {
   images: ImageGallery[];
@@ -10,6 +11,30 @@ interface GalleryClientProps {
 }
 
 export default function GalleryClient({ images, isMainPage = false, unstructured = false }: GalleryClientProps) {
+  const elevationImageType: ImageType = {
+    id: 9999,
+    name: "Elevations",
+    slug: "elevations",
+    description: "3D Elevation Designs"
+  };
+
+  const defaultElevations: ImageGallery[] = [
+    { id: 10021, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0321.jpg", is_active: true, image_type: elevationImageType },
+    { id: 10022, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0322.jpg", is_active: true, image_type: elevationImageType },
+    { id: 10023, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0323.jpg", is_active: true, image_type: elevationImageType },
+    { id: 10024, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0324.jpg", is_active: true, image_type: elevationImageType },
+    { id: 10025, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0325.jpg", is_active: true, image_type: elevationImageType },
+    { id: 10026, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0326.jpg", is_active: true, image_type: elevationImageType },
+    { id: 10027, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0327.jpg", is_active: true, image_type: elevationImageType },
+    { id: 10028, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0328.jpg", is_active: true, image_type: elevationImageType },
+    { id: 10029, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0329.jpg", is_active: true, image_type: elevationImageType },
+    { id: 10030, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0330.jpg", is_active: true, image_type: elevationImageType },
+    { id: 10031, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0331.jpg", is_active: true, image_type: elevationImageType },
+    { id: 10032, image_type_id: 9999, image_name: "Elevation Design", description: "Front Elevation", upload_image: "/gallery/bhaiya construction front elevation design_page-0332.jpg", is_active: true, image_type: elevationImageType },
+  ];
+
+  const allImages = [...defaultElevations, ...images];
+
   const [activeTab, setActiveTab] = useState<number | 'all'>('all');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   
@@ -19,18 +44,18 @@ export default function GalleryClient({ images, isMainPage = false, unstructured
   // Extract unique image types
   const imageTypes = useMemo(() => {
     const typesMap = new Map<number, ImageType>();
-    images.forEach(img => {
+    allImages.forEach(img => {
       if (img.image_type && !typesMap.has(img.image_type.id)) {
         typesMap.set(img.image_type.id, img.image_type);
       }
     });
     return Array.from(typesMap.values());
-  }, [images]);
+  }, [allImages]);
 
   const filteredImages = useMemo(() => {
-    if (activeTab === 'all') return images;
-    return images.filter(img => img.image_type?.id === activeTab);
-  }, [images, activeTab]);
+    if (activeTab === 'all') return allImages;
+    return allImages.filter(img => img.image_type?.id === activeTab);
+  }, [allImages, activeTab]);
 
   return (
     <div>
@@ -124,7 +149,7 @@ export default function GalleryClient({ images, isMainPage = false, unstructured
       )}
 
       <div className={`portfolio-grid ${useUnstructured ? 'unstructured' : ''}`}>
-        {filteredImages.slice(0, isMainPage ? 8 : undefined).map((image, index) => {
+        {filteredImages.slice(0, isMainPage ? 5 : undefined).map((image, index) => {
           const bgUrl = image.upload_image;
           
           return (
@@ -138,21 +163,19 @@ export default function GalleryClient({ images, isMainPage = false, unstructured
               onClick={() => bgUrl && setSelectedImage(bgUrl)}
             >
               {bgUrl ? (
-                <div
+                <Image
+                  src={bgUrl}
+                  alt={`${image.image_name} - Premium Construction in Assam by Bhaigya`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  style={{ objectFit: 'cover' }}
                   className="portfolio-img"
-                  style={{ 
-                      backgroundImage: `url('${bgUrl}')`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center'
-                  }}
-                  role="img"
-                  aria-label={image.image_name}
                 />
               ) : (
                 <div
                   className="portfolio-img portfolio-img-placeholder"
                   role="img"
-                  aria-label={image.image_name}
+                  aria-label={`${image.image_name} - Premium Construction in Assam by Bhaigya`}
                 >
                   <div className="portfolio-placeholder-icon">📷</div>
                 </div>

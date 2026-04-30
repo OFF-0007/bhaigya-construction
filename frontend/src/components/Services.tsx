@@ -6,26 +6,26 @@ export const FALLBACK_SERVICES: ServicePackage[] = [
   {
     id: 1,
     categoryId: 1,
-    title: "Standard Excellence",
-    slug: "standard-excellence",
-    description: "Solid construction with quality materials — perfect for value-conscious homeowners who refuse to compromise on standards.",
+    title: "Luxury Finishes",
+    slug: "luxury-class",
+    description: "Full finishing including Electrical, Plumbing, Sanitary, False Ceiling, and Full Modular Kitchen. A harmonious blend of comfort, aesthetics, and sophistication.",
     image: null,
-    imageUrl: null,
+    imageUrl: "/portfolio_villa.png",
     benefits: [
-      "Standard Electrical & Plumbing Systems",
-      "Premium Paint Finishes",
-      "Tiles up to ₹50 / sq.ft",
-      "Partial False Ceiling (Living Room)",
-      "Quality Sanitary Fixtures",
-      "Structural Warranty"
+      "Durgapur Brand TMT Rods & Premium Cement",
+      "Full Modular Kitchen with Granite Top & TV Cabinet",
+      "Premium Paint (Asian / Berger / Indigo)",
+      "Double Charge & Digital Floor Tiles (2x4, 2x2)",
+      "False Ceiling with Gypsum/PVC & Chain Lights",
+      "Segun Wood Main Door & Premium Hardware"
     ],
     isActive: true,
-    popularity: "none",
+    popularity: "popular",
     price: "0",
-    isFeatured: false,
+    isFeatured: true,
     category: {
       id: 1,
-      categoryName: "A CLASS",
+      categoryName: "LUXURY CLASS",
       isActive: true,
       type: "package",
       createdAt: "",
@@ -37,26 +37,26 @@ export const FALLBACK_SERVICES: ServicePackage[] = [
   {
     id: 2,
     categoryId: 2,
-    title: "Premium Finishes",
-    slug: "premium-finishes",
-    description: "Elevated interiors with luxury finishes — a harmonious blend of comfort, aesthetics, and sophistication.",
+    title: "Standard Excellence",
+    slug: "a-class",
+    description: "Complete construction and finishing including Electrical, Plumbing, Putty Colour, False Ceiling, and a Semi Modular Kitchen.",
     image: null,
-    imageUrl: null,
+    imageUrl: "/portfolio_apartment.png",
     benefits: [
-      "Premium Electrical & Plumbing",
-      "Luxury Paint (Asian Paints / Berger)",
-      "Tiles up to ₹65 / sq.ft",
-      "Full False Ceiling (Drawing & Master)",
-      "Premium Sanitary & CP Fittings",
-      "Modular Kitchen Provision"
+      "Zeecon/Lotus/Zara Rods & Standard Cement",
+      "Semi Modular Kitchen in L Shape with Slab Tiles",
+      "False Ceiling with 6+3 Color Lights",
+      "Asian Paints (Premium & Apex inner/outer)",
+      "Double Charge & Digital Floor Tiles (2x2)",
+      "Segun Wood Main Door & Quality Sanitary Fittings"
     ],
     isActive: true,
-    popularity: "popular",
+    popularity: "none",
     price: "0",
-    isFeatured: true,
+    isFeatured: false,
     category: {
       id: 2,
-      categoryName: "LUXURY CLASS",
+      categoryName: "A CLASS",
       isActive: true,
       type: "package",
       createdAt: "",
@@ -68,18 +68,18 @@ export const FALLBACK_SERVICES: ServicePackage[] = [
   {
     id: 3,
     categoryId: 3,
-    title: "Bespoke High-End",
-    slug: "bespoke-high-end",
-    description: "A completely bespoke experience — globally sourced materials, end-to-end interior styling, and uncompromising attention to every detail.",
+    title: "Core Civil Work",
+    slug: "b-class",
+    description: "Core Civil work only. Foundation, slab, bricks, plaster, electric concealing, and door/window frames.",
     image: null,
-    imageUrl: null,
+    imageUrl: "/portfolio_office.png",
     benefits: [
-      "Bespoke High-End Finishes",
-      "Global Material Sourcing",
-      "End-to-End Interior Styling",
-      "Smart Home Integration",
-      "Dedicated Project Manager",
-      "Lifetime Structural Support"
+      "Foundation, Slab & RCC Framework (M20)",
+      "Red Bricks / AAC Block Masonry",
+      "Electrical Concealing",
+      "First Class Wood / TATA Steel Door Frames",
+      "Basic L-Shape Kitchen Slab",
+      "Septic Tank (7ft x 13ft)"
     ],
     isActive: true,
     popularity: "none",
@@ -87,37 +87,6 @@ export const FALLBACK_SERVICES: ServicePackage[] = [
     isFeatured: false,
     category: {
       id: 3,
-      categoryName: "ULTRA LUXURY",
-      isActive: true,
-      type: "package",
-      createdAt: "",
-      updatedAt: ""
-    },
-    createdAt: "",
-    updatedAt: ""
-  },
-  {
-    id: 4,
-    categoryId: 4,
-    title: "Core Civil Work",
-    slug: "core-civil-work",
-    description: "Structural excellence without compromise — robust civil engineering forming the backbone of every great build.",
-    image: null,
-    imageUrl: null,
-    benefits: [
-      "Foundation & Structural Work",
-      "RCC Framework & Slab",
-      "Brick & Block Masonry",
-      "Waterproofing Treatment",
-      "Plastering & Pointing",
-      "BIS Certified Materials"
-    ],
-    isActive: true,
-    popularity: "none",
-    price: "0",
-    isFeatured: false,
-    category: {
-      id: 4,
       categoryName: "B CLASS",
       isActive: true,
       type: "package",
@@ -136,14 +105,19 @@ export default async function Services() {
     const response = await api.getServicePackages();
     if (response && response.data && Array.isArray(response.data)) {
       const active = response.data.filter(s => s && s.isActive);
+      // Only override if the backend specifically has these packages correctly set up,
+      // but for now, we'll force the frontend fallback so the new changes display immediately.
       if (active.length > 0) {
-        services = active;
+        // Uncomment to use API data:
+        // services = active; 
       }
     }
   } catch (error) {
     console.error('Failed to fetch services:', error);
-    // Fallback to static data
   }
+
+  // Enforce the new 3-tier structure
+  services = FALLBACK_SERVICES;
 
   return (
     <section id="services" className="services section dark-section" aria-labelledby="services-heading">
@@ -153,7 +127,7 @@ export default async function Services() {
           Our <span className="gold-text">Service Packages</span>
         </h2>
         <p className="section-sub centered reveal-up">
-          Four distinct construction tiers — each engineered for a different vision of excellence.
+          Three distinct construction tiers — each engineered for a different vision of excellence.
         </p>
 
         <ServicesClient services={services} />

@@ -1,6 +1,7 @@
 'use client';
 
 import { Project } from '@/types/api';
+import Image from 'next/image';
 
 interface PortfolioClientProps {
   projects: Project[];
@@ -42,15 +43,13 @@ export default function PortfolioClient({ projects, isMainPage = false, unstruct
           >
             {/* Background image or placeholder */}
             {bgUrl ? (
-              <div
+              <Image
+                src={bgUrl}
+                alt={`${project.projectName || 'Project'} - Premium Construction by Bhaigya`}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                style={{ objectFit: 'cover' }}
                 className="portfolio-img"
-                style={{ 
-                    backgroundImage: `url('${bgUrl}')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                }}
-                role="img"
-                aria-label={project.primaryImage?.altText ?? project.projectName}
               />
             ) : (
               <div

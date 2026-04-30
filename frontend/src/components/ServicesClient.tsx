@@ -1,12 +1,16 @@
 'use client';
 
 import { ServicePackage } from '@/types/api';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface ServicesClientProps {
   services: ServicePackage[];
 }
 
 export default function ServicesClient({ services }: ServicesClientProps) {
+  const router = useRouter();
 
   return (
     <>
@@ -18,14 +22,14 @@ export default function ServicesClient({ services }: ServicesClientProps) {
               key={service.id}
               className={`service-card reveal-up ${isPopular ? 'featured' : ''} ${service.imageUrl ? 'has-image' : ''}`}
               id={`service-${service.slug}`}
-              onClick={() => window.location.href = `/services/${service.slug}`}
+              onClick={() => router.push(`/services/${service.slug}`)}
               role="button"
               tabIndex={0}
               aria-label={`View details for ${service.title}`}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  window.location.href = `/services/${service.slug}`;
+                  router.push(`/services/${service.slug}`);
                 }
               }}
               style={{ cursor: 'pointer' }}
@@ -36,13 +40,19 @@ export default function ServicesClient({ services }: ServicesClientProps) {
                 <div 
                   className="service-img-top"
                   style={{
-                    backgroundImage: `url('${service.imageUrl}')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    position: 'relative',
                     height: '200px',
                     width: '100%'
                   }}
-                />
+                >
+                  <Image
+                    src={service.imageUrl}
+                    alt={`${service.title} Package`}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                </div>
               )}
               
               <div className="service-card-body">
@@ -50,14 +60,14 @@ export default function ServicesClient({ services }: ServicesClientProps) {
               <h3 className="service-name">{service.title}</h3>
               <p className="service-desc">{service.description}</p>
               <ul className="service-features">
-                {(service.benefits || []).slice(0, 5).map((benefit, idx) => (
+                {(service.benefits || []).slice(0, 3).map((benefit, idx) => (
                   <li key={idx}>
                     <span className="feat-check">✦</span> {benefit}
                   </li>
                 ))}
-                {(service.benefits || []).length > 5 && (
+                {(service.benefits || []).length > 3 && (
                   <li className="service-more-hint">
-                    <span className="feat-check">+</span> {(service.benefits || []).length - 5} more included...
+                    <span className="feat-check">+</span> {(service.benefits || []).length - 3} more included...
                   </li>
                 )}
               </ul>
@@ -65,7 +75,7 @@ export default function ServicesClient({ services }: ServicesClientProps) {
                   className={`service-cta ${isPopular ? 'gold-cta' : ''}`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    window.location.href = `/services/${service.slug}`;
+                    router.push(`/services/${service.slug}`);
                   }}
                   aria-label={`View full details for ${service.title}`}
                 >

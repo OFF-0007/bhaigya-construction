@@ -23,6 +23,20 @@ export const metadata = {
 export default async function BranchesPage() {
   let branches: OfficeBranch[] = [];
 
+  const defaultBranch: OfficeBranch = {
+    id: 0,
+    name: "Guwahati Head Office",
+    image: null,
+    image_url: "/portfolio_office.png",
+    location: "Bhetapara Chariali",
+    address: "Ground Floor, PRAG MAHAL RESIDENCY, opp. Durga mandir, Bhetapara Chariali, Bhetapara, Guwahati, Assam 781038",
+    email: "bhaigyaconstruction@gmail.com",
+    phone: "+91 96782 79817",
+    description: "Our main headquarters serving clients across all districts of Assam and North East India.",
+    map_url: "https://maps.google.com/maps?q=Bhaigya+Construction+Guwahati",
+    is_active: true,
+  };
+
   try {
     const response = await api.getOfficeBranches();
     if (response?.data && Array.isArray(response.data)) {
@@ -31,6 +45,12 @@ export default async function BranchesPage() {
   } catch (error) {
     console.error('Failed to fetch branches:', error);
   }
+
+  // Always include the default branch at the top
+  branches = [
+    defaultBranch,
+    ...branches.filter(b => !b.name.toLowerCase().includes("guwahati head office"))
+  ];
 
   return (
     <>

@@ -7,6 +7,18 @@ const nextConfig: NextConfig = {
     "10.35.149.202"
   ],
   output: 'standalone',
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
 };
 
 
