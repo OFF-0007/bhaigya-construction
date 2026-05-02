@@ -2,7 +2,7 @@ import { api } from '@/lib/api';
 import { ServicePackage } from '@/types/api';
 import ServicesClient from './ServicesClient';
 
-const FALLBACK_SERVICES: ServicePackage[] = [
+export const FALLBACK_SERVICES: ServicePackage[] = [
   {
     id: 1,
     categoryId: 1,

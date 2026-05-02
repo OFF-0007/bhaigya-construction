@@ -1,4 +1,4 @@
-import { ApiResponse, ServicePackage, Project } from '@/types/api';
+import { ApiResponse, ServicePackage, Project, ImageGallery, ImageType } from '@/types/api';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000/api/v1';
 
@@ -42,16 +42,34 @@ export const api = {
   // ─── Projects ──────────────────────────────────────────────────────────────
   getProjects: () =>
     fetcher<ApiResponse<Project[]>>('/projects', {
-      next: { revalidate: 300 },
+      next: { revalidate: 0 },
     }),
 
   getProjectBySlug: (slug: string) =>
     fetcher<ApiResponse<Project>>(`/projects/slug/${slug}`, {
-      next: { revalidate: 300 },
+      next: { revalidate: 0 },
     }),
 
   getProjectById: (id: number) =>
     fetcher<ApiResponse<Project>>(`/projects/${id}`, {
+      next: { revalidate: 0 },
+    }),
+
+  // ─── Image Gallery ───────────────────────────────────────────────────────────
+  getGallery: (imageTypeId?: number) => {
+    const url = imageTypeId ? `/gallery?image_type_id=${imageTypeId}` : '/gallery';
+    return fetcher<ApiResponse<ImageGallery[]>>(url, {
       next: { revalidate: 300 },
+    });
+  },
+
+  getImageTypes: () =>
+    fetcher<ApiResponse<ImageType[]>>('/image-types', {
+      next: { revalidate: 300 },
+    }),
+
+  getOfficeBranches: () =>
+    fetcher<ApiResponse<import('@/types/api').OfficeBranch[]>>('/office-branches', {
+      next: { revalidate: 0 },
     }),
 };

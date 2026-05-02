@@ -83,7 +83,7 @@ class ServicePackageController extends Controller
     public function show(ServicePackage $servicePackage)
     {
         return Inertia::render('Admin/ServicePackages/Show', [
-            'package' => $servicePackage->load('category')
+            'package' => $servicePackage->load(['category', 'agreements.agreementType', 'materials'])
         ]);
     }
 

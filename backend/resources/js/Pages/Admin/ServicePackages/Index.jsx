@@ -36,7 +36,9 @@ import {
     RemoveCircleOutline as RemoveIcon,
     Star as StarIcon,
     Image as ImageIcon,
-    Visibility as ViewIcon
+    Visibility as ViewIcon,
+    Assignment as AgreementIcon,
+    Build as MaterialIcon
 } from '@mui/icons-material';
 
 export default function Index({ packages, categories }) {
@@ -143,14 +145,34 @@ export default function Index({ packages, categories }) {
                         Manage different packages provided by the construction company.
                     </Typography>
                 </Box>
-                <Button
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={() => handleOpen()}
-                    sx={{ borderRadius: 1, px: 3, py: 1 }}
-                >
-                    Add Package
-                </Button>
+                <Box sx={{ display: 'flex', gap: 2 }}>
+                    <Button
+                        component={Link}
+                        href={route('admin.agreements.index')}
+                        variant="outlined"
+                        startIcon={<AgreementIcon />}
+                        sx={{ borderRadius: 1, px: 2 }}
+                    >
+                        Agreements
+                    </Button>
+                    <Button
+                        component={Link}
+                        href={route('admin.package-materials.index')}
+                        variant="outlined"
+                        startIcon={<MaterialIcon />}
+                        sx={{ borderRadius: 1, px: 2 }}
+                    >
+                        Materials
+                    </Button>
+                    <Button
+                        variant="contained"
+                        startIcon={<AddIcon />}
+                        onClick={() => handleOpen()}
+                        sx={{ borderRadius: 1, px: 3, py: 1 }}
+                    >
+                        Add Package
+                    </Button>
+                </Box>
             </Box>
 
             <Card sx={{ borderRadius: 1.5 }}>

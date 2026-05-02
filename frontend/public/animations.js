@@ -15,28 +15,9 @@
   setTimeout(() => transitionEl.remove(), 1200);
 
   /* =============================================
-     2. LUXURY PRELOADER
+     2. LUXURY PRELOADER (Hiding logic moved to component)
      ============================================= */
-  const preloader = document.getElementById('preloader');
-  const preloaderBar = document.querySelector('.preloader-bar');
 
-  if (preloader && preloaderBar) {
-    // Animate the loading bar
-    requestAnimationFrame(() => {
-      preloaderBar.style.width = '100%';
-    });
-
-    const hidePreloader = () => {
-      preloader.classList.add('done');
-      setTimeout(() => preloader.remove(), 900);
-    };
-
-    if (document.readyState === 'complete') {
-      setTimeout(hidePreloader, 1800);
-    } else {
-      window.addEventListener('load', () => setTimeout(hidePreloader, 1800));
-    }
-  }
 
   /* =============================================
      3. CUSTOM LUXURY CURSOR

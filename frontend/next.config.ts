@@ -3,7 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   allowedDevOrigins: [
     "192.168.29.68",
-    "localhost:3000"
+    "localhost:3000",
+    "10.35.149.202"
   ],
 };
 

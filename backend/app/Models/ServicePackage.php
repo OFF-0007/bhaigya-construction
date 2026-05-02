@@ -51,4 +51,14 @@ class ServicePackage extends Model
     {
         return $this->hasMany(Project::class, 'service_package_id');
     }
+
+    public function agreements(): HasMany
+    {
+        return $this->hasMany(Agreement::class, 'service_package_id');
+    }
+
+    public function materials(): HasMany
+    {
+        return $this->hasMany(PackageMaterial::class, 'service_package_id');
+    }
 }

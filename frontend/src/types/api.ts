@@ -27,6 +27,28 @@ export interface ServicePackage {
   updatedAt: string;
 }
 
+// ─── Image Gallery ──────────────────────────────────────────────────────────────
+
+export interface ImageType {
+  id: number;
+  name: string;
+  slug: string;
+  description: string | null;
+  createdAt?: string;
+}
+
+export interface ImageGallery {
+  id: number;
+  image_type_id: number;
+  image_name: string;
+  description: string | null;
+  upload_image: string | null;
+  is_active: boolean;
+  image_type: ImageType | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
 // ─── Project building blocks ───────────────────────────────────────────────────
 
 export interface ProjectType {
@@ -53,6 +75,21 @@ export interface Amenity {
   slug: string;
   icon: string | null;
   createdAt?: string;
+}
+
+export interface OfficeBranch {
+  id: number;
+  name: string;
+  image: string | null;
+  image_url: string | null;
+  location: string | null;
+  address: string | null;
+  email: string | null;
+  phone: string | null;
+  description: string | null;
+  map_url: string | null;
+  is_active: boolean;
+  created_at?: string;
 }
 
 export interface ProjectImage {

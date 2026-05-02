@@ -4,16 +4,25 @@ import { Project } from '@/types/api';
 
 interface PortfolioClientProps {
   projects: Project[];
+  isMainPage?: boolean;
+  unstructured?: boolean;
 }
 
-export default function PortfolioClient({ projects }: PortfolioClientProps) {
+export default function PortfolioClient({ projects, isMainPage = false, unstructured = false }: PortfolioClientProps) {
+  if (!projects || !Array.isArray(projects) || projects.length === 0) {
+    return null;
+  }
+
+  const useUnstructured = unstructured || isMainPage;
+  
   return (
-    <div className="portfolio-grid">
-      {projects.map((project, index) => {
+    <div className={`portfolio-grid ${useUnstructured ? 'unstructured' : ''}`}>
+      {projects.slice(0, isMainPage ? 8 : undefined).map((project, index) => {
         const bgUrl = project.primaryImage?.fileUrl ?? 
                      project.images?.find(img => img.isPrimary)?.fileUrl ?? 
                      project.images?.[0]?.fileUrl ?? 
                      null;
+        
         return (
           <div
             key={project.id}
@@ -38,8 +47,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
                 style={{ 
                     backgroundImage: `url('${bgUrl}')`,
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    height: '100%'
+                    backgroundPosition: 'center'
                 }}
                 role="img"
                 aria-label={project.primaryImage?.altText ?? project.projectName}

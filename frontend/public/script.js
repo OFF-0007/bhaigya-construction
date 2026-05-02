@@ -59,7 +59,9 @@
 
     // Re-trigger autoplay on first user interaction (iOS Safari)
     const resumeVideo = () => {
-      heroVideo.play().catch(() => {});
+      if (heroVideo && typeof heroVideo.play === 'function') {
+        heroVideo.play().catch(() => {});
+      }
       document.removeEventListener('touchstart', resumeVideo);
       document.removeEventListener('click', resumeVideo);
     };
@@ -81,22 +83,7 @@
   });
 
   /* -------- MOBILE NAV TOGGLE -------- */
-  navToggle && navToggle.addEventListener('click', () => {
-    const isOpen = mainNav.classList.toggle('open');
-    navToggle.classList.toggle('open', isOpen);   // ← hamburger→X animation
-    navToggle.setAttribute('aria-expanded', String(isOpen));
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
-
-  // Close nav on link click
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      mainNav.classList.remove('open');
-      navToggle && navToggle.classList.remove('open');
-      navToggle && navToggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
-  });
+  // Handled by React state in Header.tsx — do NOT duplicate here to avoid conflicts.
 
   /* -------- ACTIVE NAV LINK -------- */
   function updateActiveNavLink() {
@@ -288,18 +275,8 @@
   initHeroVideo();
 
   /* -------- PORTFOLIO ITEM HOVER (touch fallback) -------- */
-  const portfolioItems = document.querySelectorAll('.portfolio-item');
-  portfolioItems.forEach(item => {
-    item.addEventListener('touchstart', () => {
-      item.querySelector('.portfolio-overlay').style.opacity = '1';
-    }, { passive: true });
-    item.addEventListener('touchend', () => {
-      setTimeout(() => {
-        if (item.querySelector('.portfolio-overlay')) {
-          item.querySelector('.portfolio-overlay').style.opacity = '0';
-        }
-      }, 2000);
-    }, { passive: true });
-  });
+  // Removed since overlay is now always visible
+  // const portfolioItems = document.querySelectorAll('.portfolio-item');
+  // portfolioItems.forEach(item => { ... });
 
 })();

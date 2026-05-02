@@ -16,16 +16,16 @@ export default function Contact() {
             <div className="contact-detail" id="contact-hq">
               <div className="contact-icon">📍</div>
               <div>
-                <strong>Headquarters</strong>
-                <p>Near Lower Assam Hospital,<br />Bongaigaon, Assam — 783380</p>
+                <strong>Guwahati Headquarters</strong>
+                <p>Ground Floor, PRAG MAHAL RESIDENCY,<br />opp. Durga mandir, Bhetapara Chariali, Bhetapara,<br />Guwahati, Assam — 781038</p>
               </div>
             </div>
 
             <div className="contact-detail" id="contact-secondary">
               <div className="contact-icon">🏢</div>
               <div>
-                <strong>Secondary Office / GST</strong>
-                <p>First Floor, Manikpur, Moukhowa,<br />Bongaigaon — 783392</p>
+                <strong>Bongaigaon Office</strong>
+                <p>Near Lower Assam Hospital,<br />Bongaigaon, Assam — 783380</p>
               </div>
             </div>
 
@@ -104,8 +104,8 @@ export default function Contact() {
         <div className="map-wrap reveal-up">
           <iframe
             id="google-map"
-            title="Bhaigya Construction Office Location in Bongaigaon Assam"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3594.2!2d90.5586!3d26.4803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDI4JzQ5LjEiTiA5MMKwMzMnMzEuMCJF!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin"
+            title="Bhaigya Construction Guwahati Headquarters Location"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3581.996165507567!2d91.78500247502444!3d26.13054179576358!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x375a59343715d9ab%3A0x6b44747f23c72b53!2sPrag%20Mahal%20Residency!5e0!3m2!1sen!2sin!4v1714388700000!5m2!1sen!2sin"
             width="100%" height="350" style={{ border: 0 }} allowFullScreen loading="lazy"
             referrerPolicy="no-referrer-when-downgrade">
           </iframe>

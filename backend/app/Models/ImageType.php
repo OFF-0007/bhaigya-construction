@@ -36,4 +36,9 @@ class ImageType extends Model
     {
         return $this->hasMany(ProjectImage::class, 'image_type_id');
     }
+
+    public function imageGalleries(): HasMany
+    {
+        return $this->hasMany(ImageGallery::class, 'image_type_id');
+    }
 }
