@@ -68,6 +68,8 @@ export default function Header() {
           <img
             src="/BGC.jpeg"
             alt="Bhaigya Construction Logo"
+            width={150}
+            height={45}
             style={{ height: '45px', width: 'auto', borderRadius: '4px' }}
           />
         </a>
@@ -80,6 +82,7 @@ export default function Header() {
           <ul>
             <li><a href="/about"    style={getStyle('/about')}>About</a></li>
             <li><a href="/#services">Services</a></li>
+            <li><a href="/#services">Packages</a></li>
             <li><a href="/#portfolio">Portfolio</a></li>
             <li><a href="/#process">Process</a></li>
             <li><a href="/blog"     style={getStyle('/blog')}>Blog</a></li>

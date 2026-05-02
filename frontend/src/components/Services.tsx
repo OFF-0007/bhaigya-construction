@@ -43,12 +43,12 @@ export const FALLBACK_SERVICES: ServicePackage[] = [
     image: null,
     imageUrl: "/portfolio_apartment.png",
     benefits: [
-      "Zeecon/Lotus/Zara Rods & Standard Cement",
+      "Zeecon / Lotus / Zara Rods & Standard Cement",
       "Semi Modular Kitchen in L Shape with Slab Tiles",
-      "False Ceiling with 6+3 Color Lights",
+      "False Ceiling with 8 Nos. 6+3 Color Lights (Drawing)",
       "Asian Paints (Premium & Apex inner/outer)",
-      "Double Charge & Digital Floor Tiles (2x2)",
-      "Segun Wood Main Door & Quality Sanitary Fittings"
+      "Double Charge & Iton Digital Floor Tiles",
+      "Segun Wood Main Door & CERA Sanitary Fittings"
     ],
     isActive: true,
     popularity: "none",

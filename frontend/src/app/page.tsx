@@ -12,6 +12,7 @@ import Quality from '@/components/Quality';
 import Process from '@/components/Process';
 import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
+import BranchLocations from '@/components/BranchLocations';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
         <Process />
         <FAQ />
         <Testimonials />
+        <BranchLocations />
       </main>
       <Footer />
     </>

@@ -47,7 +47,13 @@ export default function Preloader() {
       }}
     >
       <div className="preloader-logo">
-        <img src="/BGC.jpeg" alt="Bhaigya Construction Logo" style={{ height: '50px', width: 'auto', borderRadius: '4px', marginBottom: '8px' }} />
+        <img 
+          src="/BGC.jpeg" 
+          alt="Bhaigya Construction Logo" 
+          width={167}
+          height={50}
+          style={{ height: '50px', width: 'auto', borderRadius: '4px', marginBottom: '8px' }} 
+        />
       </div>
       <div className="preloader-bar-wrap">
         <div className="preloader-bar"></div>

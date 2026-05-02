@@ -22,7 +22,7 @@ export default function Hero() {
 
     // iOS Safari: resume after first user touch (autoPlay alone isn't enough)
     const onTouch = () => {
-      video.play().catch(() => {});
+      video.play().catch(() => { });
     };
     document.addEventListener('touchstart', onTouch, { once: true, passive: true });
 
@@ -44,7 +44,7 @@ export default function Hero() {
           loop
           playsInline
           preload="metadata"
-          poster="/hero.jpeg"
+          poster="/portfolio_villa.png"
           className="hero-video"
           id="hero-video"
           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
@@ -58,7 +58,7 @@ export default function Hero() {
 
       {/* Static fallback bg (shown behind video while it loads) */}
       <div className="hero-bg-fallback" aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: -2 }}>
-        <Image 
+        <Image
           src="/hero.jpeg"
           alt="Bhaigya Construction Luxury Background"
           fill
@@ -90,7 +90,7 @@ export default function Hero() {
         </p>
 
         <div className="hero-actions">
-          <a href="#contact"   className="btn-gold">Get a Free Consultation</a>
+          <a href="#contact" className="btn-gold">Get a Free Consultation</a>
           <a href="#portfolio" className="btn-outline">View Our Work</a>
         </div>
 

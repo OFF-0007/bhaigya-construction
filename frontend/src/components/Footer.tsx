@@ -9,7 +9,14 @@ export default function Footer() {
         <div className="footer-top container">
           <div className="footer-brand">
             <Link href="#home" className="logo" aria-label="Bhaigya Construction">
-              <Image src="/BGC.jpeg" alt="Bhaigya Construction Logo" width={150} height={45} style={{ height: '45px', width: 'auto', borderRadius: '4px' }} />
+              <Image 
+                src="/BGC.jpeg" 
+                alt="Bhaigya Construction Logo" 
+                width={150} 
+                height={45} 
+                priority
+                style={{ height: '45px', width: 'auto', borderRadius: '4px' }} 
+              />
             </Link>
             <p className="footer-tagline">Assam&apos;s Premier Construction Company. Building legacies across North East India since 2014.</p>
           </div>
@@ -56,7 +63,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="footer-locations-row container" style={{ marginTop: '3rem', paddingTop: '2rem', paddingBottom: '1rem', borderTop: '1px solid rgba(197, 160, 89, 0.2)' }}>
+        <div className="footer-locations-row container" style={{ marginTop: '2rem', paddingTop: '2rem', paddingBottom: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}>
           <h4 style={{ color: 'var(--gold)', marginBottom: '1.5rem', fontSize: '1rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Service Areas & Locations Across Assam</h4>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem' }}>
