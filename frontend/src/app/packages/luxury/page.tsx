@@ -11,6 +11,19 @@ export const metadata: Metadata = {
 export default function LuxuryPackagePage() {
   return (
     <>
+      <style>{`
+        .spec-card {
+          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(197,160,89,0.15);
+          border-radius: 12px;
+          padding: 24px;
+          transition: border-color 0.3s, background 0.3s;
+        }
+        .spec-card:hover {
+          border-color: rgba(197,160,89,0.4);
+          background: rgba(197,160,89,0.04);
+        }
+      `}</style>
       <Header />
       <main style={{ background: 'var(--dark)', minHeight: '100vh', paddingTop: 'var(--header-h)' }}>
 
@@ -386,22 +399,7 @@ function SectionHeading({ icon, title }: { icon: string; title: string }) {
 
 function SpecCard({ icon, title, children }: { icon: string; title: string; children: React.ReactNode }) {
   return (
-    <div style={{
-      background: 'rgba(255,255,255,0.02)',
-      border: '1px solid rgba(197,160,89,0.15)',
-      borderRadius: '12px',
-      padding: '24px',
-      transition: 'border-color 0.3s, background 0.3s',
-    }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(197,160,89,0.4)';
-        (e.currentTarget as HTMLDivElement).style.background = 'rgba(197,160,89,0.04)';
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(197,160,89,0.15)';
-        (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.02)';
-      }}
-    >
+    <div className="spec-card">
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid rgba(197,160,89,0.12)' }}>
         <span style={{ fontSize: '1.2rem' }}>{icon}</span>
         <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1rem', fontWeight: 700, color: 'var(--off-white)', letterSpacing: '0.03em' }}>{title}</h3>

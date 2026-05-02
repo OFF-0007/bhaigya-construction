@@ -42,34 +42,34 @@ export const api = {
   // ─── Projects ──────────────────────────────────────────────────────────────
   getProjects: () =>
     fetcher<ApiResponse<Project[]>>('/projects', {
-      next: { revalidate: 0 },
+      next: { revalidate: 3600 },
     }),
 
   getProjectBySlug: (slug: string) =>
     fetcher<ApiResponse<Project>>(`/projects/slug/${slug}`, {
-      next: { revalidate: 0 },
+      next: { revalidate: 3600 },
     }),
 
   getProjectById: (id: number) =>
     fetcher<ApiResponse<Project>>(`/projects/${id}`, {
-      next: { revalidate: 0 },
+      next: { revalidate: 3600 },
     }),
 
   // ─── Image Gallery ───────────────────────────────────────────────────────────
   getGallery: (imageTypeId?: number) => {
     const url = imageTypeId ? `/gallery?image_type_id=${imageTypeId}` : '/gallery';
     return fetcher<ApiResponse<ImageGallery[]>>(url, {
-      next: { revalidate: 300 },
+      next: { revalidate: 3600 },
     });
   },
 
   getImageTypes: () =>
     fetcher<ApiResponse<ImageType[]>>('/image-types', {
-      next: { revalidate: 300 },
+      next: { revalidate: 3600 },
     }),
 
   getOfficeBranches: () =>
     fetcher<ApiResponse<import('@/types/api').OfficeBranch[]>>('/office-branches', {
-      next: { revalidate: 0 },
+      next: { revalidate: 3600 },
     }),
 };
